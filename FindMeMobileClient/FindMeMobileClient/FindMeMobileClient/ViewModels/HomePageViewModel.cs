@@ -9,11 +9,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace FindMeMobileClient.ViewModels {
-    public class HomePageViewModel : BindableBase{
+    public class HomePageViewModel : BindableBase {
         private readonly IPageDialogService pageDialogService;
         private readonly INavigationService navigationService;
         private readonly IDataService dataService;
-        public HomePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService)  {
+        public HomePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService) {
             this.pageDialogService = pageDialogService;
             this.dataService = dataService;
             this.navigationService = navigationService;
@@ -21,7 +21,7 @@ namespace FindMeMobileClient.ViewModels {
             FilterCommand = new DelegateCommand(Filter);
             Losts = new ObservableCollection<Lost>();
             Update();
-            
+
         }
 
         public ObservableCollection<Lost> Losts { get; set; }
@@ -43,18 +43,40 @@ namespace FindMeMobileClient.ViewModels {
 
         #region Filter
         public DelegateCommand FilterCommand { get; set; }
-        
+
         public void Filter() {
-            // Filter Action
-            pageDialogService.DisplayAlertAsync("Filter Command", "Filter command was execute", "OK");
+            navigationService.NavigateAsync("FilterPage");
+            Update();
+            //pageDialogService.DisplayAlertAsync("Filter Command", "Filter command was execute", "OK");
+
         }
         #endregion
 
         public void Update() {
             Losts.Clear();
-            var losts = dataService.GetLosts();
-            foreach (var item in losts) {
-                Losts.Add(item);
+            if (App.Filter == null) {
+                var losts = dataService.GetLosts();
+                foreach (var item in losts) {
+                    Losts.Add(item);
+                }
+            } else {
+                var losts = dataService.GetLosts();
+                var lostsFiltered = losts.Where((p) => {
+                    if (
+                        string.IsNullOrWhiteSpace(p.FirstName) ? true : string.IsNullOrWhiteSpace(App.Filter.FirstName) ? true : (p.FirstName == App.Filter.FirstName ? true : false) &&
+                        string.IsNullOrWhiteSpace(p.MiddleName) ? true : string.IsNullOrWhiteSpace(App.Filter.MiddleName) ? true : (p.MiddleName == App.Filter.MiddleName ? true : false) &&
+                        string.IsNullOrWhiteSpace(p.LastName) ? true : string.IsNullOrWhiteSpace(App.Filter.LastName) ? true : (p.LastName == App.Filter.LastName ? true : false) &&
+                        string.IsNullOrWhiteSpace(p.Age) ? true : App.Filter.AgeBegin == 0 && App.Filter.AgeEnd == 0 ? true : int.Parse(p.Age) >= App.Filter.AgeBegin && int.Parse(p.Age) <= App.Filter.AgeEnd ? true : false &&
+                        App.Filter.Height == 0 ? true : App.Filter.Height == p.Height &&
+                        string.IsNullOrEmpty(App.Filter.HairColor) ? true : p.HairColor == App.Filter.HairColor ? true : false &&
+                        string.IsNullOrEmpty(App.Filter.EyeColor) ? true : p.EyeColor == App.Filter.EyeColor ? true : false &&
+                        string.IsNullOrEmpty(App.Filter.BodyType) ? true : p.BodyType == App.Filter.BodyType ? true : false &&
+                        string.IsNullOrEmpty(App.Filter.Gender) ? true : p.Gender == App.Filter.Gender ? true : false
+                    ) { return true; } else { return false; }
+                });
+                foreach (var item in lostsFiltered) {
+                    Losts.Add(item);
+                }
             }
         }
 

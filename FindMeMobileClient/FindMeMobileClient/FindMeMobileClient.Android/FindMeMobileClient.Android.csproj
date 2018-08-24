@@ -46,6 +46,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
+    <Reference Include="Xamarin.Android.Tools.ApiXmlAdjuster" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xam.Plugin.AzurePushNotification">

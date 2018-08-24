@@ -10,10 +10,8 @@ namespace FindMeMobileClient.Services {
         private List<Lost> losts = new List<Lost>();
 
         public DataService() {
-            losts.Add(new Lost(false, losts.Count + 1, "John"
-               , "", "Doe", "John Doe", "Blue", "Brown",
-                "pink trousers", "Fat", "headless", 19, 19, 178, "", "Comment", "description", "detection description",
-                DateTime.Now, "Man", 1, new Institution { Address = "address", Id = 1, Number = "+994508556321" }));
+            losts.Add(new Lost(false, losts.Count + 1, "Orkhan", "Aydin", "Ansar", "Orkhan Ansar Aydin", "Blue", "Black", "sdjc",
+                "Normal", "signs", 20, 20, 178, "", "comment", "description", "detdes", DateTime.Now, "Male", 1 ,new Institution { Address = "address", Id = 1, Number = "5555" } ));
             losts.Add(new Lost(false, losts.Count + 1, "John"
                , "", "Doe", "Orkhan Ansar", "Blue", "Brown",
                 "pink trousers", "Fat", "headless", 19, 19, 178, "", "Comment", "description", "detection description",

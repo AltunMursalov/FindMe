@@ -16,5 +16,5 @@ namespace FindMeMobileClient.Views
 		{
 			InitializeComponent ();
 		}
-	}
+    }
 }

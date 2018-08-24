@@ -3,6 +3,6 @@
             xmlns:local="clr-namespace:FindMeMobileClient.Views"
             x:Class="FindMeMobileClient.Views.MainPage" Title="Find Me">
     <local:HomePage Title="Home"/>
-    <local:SettingsPage Title="Settings"/>
     <local:OrganizationsPage Title="Organ"/>
+    <local:SettingsPage Title="Settings"/>
 </TabbedPage>

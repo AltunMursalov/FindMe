@@ -1,12 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="FindMeMobileClient.Views.FilterPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout Spacing="5">
+                <Label Margin="5" Text="Enter information" FontSize="Large"/>
+                <Entry Placeholder="First name" Text="{Binding FirstName, Mode=TwoWay}" Margin="5, 0"/>
+                <Entry Placeholder="Middle name" Text="{Binding MiddleName, Mode=TwoWay}" Margin="5, 0"/>
+                <Entry Placeholder="Last name" Text="{Binding LastName, Mode=TwoWay}" Margin="5, 0"/>
+                <Label Text="Age:" Margin="5"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Entry Placeholder="From" Text="{Binding AgeBegin, Mode=TwoWay}" Grid.Column="0" Margin="5" VerticalOptions="Center" Keyboard="Numeric"/>
+                    <Entry Placeholder="To" Text="{Binding AgeEnd, Mode=TwoWay}" Grid.Column="1" Margin="5" VerticalOptions="Center" Keyboard="Numeric"/>
+                </Grid>
+                <Entry Placeholder="Height" Text="{Binding Height, Mode=TwoWay}" Margin="5" VerticalOptions="Center" Keyboard="Numeric"/>
+                <Picker Title="Hair color" Margin="5" SelectedItem="{Binding SelectedHairColor, Mode=TwoWay}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Black</x:String>
+                            <x:String>Brown</x:String>
+                            <x:String>Blond</x:String>
+                            <x:String>Auburn</x:String>
+                            <x:String>Red</x:String>
+                            <x:String>Gray or white</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Picker Title="Eye color" Margin="5" SelectedItem="{Binding SelectedEyeColor, Mode=TwoWay}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Amber</x:String>
+                            <x:String>Blue</x:String>
+                            <x:String>Brown</x:String>
+                            <x:String>Gray</x:String>
+                            <x:String>Green</x:String>
+                            <x:String>Hazel</x:String>
+                            <x:String>Red and violet</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Picker Title="Bodytype" Margin="5" SelectedItem="{Binding SelectedBodyType, Mode=TwoWay}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Thin</x:String>
+                            <x:String>Normal</x:String>
+                            <x:String>Fat</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Picker Title="Gender" Margin="5" SelectedItem="{Binding SelectedGender, Mode=TwoWay}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Unknown</x:String>
+                            <x:String>Male</x:String>
+                            <x:String>Female</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+                <Button VerticalOptions="Center" Text="Apply" Command="{Binding ApplyCommand}"/>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

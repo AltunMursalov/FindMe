@@ -1,4 +1,5 @@
 using System;
+using FindMeMobileClient.Models;
 using FindMeMobileClient.Services;
 using FindMeMobileClient.Services.Interfaces;
 using FindMeMobileClient.Views;
@@ -13,7 +14,7 @@ namespace FindMeMobileClient
 {
 	public partial class App : PrismApplication
 	{
-        public static IFilterService filterService;
+        public static Filter Filter { get; set; }
         public App() : base(null)
         {
             InitializeComponent();
@@ -21,7 +22,6 @@ namespace FindMeMobileClient
 
         public App(IPlatformInitializer initializer = null) : base(initializer)
         {
-            filterService = new FilterService();
             InitializeComponent();
         }
 
