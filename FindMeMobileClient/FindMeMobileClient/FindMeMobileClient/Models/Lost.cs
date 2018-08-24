@@ -3,17 +3,7 @@ using Xamarin.Forms;
 using Prism.Mvvm;
 
 namespace FindMeMobileClient.Models {
-    public enum Gender {
-        Man,
-        Woman
-    }
-
-    public enum BodyType {
-        Thin,
-        Fat,
-        Medium
-    }
-
+    
     public class Lost : BindableObject {
         public Lost(bool isVisible,int id, string firstName, string middleName, string lastName, string fullName, string eyeColor, string hairColor, string clothes, string bodyType, string signs, int ageBegin, int ageEnd, int height, string imagePath, string comment, string description, string detectionDescription, DateTime detectionTime, string gender, int institutionId, Institution institution) {
             this.IsVisible = isVisible;
