@@ -19,6 +19,7 @@ namespace FindMeMobileClient.ViewModels {
             this.navigationService = navigationService;
             SearchCommand = new DelegateCommand(Search);
             FilterCommand = new DelegateCommand(Filter);
+            MoreCommand = new DelegateCommand(More);
             Losts = new ObservableCollection<Lost>();
             Update();
 
@@ -47,6 +48,28 @@ namespace FindMeMobileClient.ViewModels {
         public void Filter() {
             navigationService.NavigateAsync("FilterPage");
             Update();
+            //pageDialogService.DisplayAlertAsync("Filter Command", "Filter command was execute", "OK");
+
+        }
+        #endregion
+
+        #region More
+        public DelegateCommand MoreCommand { get; set; }
+
+
+
+        private Lost selectedItem;
+        public Lost SelectedItem {
+            get { return selectedItem; }
+            set {
+                SetProperty(ref this.selectedItem, value);
+            }
+        }
+
+        public async void More() {
+            NavigationParameters navigationParameters = new NavigationParameters();
+            navigationParameters.Add("SelectedLost", SelectedItem);
+            await navigationService.NavigateAsync("MorePage", navigationParameters);
             //pageDialogService.DisplayAlertAsync("Filter Command", "Filter command was execute", "OK");
 
         }

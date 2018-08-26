@@ -5,18 +5,24 @@ using Xamarin.Forms;
 
 namespace FindMeMobileClient.Models {
     public class Institution : BindableObject {
-        private string _address;
-        private string _number;
         private int _id;
-        private int _cityId;
-        private int _institutionTypeId;
         private string _name;
+        private string _number;
+        private string _address;
         private string _openingHours;
         private string _website;
+        private int _cityId;
+
+        private bool isVisible;
+
+        public bool IsVisible {
+            get { return isVisible; }
+            set { isVisible = value; base.OnPropertyChanged(); }
+        }
+
 
         public int Id { get => _id; set { _id = value; base.OnPropertyChanged(); } }
         public int CityId { get => _cityId; set { _cityId = value; base.OnPropertyChanged(); } }
-        public int InstitutionTypeId { get => _institutionTypeId; set { _institutionTypeId = value; base.OnPropertyChanged(); } }
         public string Name {
             get => _name; set { _name = value; base.OnPropertyChanged(); }
         }
@@ -25,7 +31,6 @@ namespace FindMeMobileClient.Models {
         public string OpeningHours { get => _openingHours; set { _openingHours = value; base.OnPropertyChanged(); } }
         public string Website { get => _website; set {_website = value; base.OnPropertyChanged(); } }
 
-        public InstitutionType InstitutionType { get; set; }
-        public City City { get; set; }
+        public City InstitutionCity { get; set; }
     }
 }

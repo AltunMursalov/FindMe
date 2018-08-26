@@ -31,6 +31,7 @@ namespace FindMeMobileClient
             containerRegistry.RegisterForNavigation<HomePage>();
             containerRegistry.RegisterForNavigation<SettingsPage>();
             containerRegistry.RegisterForNavigation<OrganizationsPage>();
+            containerRegistry.RegisterForNavigation<MorePage>();
             containerRegistry.RegisterForNavigation<FilterPage>();
         }
 

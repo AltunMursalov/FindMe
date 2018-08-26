@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FindMeMobileClient.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,13 @@ namespace FindMeMobileClient.Views
 		{
 			InitializeComponent ();
 		}
-	}
+
+        private void ListView_ItemTapped(object sender, ItemTappedEventArgs e) {
+            if ((e.Item as Institution).IsVisible == true) {
+                (e.Item as Institution).IsVisible = false;
+            } else {
+                (e.Item as Institution).IsVisible = true;
+            }
+        }
+    }
 }

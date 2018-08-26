@@ -5,10 +5,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FindMeMobileClient.Views.OrganizationsPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ListView ItemsSource="{Binding Institutions}" HasUnevenRows="True" ItemTapped="ListView_ItemTapped">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Frame Margin="7">
+                            <StackLayout>
+                                <Label Text="{Binding Name, Mode=OneWay}" FontSize="Large"/>
+                                <Label Text="{Binding InstitutionCity.Name, Mode=OneWay}"/>
+                                <Grid IsVisible="{Binding IsVisible, Mode=OneWay, UpdateSourceEventName=PropertyChanged}">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Text="{Binding Address, Mode=OneWay}"/>
+                                    <Label Grid.Row="1" Text="{Binding Number, Mode=OneWay}"/>
+                                    <Label Grid.Row="2" Text="{Binding OpeningHours, Mode=OneWay}"/>
+                                    <Label Grid.Row="3" Text="{Binding Website, Mode=OneWay}"/>
+                                </Grid>
+                            </StackLayout>
+                        </Frame>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </ContentPage.Content>
 </ContentPage>
