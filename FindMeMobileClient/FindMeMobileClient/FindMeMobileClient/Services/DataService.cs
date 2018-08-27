@@ -11,7 +11,7 @@ namespace FindMeMobileClient.Services {
 
         public DataService() {
             losts.Add(new Lost(false, losts.Count + 1, "Orkhan", "Aydin", "Ansar", "Orkhan Ansar Aydin", "Blue", "Black", "sdjc",
-                "Normal", "signs", 20, 20, 178, "", "comment", "description", "detdes", DateTime.Now, "Male", 1 ,new Institution { Address = "address", Id = 1, Number = "5555" } ));
+                "Normal", "signs", 20, 20, 178, "", "comment", "description", "detdes", DateTime.Now, "Male", 1, new Institution { Address = "address", Id = 1, Number = "5555", Name = "Institution Name", InstitutionCity = new City { Name = "London" } }));
             losts.Add(new Lost(false, losts.Count + 1, "John"
                , "", "Doe", "Orkhan Ansar", "Blue", "Brown",
                 "pink trousers", "Fat", "headless", 19, 19, 178, "", "Comment", "description", "detection description",

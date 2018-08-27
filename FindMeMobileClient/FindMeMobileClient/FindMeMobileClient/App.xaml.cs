@@ -3,6 +3,7 @@ using FindMeMobileClient.Models;
 using FindMeMobileClient.Services;
 using FindMeMobileClient.Services.Interfaces;
 using FindMeMobileClient.Views;
+using Plugin.FirebasePushNotification;
 using Prism;
 using Prism.Autofac;
 using Prism.Ioc;
@@ -42,8 +43,8 @@ namespace FindMeMobileClient
 
         protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+            
+        }
 
 		protected override void OnSleep ()
 		{

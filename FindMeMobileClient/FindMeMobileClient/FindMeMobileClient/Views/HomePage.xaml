@@ -26,7 +26,7 @@
                         <ViewCell>
                             <Frame Margin="7">
                                 <StackLayout>
-                                    <Label Text="{Binding FullName}"/>
+                                    <Label Text="{Binding FullName}" FontSize="Large"/>
                                     <Grid IsVisible="{Binding IsVisible, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="auto"/>

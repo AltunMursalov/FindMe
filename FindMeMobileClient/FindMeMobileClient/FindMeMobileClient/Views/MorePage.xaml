@@ -21,9 +21,9 @@
                 <Label Text="{Binding Lost.DetectionTime, Mode=OneWay, UpdateSourceEventName=PropertyChanged, StringFormat='Detection time: {0:dd-MMM-yy}'}" Margin="5" FontSize="Large"/>
                 <Label Text="{Binding Lost.Gender, Mode=OneWay, UpdateSourceEventName=PropertyChanged, StringFormat='Gender: {0}'}" Margin="5" FontSize="Large"/>
                 <Label Text="{Binding City.Name, Mode=OneWay, UpdateSourceEventName=PropertyChanged, StringFormat='City: {0}'}" Margin="5" FontSize="Large"/>
-                <Label Text="{Binding InstitutionName, Mode=OneWay, UpdateSourceEventName=PropertyChanged, StringFormat='Institution: {0}'}" Margin="5" FontSize="Large"/>
-                <Label Text="{Binding InstitutionAddress, Mode=OneWay, UpdateSourceEventName=PropertyChanged, StringFormat='Address: {0}'}" Margin="5" FontSize="Large"/>
-                <Label Text="{Binding InstitutionPhone, Mode=OneWay, UpdateSourceEventName=PropertyChanged, StringFormat='Phone: {0}'}" Margin="5" FontSize="Large"/>
+                <Label Text="{Binding Institution.Name, Mode=OneWay, UpdateSourceEventName=PropertyChanged, StringFormat='Institution: {0}'}" Margin="5" FontSize="Large"/>
+                <Label Text="{Binding Institution.Address, Mode=OneWay, UpdateSourceEventName=PropertyChanged, StringFormat='Address: {0}'}" Margin="5" FontSize="Large"/>
+                <Label Text="{Binding Institution.Number, Mode=OneWay, UpdateSourceEventName=PropertyChanged, StringFormat='Phone: {0}'}" Margin="5" FontSize="Large"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

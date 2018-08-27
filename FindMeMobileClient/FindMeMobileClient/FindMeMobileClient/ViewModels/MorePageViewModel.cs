@@ -27,9 +27,7 @@ namespace FindMeMobileClient.ViewModels {
             set {
                 SetProperty(ref this.lost, value);
                 City = lost.Institution.InstitutionCity;
-                InstitutionName = lost.Institution.Name;
-                institutionAddress = lost.Institution.Address;
-                InstitutionPhone = lost.Institution.Number;
+                Institution = lost.Institution;
 
             }
         }
@@ -40,22 +38,10 @@ namespace FindMeMobileClient.ViewModels {
             set { SetProperty(ref this.city, value); }
         }
 
-        private string institutionName;
-        public string InstitutionName {
-            get { return institutionName; }
-            set { SetProperty(ref this.institutionName, value); }
-        }
-
-        private string institutionAddress;
-        public string InstitutionAddress {
-            get { return institutionAddress; }
-            set { SetProperty(ref this.institutionAddress, value); }
-        }
-
-        private string institutionPhone;
-        public string InstitutionPhone {
-            get { return institutionPhone; }
-            set { SetProperty(ref this.institutionPhone, value); }
+        private Institution institution;
+        public Institution Institution {
+            get { return institution; }
+            set { SetProperty(ref this.institution, value); }
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters) {
