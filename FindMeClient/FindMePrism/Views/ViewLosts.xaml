@@ -7,8 +7,19 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="350" d:DesignWidth="400">
-    <Grid Background="White">
-        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Text="Losts" FontSize="30"/>
-    </Grid>
+             d:DesignHeight="520" d:DesignWidth="700">
+
+    <Border Background="#283965" Opacity=".72">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+                <ListBox HorizontalContentAlignment="Stretch" Grid.Row="0"  Background="#283965"
+            ItemsSource="{Binding Losts}"           
+            ItemTemplate="{StaticResource LostItemTemplate}"/>
+                <Button Grid.Row="1" Style="{StaticResource AddButtonStyle}" Command="{Binding AddLostCommand}" Content="ADD"/>
+        </Grid>
+    </Border>
 </UserControl>

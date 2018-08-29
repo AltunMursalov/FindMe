@@ -8,7 +8,5 @@ using System.Threading.Tasks;
 
 namespace FindMePrism.Events
 {
-    public class LostsEvent : PubSubEvent<List<Lost>>
-    {
-    }
+    public class LostsEvent : PubSubEvent<IEnumerable<Lost>> {}
 }

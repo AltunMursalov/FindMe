@@ -7,7 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="350" d:DesignWidth="700">
+             d:DesignHeight="520" d:DesignWidth="700">
     <Border Background="#283965" Opacity=".72" >
         <Grid HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
@@ -29,7 +29,7 @@
             <TextBox Grid.Row="3" Style="{StaticResource InputControlStyle}" Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" ></TextBox>
             <TextBlock Grid.Row="4" Style="{StaticResource LabelControlStyle}">PASSWORD</TextBlock>
             <TextBox Grid.Row="5" Style="{StaticResource InputControlStyle}" Text="{Binding Password,UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <Button Grid.Row="6" Style="{StaticResource SignButtonStyle}" Command="{Binding LoginCommand}">LOGIN</Button>
+            <Button Grid.Row="6" Style="{StaticResource LoginButtonStyle}" Command="{Binding LoginCommand}">LOGIN</Button>
             <Separator Grid.Row="7"/>
             <Button Grid.Row="8" Style="{StaticResource ForgotButtonStyle}">Forgot Password?</Button>
         </Grid>

@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using FindMePrism.Services;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
@@ -14,7 +15,7 @@ namespace FindMePrism.ViewModels
         private readonly IRegionManager regionManager;
         public DelegateCommand<string> NavigateCommand { get; set; }
 
-        public MainWindowViewModel (IRegionManager regionManager)
+        public MainWindowViewModel (IRegionManager regionManager, IAuthenticationService authService)
         {
             this.regionManager = regionManager;
 
@@ -22,8 +23,9 @@ namespace FindMePrism.ViewModels
         }
 
         private void Navigate(string uri)
-        {
-            this.regionManager.RequestNavigate("ContentRegion", uri);
+        {          
+            if (uri != null)
+                this.regionManager.RequestNavigate("ContentRegion", uri);
         }
     }
 }

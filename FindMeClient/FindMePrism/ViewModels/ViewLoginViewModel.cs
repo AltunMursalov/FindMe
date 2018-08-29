@@ -1,5 +1,6 @@
 ﻿using FindMePrism.Events;
 using FindMePrism.Models;
+using FindMePrism.Services;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -11,16 +12,16 @@ using System.Windows.Input;
 
 namespace FindMePrism.ViewModels
 {
-    class ViewLoginViewModel : BindableBase, INavigationAware
+    class ViewLoginViewModel : BindableBase
     {
-        private string login;
-        public string Login
+        private string login = "login";
+        public string Login 
         {
             get { return login; }
             set { SetProperty(ref login, value); }
         }
 
-        private string password;
+        private string password = "password";
         public string Password
         {
             get { return password; }
@@ -29,39 +30,43 @@ namespace FindMePrism.ViewModels
 
         public DelegateCommand LoginCommand { get; set; }
         public IEventAggregator EventAggregator { get; }
+        private readonly IRegionManager RegionManager;
+        private readonly IAuthenticationService AuthService;
+        private readonly ILostService LostService;
 
-        public ViewLoginViewModel(IEventAggregator eventAggregator)
+        public ViewLoginViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IAuthenticationService authService, ILostService lostService)
         {
-            LoginCommand = new DelegateCommand(Execute, CanExecute).ObservesProperty(()=> Login).ObservesProperty(()=> Password);
+            LoginCommand = new DelegateCommand(Execute, CanExecute).ObservesProperty(() => Login).ObservesProperty(() => Password);
             EventAggregator = eventAggregator;
+            RegionManager = regionManager;
+            AuthService = authService;
+            LostService = lostService;
+        }
+
+        private void Navigate(string uri)
+        {
+            if (uri != null)
+                RegionManager.RequestNavigate("ContentRegion", uri);
         }
 
         private void Execute()
         {
-            MessageBox.Show("Login!");
-            //get losts from server
-            var losts = new List<Lost>();
-            EventAggregator.GetEvent<LostsEvent>().Publish(losts);
-        }
+            var res = AuthService.Validate(Login, Password);
+            if (res!=null)
+            {
+                var losts = LostService.GetLosts(res);
+                Navigate("ViewLosts");
+                if (losts != null)
+                {
+                    EventAggregator.GetEvent<LostsEvent>().Publish(losts);
+                }
+                EventAggregator.GetEvent<InstEvent>().Publish(res);
+            }
+        } 
 
         private bool CanExecute()
         {
             return !String.IsNullOrWhiteSpace(Login) & !String.IsNullOrWhiteSpace(Password);
-        }
-
-        public void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-
         }
     }
 }

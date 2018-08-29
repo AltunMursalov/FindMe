@@ -1,5 +1,8 @@
-﻿using FindMePrism.Views;
+﻿using FindMePrism.Repositories;
+using FindMePrism.Services;
+using FindMePrism.Views;
 using Microsoft.Practices.Unity;
+using Prism.Events;
 using Prism.Unity;
 using System;
 using System.Collections.Generic;
@@ -24,16 +27,14 @@ namespace FindMePrism
         protected override void ConfigureContainer()
         {
             base.ConfigureContainer();
-            Container.RegisterTypeForNavigation<ViewLogin>("ViewLogin");       
-        }
-    }
 
-   /* public static class UnityExtensions
-    {
-        public static void RegisterTypeForNavigation<T>(this IUnityContainer container, string name)
-        {
-            container.RegisterType(typeof(object), typeof(T), name);
+            Container.RegisterTypeForNavigation<ViewLogin>("ViewLogin");
+            Container.RegisterTypeForNavigation<ViewLosts>("ViewLosts");
+            Container.RegisterTypeForNavigation<ViewForm>("ViewForm");
+            Container.RegisterType<IAuthenticationService, AuthenticationService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ILostService, LostService>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IAuthenticationRepository, AuthenticationRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<ILostRepository, LostRepository>(new ContainerControlledLifetimeManager());
         }
-    }*/
-    
+    }   
 }
