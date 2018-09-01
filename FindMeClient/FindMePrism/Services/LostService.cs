@@ -17,7 +17,7 @@ namespace FindMePrism.Services
             Repository = repository;
         }
 
-        public bool AddLost(Institution institution, Lost lost)
+        public Lost AddLost(Institution institution, Lost lost)
         {
             return Repository.AddLost(institution, lost);
         }

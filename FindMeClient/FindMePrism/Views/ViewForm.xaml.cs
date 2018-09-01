@@ -23,7 +23,6 @@ namespace FindMePrism.Views
         public ViewForm()
         {
             InitializeComponent();
-            this.Background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/FindMePrism;component/Resources/family.jpg")));
         }
     }
 }

@@ -141,9 +141,9 @@
                 <Expander.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="510"/>
-                            <ColumnDefinition Width="50"/>
-                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="520"/>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="40"/>
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Text="{Binding FullName}"/>

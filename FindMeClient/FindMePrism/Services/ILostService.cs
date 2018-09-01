@@ -10,7 +10,7 @@ namespace FindMePrism.Services
     interface ILostService
     {
         IEnumerable<Lost> GetLosts(Institution institution);
-        bool AddLost (Institution institution, Lost lost);
+        Lost AddLost (Institution institution, Lost lost);
         bool RemoveLost(Institution institution, Lost lost);
         bool EditLost(Institution institution, Lost lost);
         IEnumerable<string> GetEyeColors();

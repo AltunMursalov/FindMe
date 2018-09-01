@@ -26,6 +26,6 @@ namespace FindMePrism.ViewModels
         {          
             if (uri != null)
                 this.regionManager.RequestNavigate("ContentRegion", uri);
-        }
+        }       
     }
 }

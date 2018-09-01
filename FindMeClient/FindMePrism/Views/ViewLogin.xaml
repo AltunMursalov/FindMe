@@ -7,7 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
-             d:DesignHeight="520" d:DesignWidth="700">
+             d:DesignHeight="510" d:DesignWidth="690">
     <Border Background="#283965" Opacity=".72" >
         <Grid HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>

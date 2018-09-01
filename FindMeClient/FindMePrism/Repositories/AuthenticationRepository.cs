@@ -12,7 +12,16 @@ namespace FindMePrism.Repositories
         public Institution Validate(string login, string password)
         {
             //server
-            var i = new Institution();
+            City c = new City { Id = 1, Name = "Baku" };
+            var i = new Institution {
+                Id = 1,
+                Name = "Instutution",
+                Address = "Address",
+                Number = "9379992",
+                OpeningHours = "09.00 - 23.00",
+                Website = "www.findme.az",
+                InstitutionCity = c
+            };
             return i;
         }
     }

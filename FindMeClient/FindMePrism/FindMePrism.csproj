@@ -106,6 +106,7 @@
     <Compile Include="Events\EditLostEvent.cs" />
     <Compile Include="Events\InstEvent.cs" />
     <Compile Include="Events\LostsEvent.cs" />
+    <Compile Include="Events\NewLostEvent.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Institution.cs" />
     <Compile Include="Models\InstitutionType.cs" />
