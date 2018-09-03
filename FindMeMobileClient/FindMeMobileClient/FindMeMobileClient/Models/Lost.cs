@@ -3,30 +3,32 @@ using Xamarin.Forms;
 using Prism.Mvvm;
 
 namespace FindMeMobileClient.Models {
-    
+
     public class Lost : BindableObject {
-        public Lost(bool isVisible,int id, string firstName, string middleName, string lastName, string fullName, string eyeColor, string hairColor, string clothes, string bodyType, string signs, int ageBegin, int ageEnd, int height, string imagePath, string comment, string description, string detectionDescription, DateTime detectionTime, string gender, int institutionId, Institution institution) {
+        public Lost(bool isVisible, int id, string firstName, string middleName, string lastName, string fullName, string eyeColor, string hairColor, string clothes, string bodyType, string signs, int ageBegin, int ageEnd, int height, string imagePath, string comment, string description, string detectionDescription, DateTime detectionTime, string gender, int institutionId, Institution institution) {
             this.IsVisible = isVisible;
-            Id = id;
-            FirstName = firstName;
-            MiddleName = middleName;
-            LastName = lastName;
-            FullName = fullName;
-            EyeColor = eyeColor;
-            HairColor = hairColor;
-            Clothes = clothes;
-            BodyType = bodyType;
-            Signs = signs;
-            Age = ageBegin == ageEnd ? ageBegin.ToString() : $"{ageBegin} - {ageEnd}";
-            Height = height;
-            ImagePath = imagePath;
-            Comment = comment;
-            Description = description;
-            DetectionDescription = detectionDescription;
-            DetectionTime = detectionTime;
-            Gender = gender;
-            InstitutionId = institutionId;
-            Institution = institution;
+            this.Id = id;
+            this.FirstName = firstName;
+            this.MiddleName = middleName;
+            this.LastName = lastName;
+            this.FullName = fullName;
+            this.EyeColor = eyeColor;
+            this.HairColor = hairColor;
+            this.Clothes = clothes;
+            this.BodyType = bodyType;
+            this.Signs = signs;
+            this.Age = ageBegin == ageEnd ? ageBegin.ToString() : $"{ageBegin} - {ageEnd}";
+            this.AgeBegin = ageBegin;
+            this.AgeEnd = ageEnd;
+            this.Height = height;
+            this.ImagePath = imagePath;
+            this.Comment = comment;
+            this.Description = description;
+            this.DetectionDescription = detectionDescription;
+            this.DetectionTime = detectionTime;
+            this.Gender = gender;
+            this.InstitutionId = institutionId;
+            this.Institution = institution;
         }
 
         private int id;
@@ -50,6 +52,19 @@ namespace FindMeMobileClient.Models {
         private int _institutionId;
         private Institution _institution;
         private bool isVisible;
+        private int ageBegin;
+        private int ageEnd;
+
+        public int AgeEnd {
+            get { return ageEnd; }
+            set { ageEnd = value; base.OnPropertyChanged(); }
+        }
+
+        public int AgeBegin {
+            get { return ageBegin; }
+            set { ageBegin = value; base.OnPropertyChanged(); }
+        }
+
 
         public bool IsVisible {
             get { return isVisible; }

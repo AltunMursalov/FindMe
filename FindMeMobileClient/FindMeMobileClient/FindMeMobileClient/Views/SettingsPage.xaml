@@ -3,12 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="FindMeMobileClient.Views.SettingsPage">
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             x:Class="FindMeMobileClient.Views.SettingsPage"
+             x:Name="SettingsPage">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Settings!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Grid Padding="7">
+                <Label Text="Subscribe to filter" FontSize="Large"/>
+                <Switch IsToggled="{Binding FollowToggled, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}">
+                    <Switch.Behaviors>
+                        <b:EventToCommandBehavior EventName="Toggled" Command="{Binding FollowToggleCommand}"/>
+                    </Switch.Behaviors>
+                </Switch>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

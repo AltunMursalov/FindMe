@@ -84,19 +84,17 @@ namespace FindMeMobileClient.ViewModels {
                 }
             } else {
                 var losts = dataService.GetLosts();
-                var lostsFiltered = losts.Where((p) => {
-                    if (
-                        string.IsNullOrWhiteSpace(p.FirstName) ? true : string.IsNullOrWhiteSpace(App.Filter.FirstName) ? true : (p.FirstName == App.Filter.FirstName ? true : false) &&
-                        string.IsNullOrWhiteSpace(p.MiddleName) ? true : string.IsNullOrWhiteSpace(App.Filter.MiddleName) ? true : (p.MiddleName == App.Filter.MiddleName ? true : false) &&
-                        string.IsNullOrWhiteSpace(p.LastName) ? true : string.IsNullOrWhiteSpace(App.Filter.LastName) ? true : (p.LastName == App.Filter.LastName ? true : false) &&
-                        string.IsNullOrWhiteSpace(p.Age) ? true : App.Filter.AgeBegin == 0 && App.Filter.AgeEnd == 0 ? true : int.Parse(p.Age) >= App.Filter.AgeBegin && int.Parse(p.Age) <= App.Filter.AgeEnd ? true : false &&
+                var lostsFiltered = losts.Where(p => string.IsNullOrWhiteSpace(p.FirstName) ? true : string.IsNullOrWhiteSpace(App.Filter.FirstName) ? true : (p.FirstName == App.Filter.FirstName) &&
+                        string.IsNullOrWhiteSpace(p.MiddleName) ? true : string.IsNullOrWhiteSpace(App.Filter.MiddleName) ? true : (p.MiddleName == App.Filter.MiddleName) &&
+                        string.IsNullOrWhiteSpace(p.LastName) ? true : string.IsNullOrWhiteSpace(App.Filter.LastName) ? true : (p.LastName == App.Filter.LastName) &&
+                        string.IsNullOrWhiteSpace(p.Age) ? true : App.Filter.AgeBegin == 0 && App.Filter.AgeEnd == 0 ? true :
+                        App.Filter.AgeBegin < p.AgeBegin && p.AgeBegin < App.Filter.AgeEnd || App.Filter.AgeBegin < p.AgeEnd && p.AgeEnd < App.Filter.AgeEnd ||
+                        p.AgeBegin < App.Filter.AgeBegin && p.AgeEnd > App.Filter.AgeEnd &&
                         App.Filter.Height == 0 ? true : App.Filter.Height == p.Height &&
-                        string.IsNullOrEmpty(App.Filter.HairColor) ? true : p.HairColor == App.Filter.HairColor ? true : false &&
-                        string.IsNullOrEmpty(App.Filter.EyeColor) ? true : p.EyeColor == App.Filter.EyeColor ? true : false &&
-                        string.IsNullOrEmpty(App.Filter.BodyType) ? true : p.BodyType == App.Filter.BodyType ? true : false &&
-                        string.IsNullOrEmpty(App.Filter.Gender) ? true : p.Gender == App.Filter.Gender ? true : false
-                    ) { return true; } else { return false; }
-                });
+                        string.IsNullOrEmpty(App.Filter.HairColor) ? true : p.HairColor == App.Filter.HairColor &&
+                        string.IsNullOrEmpty(App.Filter.EyeColor) ? true : p.EyeColor == App.Filter.EyeColor &&
+                        string.IsNullOrEmpty(App.Filter.BodyType) ? true : p.BodyType == App.Filter.BodyType &&
+                        string.IsNullOrEmpty(App.Filter.Gender) ? true : p.Gender == App.Filter.Gender);
                 foreach (var item in lostsFiltered) {
                     Losts.Add(item);
                 }

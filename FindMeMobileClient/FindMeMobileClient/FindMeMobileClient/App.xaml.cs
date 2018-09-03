@@ -2,11 +2,13 @@ using System;
 using FindMeMobileClient.Models;
 using FindMeMobileClient.Services;
 using FindMeMobileClient.Services.Interfaces;
+using FindMeMobileClient.ViewModels;
 using FindMeMobileClient.Views;
 using Plugin.FirebasePushNotification;
 using Prism;
 using Prism.Autofac;
 using Prism.Ioc;
+using Prism.Plugin.Popups;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -30,10 +32,10 @@ namespace FindMeMobileClient
         {
             containerRegistry.Register<IDataService, DataService>();
             containerRegistry.RegisterForNavigation<HomePage>();
-            containerRegistry.RegisterForNavigation<SettingsPage>();
             containerRegistry.RegisterForNavigation<OrganizationsPage>();
             containerRegistry.RegisterForNavigation<MorePage>();
             containerRegistry.RegisterForNavigation<FilterPage>();
+            containerRegistry.RegisterForNavigation<SettingsPage>();
         }
 
         protected override void OnInitialized()
