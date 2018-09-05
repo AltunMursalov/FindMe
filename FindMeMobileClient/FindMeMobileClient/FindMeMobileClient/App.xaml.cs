@@ -1,3 +1,4 @@
+using FindMeMobileClient.Models;
 using FindMeMobileClient.Services;
 using FindMeMobileClient.Services.Interfaces;
 using FindMeMobileClient.Views;
@@ -11,9 +12,9 @@ namespace FindMeMobileClient
 {
     public partial class App : PrismApplication
 	{
+        public static Filter Filter { get; set; }
         public const string NotificationReceivedKey = "NotificationReceived";
         public const string MobileServiceUrl = "https://findmeazserver.azurewebsites.net";
-        public static IFilterService filterService;
         public App() : base(null)
         {
             InitializeComponent();
@@ -22,7 +23,6 @@ namespace FindMeMobileClient
         public App(IPlatformInitializer initializer = null) : base(initializer)
         {
             InitializeComponent();
-            filterService = new FilterService();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
