@@ -28,6 +28,7 @@ namespace FindMeServer.Controllers
         {
             if (lost != null)
             {
+
                 return Json(await this.dataService.RegisterLost(lost));
             }
             else

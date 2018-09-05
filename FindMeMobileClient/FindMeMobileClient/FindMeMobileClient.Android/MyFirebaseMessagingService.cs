@@ -1,8 +1,8 @@
 ﻿using Android.App;
 using Android.Content;
-using Android.Util;
 using Firebase.Messaging;
-using System.Linq;
+using System;
+using Xamarin.Forms;
 
 namespace FindMeMobileClient.Droid
 {
@@ -10,41 +10,29 @@ namespace FindMeMobileClient.Droid
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
     public class MyFirebaseMessagingService : FirebaseMessagingService
     {
-        const string TAG = "MyFirebaseMsgService";
         public override void OnMessageReceived(RemoteMessage message)
         {
-            Log.Debug(TAG, "From: " + message.From);
-            if (message.GetNotification() != null)
+            base.OnMessageReceived(message);
+
+            Console.WriteLine("Received: " + message);
+
+            // Android supports different message payloads. To use the code below it must be something like this (you can paste this into Azure test send window):
+            // {
+            //   "notification" : {
+            //      "body" : "The body",
+            //                 "title" : "The title",
+            //                 "icon" : "myicon
+            //   }
+            // }
+            try
             {
-                //These is how most messages will be received
-                Log.Debug(TAG, "Notification Message Body: " + message.GetNotification().Body);
-                SendNotification(message.GetNotification().Body);
+                string[] body = { message.GetNotification().Body, message.GetNotification().Title };
+                MessagingCenter.Send<object, string[]>(this, FindMeMobileClient.App.NotificationReceivedKey, body);
             }
-            else
+            catch (Exception ex)
             {
-                //Only used for debugging payloads sent from the Azure portal
-                SendNotification(message.Data.Values.First());
-
+                Console.WriteLine("Error extracting message: " + ex);
             }
-
-        }
-
-        void SendNotification(string messageBody)
-        {
-            var intent = new Intent(this, typeof(MainActivity));
-            intent.AddFlags(ActivityFlags.ClearTop);
-            var pendingIntent = PendingIntent.GetActivity(this, 0, intent, PendingIntentFlags.OneShot);
-
-            var notificationBuilder = new Notification.Builder(this)
-                        .SetContentTitle("FCM Message")
-                        .SetSmallIcon(Resource.Drawable.notification_template_icon_bg)
-                        .SetContentText(messageBody)
-                        .SetAutoCancel(true)
-                        .SetContentIntent(pendingIntent);
-
-            var notificationManager = NotificationManager.FromContext(this);
-
-            notificationManager.Notify(0, notificationBuilder.Build());
         }
     }
 }
