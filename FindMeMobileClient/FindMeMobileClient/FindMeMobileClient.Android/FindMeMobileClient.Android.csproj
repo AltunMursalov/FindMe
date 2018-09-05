@@ -52,6 +52,9 @@
     <PackageReference Include="Microsoft.Azure.Mobile.Client">
       <Version>4.0.2</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Azure.NotificationHubs">
+      <Version>2.0.0-preview2</Version>
+    </PackageReference>
     <PackageReference Include="Xam.Plugin.AzurePushNotification">
       <Version>2.2.24</Version>
     </PackageReference>

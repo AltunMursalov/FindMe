@@ -13,7 +13,7 @@ namespace FindMeMobileClient
 	{
         public const string NotificationReceivedKey = "NotificationReceived";
         public const string MobileServiceUrl = "https://findmeazserver.azurewebsites.net";
-        public static IFilterService filterService;
+        //public static IFilterService filterService;
         public App() : base(null)
         {
             InitializeComponent();
@@ -22,7 +22,7 @@ namespace FindMeMobileClient
         public App(IPlatformInitializer initializer = null) : base(initializer)
         {
             InitializeComponent();
-            filterService = new FilterService();
+            //filterService = new FilterService();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
