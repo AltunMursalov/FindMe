@@ -32,7 +32,7 @@ namespace FindMeMobileClient.ViewModels {
         public DelegateCommand FollowToggleCommand { get; set; }
 
         public void Toggle() {
-            //pageDialogService.DisplayAlertAsync("title", FollowToggled.ToString(), "OK");
+            navigationService.NavigateAsync("FilterPage");
             
         }
     }

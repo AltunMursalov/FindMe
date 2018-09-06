@@ -15,19 +15,20 @@ namespace FindMeMobileClient.ViewModels {
             this.navigationService = navigationService;
             this.pageDialogService = pageDialogService;
             ApplyCommand = new DelegateCommand(Apply);
-            //if (App.Filter != null) {
-            //    var localFilter = App.Filter;
-            //    this.AgeBegin = localFilter.AgeBegin.ToString();
-            //    this.AgeEnd = localFilter.AgeEnd.ToString();
-            //    this.FirstName = localFilter.FirstName;
-            //    this.MiddleName = localFilter.MiddleName;
-            //    this.LastName = localFilter.LastName;
-            //    this.Height = localFilter.Height.ToString();
-            //    this.SelectedHairColor = localFilter.HairColor;
-            //    this.SelectedEyeColor = localFilter.EyeColor;
-            //    this.SelectedBodyType = localFilter.BodyType;
-            //    this.SelectedGender = localFilter.Gender;
-            //}
+            if (App.Filter != null)
+            {
+                var localFilter = App.Filter;
+                this.AgeBegin = localFilter.AgeBegin.ToString();
+                this.AgeEnd = localFilter.AgeEnd.ToString();
+                this.FirstName = localFilter.FirstName;
+                this.MiddleName = localFilter.MiddleName;
+                this.LastName = localFilter.LastName;
+                this.Height = localFilter.Height.ToString();
+                this.SelectedHairColor = localFilter.HairColor;
+                this.SelectedEyeColor = localFilter.EyeColor;
+                this.SelectedBodyType = localFilter.BodyType;
+                this.SelectedGender = localFilter.Gender;
+            }
         }
 
         public DelegateCommand ApplyCommand { get; set; }
@@ -37,18 +38,19 @@ namespace FindMeMobileClient.ViewModels {
             if (ageBegin < 0 || ageBegin > 150) { pageDialogService.DisplayAlertAsync("filter message", "Enter filter info correct please", "OK"); return; }
             int ageEnd = int.Parse(string.IsNullOrWhiteSpace(this.AgeEnd) ? "0" : this.AgeEnd);
             if (ageEnd < ageBegin || ageEnd > 150) { pageDialogService.DisplayAlertAsync("filter message", "Enter filter info correct please", "OK"); return; }
-            //App.Filter = new Filter {
-            //    FirstName = string.IsNullOrWhiteSpace(this.FirstName) ? null : this.FirstName,
-            //    MiddleName = string.IsNullOrWhiteSpace(this.MiddleName) ? null : this.MiddleName,
-            //    LastName = string.IsNullOrWhiteSpace(this.LastName) ? null : this.LastName,
-            //    AgeBegin = ageBegin,
-            //    AgeEnd = ageEnd,
-            //    BodyType = this.SelectedBodyType,
-            //    EyeColor = this.SelectedEyeColor,
-            //    HairColor = this.SelectedHairColor,
-            //    Gender = this.SelectedGender,
-            //    Height = int.Parse(string.IsNullOrWhiteSpace(this.Height) ? "0" : this.Height)
-            //};
+            App.Filter = new Filter
+            {
+                FirstName = string.IsNullOrWhiteSpace(this.FirstName) ? null : this.FirstName,
+                MiddleName = string.IsNullOrWhiteSpace(this.MiddleName) ? null : this.MiddleName,
+                LastName = string.IsNullOrWhiteSpace(this.LastName) ? null : this.LastName,
+                AgeBegin = ageBegin,
+                AgeEnd = ageEnd,
+                BodyType = this.SelectedBodyType,
+                EyeColor = this.SelectedEyeColor,
+                HairColor = this.SelectedHairColor,
+                Gender = this.SelectedGender,
+                Height = int.Parse(string.IsNullOrWhiteSpace(this.Height) ? "0" : this.Height)
+            };
             navigationService.GoBackAsync();
         }
 

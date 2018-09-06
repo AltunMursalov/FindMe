@@ -5,6 +5,7 @@ using FindMeMobileClient.Views;
 using Prism;
 using Prism.Autofac;
 using Prism.Ioc;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
@@ -15,7 +16,6 @@ namespace FindMeMobileClient
         public static Filter Filter { get; set; }
         public const string NotificationReceivedKey = "NotificationReceived";
         public const string MobileServiceUrl = "https://findmeazserver.azurewebsites.net";
-        //public static IFilterService filterService;
         public App() : base(null)
         {
             InitializeComponent();
@@ -24,7 +24,6 @@ namespace FindMeMobileClient
         public App(IPlatformInitializer initializer = null) : base(initializer)
         {
             InitializeComponent();
-            //filterService = new FilterService();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -32,13 +31,16 @@ namespace FindMeMobileClient
             containerRegistry.Register<IDataService, DataService>();
             containerRegistry.RegisterForNavigation<HomePage>();
             containerRegistry.RegisterForNavigation<SettingsPage>();
+            containerRegistry.RegisterForNavigation<MainPage>();
+            containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<OrganizationsPage>();
             containerRegistry.RegisterForNavigation<FilterPage>();
+            containerRegistry.RegisterForNavigation<MorePage>();
         }
 
         protected override void OnInitialized()
         {
-            this.MainPage = new MainPage();
+            this.NavigationService.NavigateAsync("NavigationPage/MainPage");
         }
 
         protected override void OnStart ()
