@@ -13,6 +13,7 @@ namespace FindMeMobileClient
 {
     public partial class App : PrismApplication
 	{
+        public static int Schitalka { get; set; } = 0;
         public static Filter Filter { get; set; }
         public const string NotificationReceivedKey = "NotificationReceived";
         public const string MobileServiceUrl = "https://findmeazserver.azurewebsites.net";

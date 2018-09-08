@@ -10,7 +10,7 @@
         <StackLayout>
             <Grid Padding="7">
                 <Label Text="Subscribe to filter" FontSize="Large"/>
-                <Switch IsToggled="{Binding FollowToggled, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}">
+                <Switch x:Name="Toggle" IsToggled="{Binding FollowToggled, Mode=TwoWay, UpdateSourceEventName=PropertyChanged}">
                     <Switch.Behaviors>
                         <b:EventToCommandBehavior EventName="Toggled" Command="{Binding FollowToggleCommand}"/>
                     </Switch.Behaviors>

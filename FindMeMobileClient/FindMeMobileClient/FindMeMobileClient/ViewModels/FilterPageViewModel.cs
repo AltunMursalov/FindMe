@@ -51,7 +51,9 @@ namespace FindMeMobileClient.ViewModels {
                 Gender = this.SelectedGender,
                 Height = int.Parse(string.IsNullOrWhiteSpace(this.Height) ? "0" : this.Height)
             };
-            navigationService.GoBackAsync();
+            var param = new NavigationParameters();
+            param.Add("filter", true);
+            navigationService.GoBackAsync(param);
         }
 
         private string firstName;

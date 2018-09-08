@@ -2,6 +2,7 @@
 using FindMeMobileClient.Services.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using Xamarin.Forms;
 
@@ -101,6 +102,16 @@ namespace FindMeMobileClient.Services {
                 Website = "ok.com"
             });
             return institutions;
+        }
+
+        public void Subscribe(Filter filter)
+        {
+            Debug.WriteLine("******************************Subscribe******************************");
+        }
+
+        public void Unsubscribe(Filter filter)
+        {
+            Debug.WriteLine("******************************Unsubscribe******************************");
         }
     }
 }

@@ -7,5 +7,7 @@ namespace FindMeMobileClient.Services.Interfaces
     {
         IEnumerable<Lost> GetLosts();
         IEnumerable<Institution> GetInstitutions();
+        void Subscribe(Filter filter);
+        void Unsubscribe(Filter filter);
     }
 }

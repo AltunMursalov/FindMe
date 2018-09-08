@@ -7,13 +7,18 @@ using Prism.Services;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
-namespace FindMeMobileClient.ViewModels {
-    public class HomePageViewModel : BindableBase, INavigationAware {
+namespace FindMeMobileClient.ViewModels
+{
+    public class HomePageViewModel : BindableBase, INavigationAware
+    {
         private readonly IPageDialogService pageDialogService;
         private readonly INavigationService navigationService;
         private readonly IDataService dataService;
-        public HomePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService) {
+        public HomePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService)
+        {
             this.pageDialogService = pageDialogService;
             this.dataService = dataService;
             this.navigationService = navigationService;
@@ -34,7 +39,8 @@ namespace FindMeMobileClient.ViewModels {
                 SetProperty(ref this.searchText, value);
             }
         }
-        public void Search() {
+        public void Search()
+        {
             Update(SearchText);
             //pageDialogService.DisplayAlertAsync("Search Command", "Search command was execute", "OK");
         }
@@ -43,7 +49,8 @@ namespace FindMeMobileClient.ViewModels {
         #region Filter
         public DelegateCommand FilterCommand { get; set; }
 
-        public void Filter() {
+        public void Filter()
+        {
             navigationService.NavigateAsync("FilterPage");
         }
         #endregion
@@ -61,14 +68,16 @@ namespace FindMeMobileClient.ViewModels {
             }
         }
 
-        public async void More() {
+        public async void More()
+        {
             NavigationParameters navigationParameters = new NavigationParameters();
             navigationParameters.Add("SelectedLost", SelectedItem);
             await navigationService.NavigateAsync("MorePage", navigationParameters);
         }
         #endregion
 
-        public void Update() {
+        public void Update()
+        {
             Losts.Clear();
             if (App.Filter == null)
             {
@@ -99,28 +108,21 @@ namespace FindMeMobileClient.ViewModels {
             }
         }
 
-        public void Update(string param) {
+        public void Update(string param)
+        {
             Losts.Clear();
             var losts = dataService.GetLosts();
             var lostsFiltered = losts.Where((p) => p.FullName.ToLower().Contains(param.ToLower()));
-            foreach (var item in lostsFiltered) {
+            foreach (var item in lostsFiltered)
+            {
                 Losts.Add(item);
             }
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
-        {
+        public void OnNavigatedFrom(NavigationParameters parameters) { }
 
-        }
+        public void OnNavigatedTo(NavigationParameters parameters) => Update();
 
-        public void OnNavigatedTo(NavigationParameters parameters)
-        {
-            Update();
-        }
-
-        public void OnNavigatingTo(NavigationParameters parameters)
-        {
-
-        }
+        public void OnNavigatingTo(NavigationParameters parameters) { }
     }
 }
