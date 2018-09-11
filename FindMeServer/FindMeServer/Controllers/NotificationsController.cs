@@ -4,6 +4,7 @@ using FindMeServer.NotificationConfig;
 using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace FindMeServer.Controllers
 {
@@ -13,10 +14,16 @@ namespace FindMeServer.Controllers
     {
         public async Task<HttpResponseMessage> Post([FromBody]JToken notification)
         {
-            string[] userTag = new string[2];
             string message = notification["message"].ToString();
             string title = notification["title"].ToString();
+            string[] tags = notification["tags"].ToObject<string[]>();
 
+            var notif = new Notification
+            {
+                Body = message,
+                Tags = tags,
+                Title = title
+            };
             Microsoft.Azure.NotificationHubs.NotificationOutcome outcome = null;
             HttpStatusCode ret = HttpStatusCode.InternalServerError;
 
@@ -25,17 +32,17 @@ namespace FindMeServer.Controllers
                 case "wns":
                     // Windows 8.1 / Windows Phone 8.1
                     var toast = @"<toast><visual><binding template=""ToastText01""><text id=""1"">" + message + "</text></binding></visual></toast>";
-                    outcome = await Notifications.Instance.Hub.SendWindowsNativeNotificationAsync(toast, userTag);
+                    //outcome = await Notifications.Instance.Hub.SendWindowsNativeNotificationAsync(toast, userTag);
                     break;
                 case "apns":
                     // iOS
                     var alert = "{\"aps\":{\"alert\":\"" + message + "\"}}";
-                    outcome = await Notifications.Instance.Hub.SendAppleNativeNotificationAsync(alert, userTag);
+                    //outcome = await Notifications.Instance.Hub.SendAppleNativeNotificationAsync(alert, userTag);
                     break;
                 case "gcm":
                     // Android
-                    var notif = "{ \"notification\" : {\"body\":\"" + message + "\", \"title\":\"" + title + "\"}}"; 
-                    outcome = await Notifications.Instance.Hub.SendGcmNativeNotificationAsync(notif);
+                    var jsonNotif = JsonConvert.SerializeObject(new { notification = new { body = notif.Body, title = notif.Title, tags = notif.Tags} });
+                    outcome = await Notifications.Instance.Hub.SendGcmNativeNotificationAsync(jsonNotif);
                     break;
             }
 

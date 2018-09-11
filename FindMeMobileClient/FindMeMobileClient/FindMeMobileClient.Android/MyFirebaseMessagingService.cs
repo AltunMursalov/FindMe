@@ -21,13 +21,13 @@ namespace FindMeMobileClient.Droid
             //   "notification" : {
             //      "body" : "The body",
             //                 "title" : "The title",
-            //                 "icon" : "myicon
+            //                 "icon" : "myicon"
             //   }
             // }
             try
             {
                 string[] body = { message.GetNotification().Body, message.GetNotification().Title };
-                MessagingCenter.Send<object, string[]>(this, FindMeMobileClient.App.NotificationReceivedKey, body);
+                MessagingCenter.Send<object, string[]>(this, App.NotificationReceivedKey, body);
             }
             catch (Exception ex)
             {

@@ -4,8 +4,7 @@
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
-             x:Class="FindMeMobileClient.Views.SettingsPage"
-             x:Name="SettingsPage">
+             x:Class="FindMeMobileClient.Views.SettingsPage">
     <ContentPage.Content>
         <StackLayout>
             <Grid Padding="7">

@@ -5,6 +5,11 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Microsoft.WindowsAzure.MobileServices;
+using Microsoft.Azure.NotificationHubs;
+using Newtonsoft;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace FindMeMobileClient.Droid
 {
@@ -16,33 +21,19 @@ namespace FindMeMobileClient.Droid
         {
             var refreshedToken = FirebaseInstanceId.Instance.Token;
             Console.WriteLine($"Token received: {refreshedToken}");
-            //SendRegistrationToServerAsync(refreshedToken);
+            SendRegistrationToServerAsync(refreshedToken);
         }
 
         async Task SendRegistrationToServerAsync(string token)
         {
             try
             {
-                // Formats: https://firebase.google.com/docs/cloud-messaging/concept-options
-                // The "notification" format will automatically displayed in the notification center if the 
-                // app is not in the foreground.
-                const string templateBodyFCM =
-                    "{" +
-                        "\"notification\" : {" +
-                        "\"body\" : \"$(messageParam)\"," +
-                          "\"title\" : \"Find Me\"," +
-                        "\"icon\" : \"myicon\" }" +
-                    "}";
-                var templates = new JObject();
-                templates["genericMessage"] = new JObject
+                using (HttpClient client = new HttpClient())
                 {
-                    {"body", templateBodyFCM}
-                };
-                var client = new MobileServiceClient(App.MobileServiceUrl);
-                var push = client.GetPush();
-                await push.RegisterAsync(token, templates);
-                // Push object contains installation ID afterwards.
-                Console.WriteLine(push.InstallationId.ToString());
+                    var data = JsonConvert.SerializeObject(new string[] { "Height:175", "Gender:Male" });
+                    var stringContent = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
+                    await client.PostAsync($"{App.MobileServiceUrl}/api/register/{token}", stringContent);
+                }
             }
             catch (Exception ex)
             {
@@ -50,5 +41,5 @@ namespace FindMeMobileClient.Droid
                 Debugger.Break();
             }
         }
-    }   
+    }
 }

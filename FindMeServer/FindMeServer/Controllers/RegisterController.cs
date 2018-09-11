@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net;
 using System.Collections.Generic;
 using FindMeServer.NotificationConfig;
+using Newtonsoft.Json.Linq;
 
 namespace FindMeServer.Controllers
 {
@@ -29,33 +30,15 @@ namespace FindMeServer.Controllers
 
         // POST api/register
         // This creates a registration id
-        [Route("{handle}")]
-        public async Task<string> Post(string handle = null)
+        [Route("{regId}")]
+        public async Task<GcmRegistrationDescription> Post([FromBody]string[] tags, string regId)
         {
-            string newRegistrationId = null;
-
-            // make sure there are no existing registrations for this push handle (used for iOS and Android)
-            if (handle != null)
-            {
-                var registrations = await hub.GetRegistrationsByChannelAsync(handle, 100);
-
-                foreach (RegistrationDescription registration in registrations)
-                {
-                    if (newRegistrationId == null)
-                    {
-                        newRegistrationId = registration.RegistrationId;
-                    }
-                    else
-                    {
-                        await hub.DeleteRegistrationAsync(registration);
-                    }
-                }
-            }
-
-            if (newRegistrationId == null)
-                newRegistrationId = await hub.CreateRegistrationIdAsync();
-
-            return newRegistrationId;
+            GcmRegistrationDescription result = null;
+            if (tags != null)
+                result = await this.hub.CreateGcmNativeRegistrationAsync(regId, tags);
+            else
+                result = await this.hub.CreateGcmNativeRegistrationAsync(regId);
+            return result;
         }
 
         // PUT api/register/5
