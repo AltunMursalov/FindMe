@@ -2,17 +2,20 @@
 using ApplicationCore.Models;
 using ApplicationCore.RepositoryInterfaces;
 using ApplicationCore.ServiceInterfaces;
+using AutoMapper;
 using System.Threading.Tasks;
 
 namespace ApplicationCore.ServiceImplementations
 {
     public class AuthenticationService : IAuthenticationService
     {
+        private readonly IMapper mapper;
         private readonly ILostRepository lostRepository;
         private readonly IInstitutionRepository institutionRepository;
 
-        public AuthenticationService(ILostRepository lostRepository, IInstitutionRepository institutionRepository)
+        public AuthenticationService(ILostRepository lostRepository, IInstitutionRepository institutionRepository, IMapper mapper)
         {
+            this.mapper = mapper;
             this.lostRepository = lostRepository;
             this.institutionRepository = institutionRepository;
         }
@@ -25,10 +28,7 @@ namespace ApplicationCore.ServiceImplementations
                 var decryptResult = Cryptor.DecryptPassword(institutionFromServer.Password, institutionFromClient.Password);
                 if (decryptResult)
                 {
-                    return new InstitutionDTO(institutionFromServer.Name, institutionFromServer.Address, institutionFromServer.Phone,
-                                institutionFromServer.OpeningHours, institutionFromServer.Website, institutionFromServer.IsAdmin,
-                                new InstitutionTypeDTO(institutionFromServer.InstitutionType.Type), 
-                                new CityDTO(institutionFromServer.City.Name));
+                    return this.mapper.Map<Institution, InstitutionDTO>(institutionFromServer);
                 }
                 else
                 {
@@ -47,8 +47,7 @@ namespace ApplicationCore.ServiceImplementations
             var result = await this.institutionRepository.CreateInstitution(institution);
             if (result != null)
             {
-                return new InstitutionDTO(result.Name, result.Address, result.Phone, result.OpeningHours, result.Website, result.IsAdmin,
-                                            new InstitutionTypeDTO(result.InstitutionType.Type), new CityDTO(result.City.Name));
+                return this.mapper.Map<Institution, InstitutionDTO>(result);
             }
             else
             {

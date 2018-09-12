@@ -4,6 +4,7 @@ using ApplicationCore.DataTransferObjects;
 using ApplicationCore.Models;
 using ApplicationCore.RepositoryInterfaces;
 using ApplicationCore.ServiceInterfaces;
+using AutoMapper;
 
 namespace ApplicationCore.ServiceImplementations
 {
@@ -11,9 +12,11 @@ namespace ApplicationCore.ServiceImplementations
     {
         private readonly ILostRepository lostRepository;
         private readonly IInstitutionRepository institutionRepository;
+        private readonly IMapper mapper;
 
-        public DataService(ILostRepository lostRepository, IInstitutionRepository institutionRepository)
+        public DataService(ILostRepository lostRepository, IInstitutionRepository institutionRepository, IMapper mapper)
         {
+            this.mapper = mapper;
             this.lostRepository = lostRepository;
             this.institutionRepository = institutionRepository;
         }
@@ -33,12 +36,7 @@ namespace ApplicationCore.ServiceImplementations
             var result = await this.lostRepository.CreateLost(lost);
             if (result != null)
             {
-                return new LostDTO(result.FirstName, result.MiddleName, result.Clothes, result.BodyType, result.EyeColor, result.HairColor,
-                    result.Signs, result.LastName, result.AgeBegin, result.AgeEnd, result.Height, result.ImagePath, result.Comment,
-                    result.Description, result.DetectionDescription, result.DetectionTime, result.Gender, new InstitutionDTO(
-                    result.Institution.Name, result.Institution.Address, result.Institution.Phone, result.Institution.OpeningHours,
-                    result.Institution.Website, result.Institution.IsAdmin, new InstitutionTypeDTO(result.Institution.InstitutionType.Type),
-                    new CityDTO(result.Institution.City.Name)));
+                return this.mapper.Map<Lost, LostDTO>(result);
             }
             else
             {

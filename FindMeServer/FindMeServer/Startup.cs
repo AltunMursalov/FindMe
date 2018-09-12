@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.RepositoryInterfaces;
 using ApplicationCore.ServiceImplementations;
 using ApplicationCore.ServiceInterfaces;
+using AutoMapper;
 using Infrastructure.Database;
 using Infrastructure.RepositoryImplementations;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,7 @@ namespace FindMeServer
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<ILostRepository, LostRepository>();
             services.AddTransient<IInstitutionRepository, InstitutionRepository>();
+            services.AddAutoMapper();
             services.AddScoped<FindMeDbContext>();
         }
 

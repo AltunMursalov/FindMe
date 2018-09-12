@@ -34,6 +34,12 @@ namespace FindMeServer.Controllers
         public async Task<GcmRegistrationDescription> Post([FromBody]string[] tags, string regId)
         {
             GcmRegistrationDescription result = null;
+            var isRegIdExist = await this.hub.RegistrationExistsAsync(regId);
+            if (isRegIdExist)
+            {
+                await this.hub.DeleteRegistrationAsync(regId);
+            }
+
             if (tags != null)
                 result = await this.hub.CreateGcmNativeRegistrationAsync(regId, tags);
             else
