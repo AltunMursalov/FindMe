@@ -50,6 +50,9 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("IsAdmin");
 
+                    b.Property<string>("Login")
+                        .IsRequired();
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50);

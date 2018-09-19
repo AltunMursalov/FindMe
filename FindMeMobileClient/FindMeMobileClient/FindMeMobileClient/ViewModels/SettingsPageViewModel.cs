@@ -39,8 +39,7 @@ namespace FindMeMobileClient.ViewModels
         {
             if (FollowToggled == true)
                 navigationService.NavigateAsync("FilterPage");
-            else
-                dataService.Unsubscribe(App.Filter);
+                //dataService.Unsubscribe(App.Filter);
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters)
@@ -58,7 +57,7 @@ namespace FindMeMobileClient.ViewModels
             {
                 if(param == true)
                 {
-                    dataService.Subscribe(App.Filter);
+                    //dataService.Subscribe(App.Filter);
                 }
             }
         }

@@ -81,10 +81,16 @@ namespace FindMeMobileClient.ViewModels
             Losts.Clear();
             if (App.Filter == null)
             {
-                var losts = dataService.GetLosts();
-                foreach (var item in losts)
                 {
-                    Losts.Add(item);
+                    var losts = dataService.GetLosts();
+                    foreach (var item in losts)
+                    {
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            Losts.Add(item);
+                        });
+
+                    }
                 }
             }
             else
@@ -103,7 +109,10 @@ namespace FindMeMobileClient.ViewModels
                         string.IsNullOrEmpty(App.Filter.Gender) ? true : p.Gender == App.Filter.Gender);
                 foreach (var item in lostsFiltered)
                 {
-                    Losts.Add(item);
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        Losts.Add(item);
+                    });
                 }
             }
         }
@@ -115,7 +124,10 @@ namespace FindMeMobileClient.ViewModels
             var lostsFiltered = losts.Where((p) => p.FullName.ToLower().Contains(param.ToLower()));
             foreach (var item in lostsFiltered)
             {
-                Losts.Add(item);
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    Losts.Add(item);
+                });
             }
         }
 

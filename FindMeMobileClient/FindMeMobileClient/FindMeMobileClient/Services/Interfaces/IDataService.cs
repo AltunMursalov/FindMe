@@ -1,5 +1,6 @@
 ﻿using FindMeMobileClient.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FindMeMobileClient.Services.Interfaces
 {
@@ -7,7 +8,5 @@ namespace FindMeMobileClient.Services.Interfaces
     {
         IEnumerable<Lost> GetLosts();
         IEnumerable<Institution> GetInstitutions();
-        void Subscribe(Filter filter);
-        void Unsubscribe(Filter filter);
     }
 }

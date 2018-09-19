@@ -21,6 +21,8 @@ namespace ApplicationCore.Models
         public string Address { get; set; }
         [Required]
         public string Phone { get; set; }
+        [Required, MinLength(8)]
+        public string Login { get; set; }
         [Required, MaxLength(20)]
         public string OpeningHours { get; set; }
         [MaxLength(50)]

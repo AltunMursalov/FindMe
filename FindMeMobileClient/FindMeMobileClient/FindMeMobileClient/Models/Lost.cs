@@ -11,7 +11,7 @@ namespace FindMeMobileClient.Models {
             this.FirstName = firstName;
             this.MiddleName = middleName;
             this.LastName = lastName;
-            this.FullName = fullName;
+            this.FullName = $"{firstName} {middleName} {lastName}";
             this.EyeColor = eyeColor;
             this.HairColor = hairColor;
             this.Clothes = clothes;

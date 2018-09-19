@@ -27,7 +27,7 @@ namespace FindMeServer
             services.AddMvc();
             services.AddEntityFrameworkSqlServer();
             services.AddDbContext<FindMeDbContext>(options => options.
-                                    UseSqlServer("Data Source=.;Initial Catalog=FindMe;Trusted_Connection=true;",
+                                    UseSqlServer("Server=tcp:findme.database.windows.net,1433;Initial Catalog=FindMe;Persist Security Info=False;User ID=findme;Password=Ashotscreenshot6321;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
                                     sqlOptions => sqlOptions.MigrationsAssembly("Infrastructure")));
             services.AddTransient<IDataService, DataService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
