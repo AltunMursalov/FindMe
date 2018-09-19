@@ -22,11 +22,11 @@ namespace ApplicationCore.ServiceImplementations
 
         public async Task<InstitutionDTO> Login(Institution institutionFromClient)
         {
-            var institutionFromServer = await this.institutionRepository.GetInstitutionByName(institutionFromClient.Name);
+            var institutionFromServer = await this.institutionRepository.GetInstitutionByLogin(institutionFromClient.Login);
             if (institutionFromServer != null)
             {
-                var decryptResult = Cryptor.DecryptPassword(institutionFromServer.Password, institutionFromClient.Password);
-                if (decryptResult)
+                var isValidPassword = Cryptor.DecryptPassword(institutionFromServer.Password, institutionFromClient.Password);
+                if (isValidPassword)
                 {
                     return this.mapper.Map<Institution, InstitutionDTO>(institutionFromServer);
                 }

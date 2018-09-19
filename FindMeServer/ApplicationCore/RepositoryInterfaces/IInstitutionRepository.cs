@@ -8,6 +8,7 @@ namespace ApplicationCore.RepositoryInterfaces
     {
         Task<Institution> CreateInstitution(Institution newInstitution);
         Task<Institution> GetInstitutionByName(string name);
+        Task<Institution> GetInstitutionByLogin(string login);
         Task<Institution> GetInstitutionById(int id);
         void RemoveInstitution(Institution institution);
         IEnumerable<Institution> GetInstitutions();

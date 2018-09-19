@@ -1,7 +1,6 @@
 ﻿using ApplicationCore.Models;
 using ApplicationCore.RepositoryInterfaces;
 using Infrastructure.Database;
-using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -46,6 +45,7 @@ namespace Infrastructure.RepositoryImplementations
             return this.context.Institutions.
                                 Include(i => i.City).
                                 Include(i => i.InstitutionType).
+                                Where(i => !i.IsAdmin).
                                 ToList();
         }
 
@@ -60,6 +60,14 @@ namespace Infrastructure.RepositoryImplementations
         public void RemoveInstitution(Institution institution)
         {
             this.context.Institutions.Remove(institution);
+        }
+
+        public async Task<Institution> GetInstitutionByLogin(string login)
+        {
+            return await this.context.Institutions.
+                                      Include(i => i.City).
+                                      Include(i => i.InstitutionType).
+                                      FirstOrDefaultAsync(i => i.Login == login);
         }
     }
 }
