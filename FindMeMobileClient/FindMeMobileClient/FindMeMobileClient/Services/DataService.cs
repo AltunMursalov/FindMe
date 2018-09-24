@@ -19,13 +19,13 @@ namespace FindMeMobileClient.Services
             client.BaseAddress = new Uri(App.MobileServiceUrl);
         }
 
-        public IEnumerable<Lost> GetLosts()
+        public async Task<IEnumerable<Lost>> GetLosts()
         {
-            var response = client.GetAsync($"{App.MobileServiceUrl}/api/losts/getlosts").Result;
+            var response = await client.GetAsync($"{App.MobileServiceUrl}/api/losts/getlosts");
             if (response.IsSuccessStatusCode)
             {
-                var data = response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<IEnumerable<Lost>>(data.Result);
+                var data = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<Lost>>(data);
             }
             else
             {

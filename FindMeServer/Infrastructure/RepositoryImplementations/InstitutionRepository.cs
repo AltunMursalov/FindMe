@@ -24,6 +24,8 @@ namespace Infrastructure.RepositoryImplementations
             return await this.GetInstitutionById(result.Entity.Id);
         }
 
+
+
         public async Task<Institution> GetInstitutionById(int id)
         {
             return await this.context.Institutions.
@@ -57,17 +59,32 @@ namespace Infrastructure.RepositoryImplementations
                                       FirstOrDefaultAsync(i => i.Name == name && i.Password == password);
         }
 
-        public void RemoveInstitution(Institution institution)
-        {
-            this.context.Institutions.Remove(institution);
-        }
-
         public async Task<Institution> GetInstitutionByLogin(string login)
         {
             return await this.context.Institutions.
                                       Include(i => i.City).
                                       Include(i => i.InstitutionType).
                                       FirstOrDefaultAsync(i => i.Login == login);
+        }
+
+        public async Task<bool> UpdateInstitution(Institution institution)
+        {
+            this.context.Institutions.Update(institution);
+            var res = await this.context.SaveChangesAsync();
+            if (res > 0)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> RemoveInstitution(Institution institution)
+        {
+            this.context.Institutions.Remove(institution);
+            var res = await this.context.SaveChangesAsync();
+            if (res > 0)
+                return true;
+            else
+                return false;
         }
     }
 }

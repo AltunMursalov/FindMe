@@ -2,8 +2,11 @@
 {
     public class InstitutionDTO
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
+        public double Logitude { get; set; }
+        public double Latitude { get; set; }
         public string Phone { get; set; }
         public string OpeningHours { get; set; }
         public string Website { get; set; }

@@ -8,6 +8,7 @@ namespace ApplicationCore.RepositoryInterfaces
     {
         Task<Lost> CreateLost(Lost newLost);
         Task<Lost> GetLostById(int id);
+        Task<IEnumerable<Lost>> GetLostsByInstitution();
         IEnumerable<Lost> GetLosts();
     }
 }

@@ -50,8 +50,12 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("IsAdmin");
 
+                    b.Property<double>("Latitude");
+
                     b.Property<string>("Login")
                         .IsRequired();
+
+                    b.Property<double>("Longitude");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -137,6 +141,8 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(228);
 
                     b.Property<int>("InstitutionId");
+
+                    b.Property<bool>("IsFound");
 
                     b.Property<string>("LastName")
                         .HasMaxLength(50);

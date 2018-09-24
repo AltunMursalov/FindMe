@@ -76,13 +76,13 @@ namespace FindMeMobileClient.ViewModels
         }
         #endregion
 
-        public void Update()
+        public async void Update()
         {
             Losts.Clear();
             if (App.Filter == null)
             {
                 {
-                    var losts = dataService.GetLosts();
+                    var losts = await dataService.GetLosts();
                     foreach (var item in losts)
                     {
                         Device.BeginInvokeOnMainThread(() =>
@@ -95,7 +95,7 @@ namespace FindMeMobileClient.ViewModels
             }
             else
             {
-                var losts = dataService.GetLosts();
+                var losts = await dataService.GetLosts();
                 var lostsFiltered = losts.Where(p => string.IsNullOrWhiteSpace(p.FirstName) ? true : string.IsNullOrWhiteSpace(App.Filter.FirstName) ? true : (p.FirstName == App.Filter.FirstName) &&
                         string.IsNullOrWhiteSpace(p.MiddleName) ? true : string.IsNullOrWhiteSpace(App.Filter.MiddleName) ? true : (p.MiddleName == App.Filter.MiddleName) &&
                         string.IsNullOrWhiteSpace(p.LastName) ? true : string.IsNullOrWhiteSpace(App.Filter.LastName) ? true : (p.LastName == App.Filter.LastName) &&
@@ -117,10 +117,10 @@ namespace FindMeMobileClient.ViewModels
             }
         }
 
-        public void Update(string param)
+        public async void Update(string param)
         {
             Losts.Clear();
-            var losts = dataService.GetLosts();
+            var losts = await dataService.GetLosts();
             var lostsFiltered = losts.Where((p) => p.FullName.ToLower().Contains(param.ToLower()));
             foreach (var item in lostsFiltered)
             {

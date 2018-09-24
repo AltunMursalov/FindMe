@@ -16,7 +16,7 @@ namespace FindMeServer.Controllers
             this.dataService = dataService;
             this.authenticationService = authenticationService;
         }
-        
+
         [HttpGet("/api/[controller]/getlosts")]
         public JsonResult GetLosts()
         {
@@ -26,15 +26,7 @@ namespace FindMeServer.Controllers
         [HttpPost("/api/[controller]/newlost")]
         public async Task<JsonResult> CreateLost([FromBody]Lost lost)
         {
-            if (lost != null)
-            {
-
-                return Json(await this.dataService.RegisterLost(lost));
-            }
-            else
-            {
-                return Json(null);
-            }
+            return Json(await this.dataService.RegisterLost(lost));
         }
     }
 }

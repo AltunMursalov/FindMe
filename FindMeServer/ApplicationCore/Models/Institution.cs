@@ -15,6 +15,10 @@ namespace ApplicationCore.Models
         public int InstitutionTypeId { get; set; }
         [Required, MinLength(6), MaxLength(300)]
         public string Password { get; set; }
+        [Required]
+        public double Longitude { get; set; }
+        [Required]
+        public double Latitude { get; set; }
         [Required, MaxLength(50)]
         public string Name { get; set; }
         [Required, MaxLength(50)]

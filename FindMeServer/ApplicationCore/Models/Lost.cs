@@ -42,6 +42,8 @@ namespace ApplicationCore.Models
         [Required]
         public int AgeEnd { get; set; }
         [Required]
+        public bool IsFound { get; set; }
+        [Required]
         public int Height { get; set; }
         [MaxLength(228)]
         public string ImagePath { get; set; }

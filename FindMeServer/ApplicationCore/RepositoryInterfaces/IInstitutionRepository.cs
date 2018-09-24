@@ -10,7 +10,8 @@ namespace ApplicationCore.RepositoryInterfaces
         Task<Institution> GetInstitutionByName(string name);
         Task<Institution> GetInstitutionByLogin(string login);
         Task<Institution> GetInstitutionById(int id);
-        void RemoveInstitution(Institution institution);
+        Task<bool> UpdateInstitution(Institution institution);
+        Task<bool> RemoveInstitution(Institution institution);
         IEnumerable<Institution> GetInstitutions();
         Task<Institution> GetInstitutionByNameAndPassword(string name, string password);
     }

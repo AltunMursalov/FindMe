@@ -5,6 +5,7 @@ namespace ApplicationCore.DataTransferObjects
 {
     public class LostDTO
     {
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string Clothes { get; set; }
@@ -15,6 +16,7 @@ namespace ApplicationCore.DataTransferObjects
         public string LastName { get; set; }
         public int AgeBegin { get; set; }
         public int AgeEnd { get; set; }
+        public bool IsFound { get; set; }
         public int Height { get; set; }
         public string ImagePath { get; set; }
         public string Comment { get; set; }
