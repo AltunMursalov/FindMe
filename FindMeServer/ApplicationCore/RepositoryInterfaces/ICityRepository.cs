@@ -7,7 +7,7 @@ namespace ApplicationCore.RepositoryInterfaces
     {
         Task<City> CreateCity(City newCity);
         void RemoveCity(City city);
-        City GetCityByName(string name);
-        City GetCityById(int id);
+        Task<City> GetCityByName(string name);
+        Task<City> GetCityById(int id);
     }
 }

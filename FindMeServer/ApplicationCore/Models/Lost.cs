@@ -6,16 +6,16 @@ namespace ApplicationCore.Models
 {
     public enum Gender
     {
-        Man,
-        Woman,
-        Unknown
+        Male = 1,
+        Female = 2,
+        Unknown = 3
     }
 
     public enum BodyType
     {
-        Thin,
-        Fat,
-        Medium
+        Thin = 1,
+        Fat = 2,
+        Medium = 3
     }
 
     [Table("Losts")]

@@ -7,8 +7,13 @@ namespace ApplicationCore.ServiceInterfaces
 {
     public interface IDataService
     {
-        IEnumerable<Lost> GetLosts();
-        IEnumerable<Institution> GetInstitutions();
+        Task<IEnumerable<Lost>> GetLosts();
+        Task<IEnumerable<InstitutionDTO>> GetInstitutions();
         Task<LostDTO> RegisterLost(Lost lost);
+        Task<bool> DeleteLost(int id);
+        Task<bool> EditLost(Lost lost);
+        Task<bool> DeleteInstitution(int id);
+        Task<IEnumerable<Lost>> GetLostsByInstitution(int id);
+        Task<bool> EditInstitution(Institution istitution);
     }
 }

@@ -24,6 +24,7 @@ namespace ApplicationCore.DataTransferObjects
         public string DetectionDescription { get; set; }
         public DateTime DetectionTime { get; set; }
         public Gender Gender { get; set; }
+        public int InstitutionId { get; set; }
         public InstitutionDTO Institution { get; set; }
     }
 }

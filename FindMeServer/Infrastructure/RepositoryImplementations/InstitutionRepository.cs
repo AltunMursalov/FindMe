@@ -24,8 +24,6 @@ namespace Infrastructure.RepositoryImplementations
             return await this.GetInstitutionById(result.Entity.Id);
         }
 
-
-
         public async Task<Institution> GetInstitutionById(int id)
         {
             return await this.context.Institutions.
@@ -42,13 +40,13 @@ namespace Infrastructure.RepositoryImplementations
                                       FirstOrDefaultAsync(i => i.Name == name);
         }
 
-        public IEnumerable<Institution> GetInstitutions()
+        public async Task<IEnumerable<Institution>> GetInstitutions()
         {
-            return this.context.Institutions.
+            return await this.context.Institutions.
                                 Include(i => i.City).
                                 Include(i => i.InstitutionType).
                                 Where(i => !i.IsAdmin).
-                                ToList();
+                                ToListAsync();
         }
 
         public async Task<Institution> GetInstitutionByNameAndPassword(string name, string password)
@@ -67,24 +65,16 @@ namespace Infrastructure.RepositoryImplementations
                                       FirstOrDefaultAsync(i => i.Login == login);
         }
 
-        public async Task<bool> UpdateInstitution(Institution institution)
+        public async Task<int> UpdateInstitution(Institution institution)
         {
             this.context.Institutions.Update(institution);
-            var res = await this.context.SaveChangesAsync();
-            if (res > 0)
-                return true;
-            else
-                return false;
+            return await this.context.SaveChangesAsync();
         }
 
-        public async Task<bool> RemoveInstitution(Institution institution)
+        public async Task<int> RemoveInstitution(int id)
         {
-            this.context.Institutions.Remove(institution);
-            var res = await this.context.SaveChangesAsync();
-            if (res > 0)
-                return true;
-            else
-                return false;
+            this.context.Institutions.Remove(await this.context.Institutions.FirstOrDefaultAsync(i => i.Id == id));
+            return await this.context.SaveChangesAsync();
         }
     }
 }

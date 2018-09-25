@@ -11,12 +11,16 @@ namespace ApplicationCore.ServiceImplementations
     {
         private readonly IMapper mapper;
         private readonly ILostRepository lostRepository;
+        private readonly ICityRepository cityRepository;
+        private readonly IInstitutionsTypeRepository institutionsTypeRepository;
         private readonly IInstitutionRepository institutionRepository;
 
-        public AuthenticationService(ILostRepository lostRepository, IInstitutionRepository institutionRepository, IMapper mapper)
+        public AuthenticationService(ILostRepository lostRepository, ICityRepository cityRepository, IInstitutionRepository institutionRepository, IMapper mapper, IInstitutionsTypeRepository institutionsTypeRepository)
         {
             this.mapper = mapper;
+            this.institutionsTypeRepository = institutionsTypeRepository;
             this.lostRepository = lostRepository;
+            this.cityRepository = cityRepository;
             this.institutionRepository = institutionRepository;
         }
 
@@ -43,6 +47,12 @@ namespace ApplicationCore.ServiceImplementations
 
         public async Task<InstitutionDTO> RegisterInstitution(Institution institution)
         {
+            var city = await this.cityRepository.GetCityByName(institution.City.Name);
+            if (city != null)
+                institution.CityId = city.Id;
+            var institutionType = await this.institutionsTypeRepository.GetInstitutionByName(institution.InstitutionType.Type);
+            if (institutionType != null)
+                institution.InstitutionTypeId = institutionType.Id;
             institution.Password = Cryptor.EncryptPassword(institution.Password);
             var result = await this.institutionRepository.CreateInstitution(institution);
             if (result != null)

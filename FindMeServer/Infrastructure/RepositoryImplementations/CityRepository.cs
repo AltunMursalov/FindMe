@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Models;
 using ApplicationCore.RepositoryInterfaces;
 using Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,19 +31,20 @@ namespace Infrastructure.RepositoryImplementations
             }
         }
 
-        public City GetCityById(int id)
+        public async Task<City> GetCityById(int id)
         {
-            return this.context.Cities.FirstOrDefault(c => c.Id == id);
+            return await this.context.Cities.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public City GetCityByName(string name)
+        public async Task<City> GetCityByName(string name)
         {
-            return this.context.Cities.FirstOrDefault(c => c.Name == name);
+            return await this.context.Cities.FirstOrDefaultAsync(c => c.Name == name);
         }
 
-        public void RemoveCity(City city)
+        public async void RemoveCity(City city)
         {
             this.context.Cities.Remove(city);
+            await this.context.SaveChangesAsync();
         }
     }
 }

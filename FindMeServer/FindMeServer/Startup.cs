@@ -27,12 +27,18 @@ namespace FindMeServer
             services.AddMvc();
             services.AddEntityFrameworkSqlServer();
             services.AddDbContext<FindMeDbContext>(options => options.
-                                    UseSqlServer(this.Configuration.GetConnectionString("AzureDb"),
+                                    UseSqlServer(this.Configuration.GetConnectionString("AcedemyDb"),
                                     sqlOptions => sqlOptions.MigrationsAssembly("Infrastructure")));
-            services.AddTransient<IDataService, DataService>();
-            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            #region Repositories
+            services.AddTransient<ICityRepository, CityRepository>();
             services.AddTransient<ILostRepository, LostRepository>();
             services.AddTransient<IInstitutionRepository, InstitutionRepository>();
+            services.AddTransient<IInstitutionsTypeRepository, InstitutionsTypeRepository>();
+            #endregion
+            #region Services
+            services.AddTransient<IDataService, DataService>();
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            #endregion
             services.AddAutoMapper();
             services.AddScoped<FindMeDbContext>();
         }

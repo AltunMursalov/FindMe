@@ -43,13 +43,35 @@ namespace Infrastructure.RepositoryImplementations
                                   FirstOrDefaultAsync(l => l.Id == id);
         }
 
-        public IEnumerable<Lost> GetLosts()
+        public async Task<int> UpdateLost(Lost lost)
         {
-            return this.context.Losts.
+            this.context.Losts.Update(lost);
+            return await this.context.SaveChangesAsync();
+        }
+
+        public async Task<int> RemoveLost(int id)
+        {
+            this.context.Losts.Remove(await this.context.Losts.FirstAsync(l => l.Id == id));
+            return await this.context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Lost>> GetLosts()
+        {
+            return await this.context.Losts.
                 Include(l => l.Institution).
                 Include(l => l.Institution.City).
                 Include(l => l.Institution.InstitutionType).
-                ToList();
+                ToListAsync();
+        }
+
+        public async Task<IEnumerable<Lost>> GetLostsByInstitution(Institution institution)
+        {
+            return await this.context.Losts.
+                Include(l => l.Institution).
+                Include(l => l.Institution.City).
+                Include(l => l.Institution.InstitutionType).
+                Where(l => l.InstitutionId == institution.Id).
+                ToListAsync();
         }
     }
 }

@@ -21,14 +21,38 @@ namespace ApplicationCore.ServiceImplementations
             this.institutionRepository = institutionRepository;
         }
 
-        public IEnumerable<Institution> GetInstitutions()
+        public async Task<IEnumerable<InstitutionDTO>> GetInstitutions()
         {
-            return this.institutionRepository.GetInstitutions();
+            var result = await this.institutionRepository.GetInstitutions();
+            return this.mapper.Map<IEnumerable<Institution>, IEnumerable<InstitutionDTO>>(result);
         }
 
-        public IEnumerable<Lost> GetLosts()
+        public async Task<IEnumerable<Lost>> GetLosts()
         {
-            return this.lostRepository.GetLosts();
+            return await this.lostRepository.GetLosts();
+        }
+
+        public async Task<IEnumerable<Lost>> GetLostsByInstitution(int id)
+        {
+            return await this.lostRepository.GetLostsByInstitution(new Institution { Id = id });
+        }
+
+        public async Task<bool> EditLost(Lost lost)
+        {
+            var result = await this.lostRepository.UpdateLost(lost);
+            if (result > 0)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> DeleteLost(int id)
+        {
+            var result = await this.lostRepository.RemoveLost(id);
+            if (result > 0)
+                return true;
+            else
+                return false;
         }
 
         public async Task<LostDTO> RegisterLost(Lost lost)
@@ -42,6 +66,24 @@ namespace ApplicationCore.ServiceImplementations
             {
                 return null;
             }
+        }
+
+        public async Task<bool> DeleteInstitution(int id)
+        {
+            var result = await this.institutionRepository.RemoveInstitution(id);
+            if (result > 0)
+                return true;
+            else
+                return false;
+        }
+
+        public async Task<bool> EditInstitution(Institution institution)
+        {
+            var result = await this.institutionRepository.UpdateInstitution(institution);
+            if (result > 0)
+                return true;
+            else
+                return false;
         }
     }
 }
