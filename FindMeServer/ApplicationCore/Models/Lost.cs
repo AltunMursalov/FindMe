@@ -4,20 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApplicationCore.Models
 {
-    public enum Gender
-    {
-        Male = 1,
-        Female = 2,
-        Unknown = 3
-    }
-
-    public enum BodyType
-    {
-        Thin = 1,
-        Fat = 2,
-        Medium = 3
-    }
-
     [Table("Losts")]
     public class Lost
     {
@@ -30,7 +16,7 @@ namespace ApplicationCore.Models
         [MaxLength(200), Required]
         public string Clothes { get; set; }
         [Required]
-        public BodyType BodyType { get; set; }
+        public string BodyType { get; set; }
         public string EyeColor { get; set; }
         public string HairColor { get; set; }
         [Required, MaxLength(300)]
@@ -56,7 +42,7 @@ namespace ApplicationCore.Models
         [Required]
         public DateTime DetectionTime { get; set; }
         [Required]
-        public Gender Gender { get; set; }
+        public string Gender { get; set; }
         public int InstitutionId { get; set; }
         public virtual Institution Institution { get; set; }
     }

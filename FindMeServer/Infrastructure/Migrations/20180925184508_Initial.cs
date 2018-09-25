@@ -79,7 +79,7 @@ namespace Infrastructure.Migrations
                     FirstName = table.Column<string>(maxLength: 30, nullable: true),
                     MiddleName = table.Column<string>(maxLength: 50, nullable: true),
                     Clothes = table.Column<string>(maxLength: 200, nullable: false),
-                    BodyType = table.Column<int>(nullable: false),
+                    BodyType = table.Column<string>(nullable: false),
                     EyeColor = table.Column<string>(nullable: true),
                     HairColor = table.Column<string>(nullable: true),
                     Signs = table.Column<string>(maxLength: 300, nullable: false),
@@ -93,7 +93,7 @@ namespace Infrastructure.Migrations
                     Description = table.Column<string>(maxLength: 500, nullable: true),
                     DetectionDescription = table.Column<string>(maxLength: 300, nullable: true),
                     DetectionTime = table.Column<DateTime>(nullable: false),
-                    Gender = table.Column<int>(nullable: false),
+                    Gender = table.Column<string>(nullable: false),
                     InstitutionId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>

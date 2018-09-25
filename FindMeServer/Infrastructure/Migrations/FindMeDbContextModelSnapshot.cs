@@ -109,7 +109,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("AgeEnd");
 
-                    b.Property<int>("BodyType");
+                    b.Property<string>("BodyType")
+                        .IsRequired();
 
                     b.Property<string>("Clothes")
                         .IsRequired()
@@ -131,7 +132,8 @@ namespace Infrastructure.Migrations
                     b.Property<string>("FirstName")
                         .HasMaxLength(30);
 
-                    b.Property<int>("Gender");
+                    b.Property<string>("Gender")
+                        .IsRequired();
 
                     b.Property<string>("HairColor");
 

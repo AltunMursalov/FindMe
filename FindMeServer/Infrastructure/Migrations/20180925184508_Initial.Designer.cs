@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(FindMeDbContext))]
-    [Migration("20180924084130_Initial")]
+    [Migration("20180925184508_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -111,7 +111,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<int>("AgeEnd");
 
-                    b.Property<int>("BodyType");
+                    b.Property<string>("BodyType")
+                        .IsRequired();
 
                     b.Property<string>("Clothes")
                         .IsRequired()
@@ -133,7 +134,8 @@ namespace Infrastructure.Migrations
                     b.Property<string>("FirstName")
                         .HasMaxLength(30);
 
-                    b.Property<int>("Gender");
+                    b.Property<string>("Gender")
+                        .IsRequired();
 
                     b.Property<string>("HairColor");
 

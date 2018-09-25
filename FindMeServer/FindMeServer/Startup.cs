@@ -27,7 +27,7 @@ namespace FindMeServer
             services.AddMvc();
             services.AddEntityFrameworkSqlServer();
             services.AddDbContext<FindMeDbContext>(options => options.
-                                    UseSqlServer(this.Configuration.GetConnectionString("AcedemyDb"),
+                                    UseSqlServer(this.Configuration.GetConnectionString("AzureDb"),
                                     sqlOptions => sqlOptions.MigrationsAssembly("Infrastructure")));
             #region Repositories
             services.AddTransient<ICityRepository, CityRepository>();
