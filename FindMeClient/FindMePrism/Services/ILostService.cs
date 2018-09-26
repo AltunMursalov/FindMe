@@ -1,18 +1,15 @@
 ﻿using FindMePrism.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FindMePrism.Services
 {
-    interface ILostService
+    public interface ILostService
     {
-        IEnumerable<Lost> GetLosts(Institution institution);
-        Lost AddLost (Institution institution, Lost lost);
-        bool RemoveLost(Institution institution, Lost lost);
-        bool EditLost(Institution institution, Lost lost);
+        Task<IEnumerable<Lost>> GetLosts(Institution institution);
+        Task<Lost> AddLostAsync(Institution institution, Lost lost);
+        Task<bool> RemoveLost(Lost lost);
+        Task<bool> EditLost(Lost lost);
         IEnumerable<string> GetEyeColors();
         IEnumerable<string> GetHairColors();
         IEnumerable<string> GetGenders();

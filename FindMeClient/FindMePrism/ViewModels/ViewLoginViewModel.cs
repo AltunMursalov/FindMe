@@ -4,69 +4,83 @@ using FindMePrism.Services;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
+using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
 using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Input;
 
 namespace FindMePrism.ViewModels
 {
-    class ViewLoginViewModel : BindableBase
+    public class ViewLoginViewModel : BindableBase
     {
-        private string login = "login";
-        public string Login 
+        private Institution institution;
+        public Institution Institution
         {
-            get { return login; }
-            set { SetProperty(ref login, value); }
+            get { return institution; }
+            set { SetProperty(ref institution, value); }
         }
 
-        private string password = "password";
-        public string Password
-        {
-            get { return password; }
-            set { SetProperty(ref password, value); }
-        }
-
+        public InteractionRequest<Notification> ShowNotificationInteractionRequest { get; private set; }
         public DelegateCommand LoginCommand { get; set; }
-        public IEventAggregator EventAggregator { get; }
-        private readonly IRegionManager RegionManager;
-        private readonly IAuthenticationService AuthService;
-        private readonly ILostService LostService;
+        public IEventAggregator eventAggregator { get; }
+        private readonly IRegionManager regionManager;
+        private readonly IAuthenticationService authService;
+        private readonly ILostService lostService;
+        private readonly IInstitutionService institutionService;
 
-        public ViewLoginViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IAuthenticationService authService, ILostService lostService)
+        public ViewLoginViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IAuthenticationService authService, ILostService lostService, IInstitutionService institutionService)
         {
-            LoginCommand = new DelegateCommand(Execute, CanExecute).ObservesProperty(() => Login).ObservesProperty(() => Password);
-            EventAggregator = eventAggregator;
-            RegionManager = regionManager;
-            AuthService = authService;
-            LostService = lostService;
+            this.Institution = new Institution();
+            //this.ShowNotificationInteractionRequest = new InteractionRequest<Notification>();
+            LoginCommand = new DelegateCommand(LoginCommandExecute, LoginCommandCanExecute);
+            Institution.PropertyChanged += Institution_PropertyChanged;
+            this.eventAggregator = eventAggregator;
+            this.regionManager = regionManager;
+            this.authService = authService;
+            this.lostService = lostService;
+            this.institutionService = institutionService;
         }
+
+        private void Institution_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            this.LoginCommand.RaiseCanExecuteChanged();
+        }
+
 
         private void Navigate(string uri)
         {
             if (uri != null)
-                RegionManager.RequestNavigate("ContentRegion", uri);
+                this.regionManager.RequestNavigate("ContentRegion", uri);
         }
 
-        private void Execute()
+        private async void LoginCommandExecute()
         {
-            var res = AuthService.Validate(Login, Password);
-            if (res!=null)
+            this.Institution.Login.ToLower();
+            var user = await this.authService.Validate(this.Institution);
+            if (user != null)
             {
-                var losts = LostService.GetLosts(res);
-                Navigate("ViewLosts");
-                if (losts != null)
-                {
-                    EventAggregator.GetEvent<LostsEvent>().Publish(losts);
+                if (user.IsAdmin)  {
+                    var insts = await this.institutionService.GetInstitutions();
+                    Navigate("ViewAdmin");
+                    if (insts != null)
+                        this.eventAggregator.GetEvent<InstsEvent>().Publish(insts);
                 }
-                EventAggregator.GetEvent<InstEvent>().Publish(res);
+                else {
+                    var losts = await this.lostService.GetLosts(Institution);
+                    Navigate("ViewLosts");
+                    if (losts != null)
+                        this.eventAggregator.GetEvent<LostsEvent>().Publish(losts);
+                    this.eventAggregator.GetEvent<InstEvent>().Publish(user);
+                }
+                Institution = new Institution();
             }
-        } 
+            else {
+                this.eventAggregator.GetEvent<ShowAlertEvent>().Publish(new Notification { Content = "This user does not exist!", Title = "Error" });
+            }
+        }
 
-        private bool CanExecute()
+        private bool LoginCommandCanExecute()
         {
-            return !String.IsNullOrWhiteSpace(Login) & !String.IsNullOrWhiteSpace(Password);
+            return !String.IsNullOrWhiteSpace(Institution?.Login) & !String.IsNullOrWhiteSpace(Institution?.Password);
         }
     }
 }
