@@ -26,7 +26,7 @@
             <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <WrapPanel>
                     <TextBlock Text="Type:" Style="{StaticResource LabelControlLostStyle}"/>
-                    <ComboBox  Margin="70,5,5,5"  ItemsSource="{Binding InstitutionTypes}" Width="200"  SelectedIndex="{Binding Path=Institution.InstitutionType.Id}">
+                    <ComboBox  Margin="70,5,5,5"  ItemsSource="{Binding InstitutionTypes}" Width="200" SelectedIndex="1" SelectedItem="{Binding Institution.InstitutionType, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <Label Content="{Binding Type}"/>
