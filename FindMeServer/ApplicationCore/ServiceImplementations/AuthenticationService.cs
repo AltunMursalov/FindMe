@@ -47,12 +47,6 @@ namespace ApplicationCore.ServiceImplementations
 
         public async Task<InstitutionDTO> RegisterInstitution(Institution institution)
         {
-            var city = await this.cityRepository.GetCityByName(institution.City.Name);
-            if (city != null)
-                institution.CityId = city.Id;
-            var institutionType = await this.institutionsTypeRepository.GetInstitutionByName(institution.InstitutionType.Type);
-            if (institutionType != null)
-                institution.InstitutionTypeId = institutionType.Id;
             institution.Password = Cryptor.EncryptPassword(institution.Password);
             var result = await this.institutionRepository.CreateInstitution(institution);
             if (result != null)

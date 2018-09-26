@@ -19,6 +19,16 @@ namespace Infrastructure.RepositoryImplementations
 
         public async Task<Institution> CreateInstitution(Institution newInstitution)
         {
+            var city = await this.context.Cities.FindAsync(newInstitution.City.Id);
+            if (city != null)
+            {
+                newInstitution.City = city;
+            }
+            var type = await this.context.InstitutionTypes.FindAsync(newInstitution.InstitutionType.Id);
+            if(type != null)
+            {
+                newInstitution.InstitutionType = type;
+            }
             var result = await this.context.Institutions.AddAsync(newInstitution);
             await this.context.SaveChangesAsync();
             return await this.GetInstitutionById(result.Entity.Id);

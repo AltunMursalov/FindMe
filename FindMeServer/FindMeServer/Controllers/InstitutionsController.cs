@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Models;
 using ApplicationCore.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -61,10 +62,12 @@ namespace FindMeServer.Controllers
         public async Task<ActionResult> Get()
         {
             var institutions = await this.dataService.GetInstitutions();
-            if (institutions != null)
+            if (Enumerable.Count(institutions) > 0)
                 return Json(institutions);
-            else
+            else if (institutions is null)
                 return StatusCode((int)HttpStatusCode.InternalServerError);
+            else
+                return StatusCode((int)HttpStatusCode.NoContent);
         }
     }
 }

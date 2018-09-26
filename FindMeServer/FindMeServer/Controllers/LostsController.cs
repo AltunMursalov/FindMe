@@ -1,6 +1,7 @@
 ﻿using ApplicationCore.Models;
 using ApplicationCore.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -20,9 +21,15 @@ namespace FindMeServer.Controllers
         }
 
         [HttpGet("/api/[controller]/getlosts")]
-        public JsonResult GetLosts()
+        public async Task<ActionResult> GetLosts()
         {
-            return Json(this.dataService.GetLosts());
+            var losts = await this.dataService.GetLosts();
+            if (Enumerable.Count(losts) > 0)
+                return Json(losts);
+            else if (losts is null)
+                return StatusCode((int)HttpStatusCode.InternalServerError);
+            else
+                return StatusCode((int)HttpStatusCode.NoContent);
         }
 
         [HttpPut("/api/[controller]/editlost")]
