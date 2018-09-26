@@ -34,7 +34,7 @@
         </EventTrigger>
     </UserControl.Triggers>
 
-    <Border Background="#283965" Opacity=".72">
+    <Border Background="#283965">
         <Grid>
             <Grid>
                 <Grid.RowDefinitions>
@@ -46,8 +46,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <ListBox Grid.Row="0" Grid.Column="1"  Background="#283965" HorizontalAlignment="Stretch" ItemsSource="{Binding Losts}" ItemTemplate="{StaticResource LostItemTemplate}"/>
-                <Button  Margin="10" Grid.Row="1" Grid.Column="1" Style="{StaticResource AddButtonStyle}" Command="{Binding AddLostCommand}" Content="ADD"/>
+                <ListBox ScrollViewer.HorizontalScrollBarVisibility="Disabled" Grid.Row="0" Grid.Column="1"  Background="#283965" HorizontalAlignment="Stretch" ItemsSource="{Binding Losts}" ItemTemplate="{StaticResource LostItemTemplate}"/>
+                <Button  Margin="10" Grid.Row="1" Grid.Column="1" Style="{StaticResource OkButtonStyle}" Command="{Binding AddLostCommand}" Content="ADD"/>
 
             </Grid>
             <Grid x:Name="GridMenu" Width="50" HorizontalAlignment="Left">
@@ -65,7 +65,7 @@
                         </Button>
                     </Grid>
                     
-                    <ListView Height="460" Background="#283965" x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListView Height="460" Background="#283965" x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
                         <ListViewItem Height="50">
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Kind="Hospital" Height="25" Width="25" Margin="5"/>
@@ -75,13 +75,13 @@
                         <ListViewItem Height="50">
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Kind="City" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.InstitutionCity.Name}" VerticalAlignment="Center" Margin="20 10"/>
+                                <TextBlock Text="{Binding Path=Institution.City.Name}" VerticalAlignment="Center" Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Height="50">
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Kind="Phone" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.Number}" VerticalAlignment="Center"  Margin="20 10"/>
+                                <TextBlock Text="{Binding Path=Institution.Phone}" VerticalAlignment="Center"  Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Height="50">
@@ -106,7 +106,7 @@
                                 <Button Command="{Binding LogoutCommand}">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
-                                        <StackPanel Orientation="Horizontal">
+                                        <StackPanel Orientation="Horizontal" Background="Transparent">
                                             <md:PackIcon Foreground="#FF5C99D6" Kind="Logout" Height="25" Width="25" Margin="5"/>
                                             <TextBlock Foreground="#FF5C99D6" Text="Logout" VerticalAlignment="Center" Margin="20 10"/>
                                         </StackPanel>

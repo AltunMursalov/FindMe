@@ -1,25 +1,43 @@
 ﻿using FindMePrism.Models;
-using FindMePrism.Repositories;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FindMePrism.Services
 {
-    class AuthenticationService : IAuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
-        private readonly IAuthenticationRepository Repository;
+        private readonly HttpClient client;
 
-        public AuthenticationService(IAuthenticationRepository repository)
+        public AuthenticationService()
         {
-            Repository = repository;
+            this.client = new HttpClient
+            {
+                BaseAddress = new Uri(App.ServerUrl),
+                Timeout = TimeSpan.FromSeconds(30)
+            };
         }
 
-        public Institution Validate(string login, string password)
+     
+        public async Task<Institution> Validate(Institution institution)
         {
-            return Repository.Validate(login, password);
+            using (HttpClient httpClient = new HttpClient())
+            {
+                var data = JsonConvert.SerializeObject(institution);
+                var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
+                var response = await this.client.PostAsync("/api/institutions/login", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var answer = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<Institution>(answer);
+                }
+                else
+                    return null;
+
+            }
         }
+        
     }
 }

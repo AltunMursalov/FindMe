@@ -7,19 +7,16 @@ using Prism.Regions;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+using Microsoft.Win32;
+using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
+
 
 namespace FindMePrism.ViewModels
 {
-    class ViewFormViewModel : BindableBase
+    public class ViewFormViewModel : BindableBase
     {
         private Lost lost;
-        public Lost Lost { get => lost; set => SetProperty(ref lost, value); }
-
-        //private List<string> ages;
-        //public List<string> Ages { get => ages; set => SetProperty(ref ages, value); }
+        public Lost Lost { get => lost; set => SetProperty(ref lost, value); }     
 
         private List<string> hairColors;
         public List<string> HairColors { get => hairColors; set => SetProperty(ref hairColors, value); }
@@ -36,56 +33,44 @@ namespace FindMePrism.ViewModels
         private Institution institution;
         public Institution Institution { get => institution; set => SetProperty(ref institution, value); }
 
-        public bool EditProcess { get; set; }
 
-        public IEventAggregator EventAggregator { get; }
-        public IRegionManager RegionManager { get; }
-        public ILostService LostService { get; }
-
-        /*public void FillAge()
-        {
-            Ages = new List<string>();
-            Ages.Add("< 1");
-            for (int i = 1; i < 101; i++)
-            {
-                Ages.Add(i.ToString());
-            }
-            Ages.Add("> 100");
-        }*/
+        public IEventAggregator eventAggregator { get; }
+        public IRegionManager regionManager { get; }
+        public ILostService lostService { get; }
+        public DelegateCommand SaveCommand { get; set; }
+        public bool editProcess { get; set; } 
 
         public void FillEyeColors()
         {
             EyeColors = new List<string>();
-            var ec = LostService.GetEyeColors();
-            foreach (var item in ec) {
+            var ec = this.lostService.GetEyeColors();
+            foreach (var item in ec)
+            {
                 EyeColors.Add(item);
             }
         }
-
         public void FillHairColors()
         {
             HairColors = new List<string>();
-            var hc = LostService.GetHairColors();
+            var hc = this.lostService.GetHairColors();
             foreach (var item in hc)
             {
                 HairColors.Add(item);
             }
-        }
-
+        }       
         public void FillGenders()
         {
             Genders = new List<string>();
-            var gs = LostService.GetGenders();
+            var gs = this.lostService.GetGenders();
             foreach (var item in gs)
             {
                 Genders.Add(item);
             }
         }
-
         public void FillBodyTypes()
         {
             BodyTypes = new List<string>();
-            var bt = LostService.GetBodyTypes();
+            var bt = this.lostService.GetBodyTypes();
             foreach (var item in bt)
             {
                 BodyTypes.Add(item);
@@ -96,7 +81,6 @@ namespace FindMePrism.ViewModels
         {
             Lost = new Lost();
             Lost.DetectionTime = DateTime.Now;
-            //FillAge();
             FillEyeColors();
             FillGenders();
             FillHairColors();
@@ -105,13 +89,14 @@ namespace FindMePrism.ViewModels
 
         public ViewFormViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, ILostService lostService)
         {
-            EventAggregator = eventAggregator;
-            EventAggregator.GetEvent<EditLostEvent>().Subscribe(GetLost);
-            EventAggregator.GetEvent<InstEvent>().Subscribe(GetInstitution);
-            RegionManager = regionManager;
-            LostService = lostService;           
+            this.eventAggregator = eventAggregator;
+            this.eventAggregator.GetEvent<EditLostEvent>().Subscribe(GetLost);
+            this.eventAggregator.GetEvent<InstEvent>().Subscribe(GetInstitution);
+            this.regionManager = regionManager;
+            this.lostService = lostService;
+            editProcess = false;
             FillFields();
-            EditProcess = false;
+            SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand).ObservesProperty(() => Lost);
         }
 
         private void GetInstitution(Institution inst)
@@ -127,65 +112,51 @@ namespace FindMePrism.ViewModels
         {
             if (lost != null)
             {
-               Lost.Id = lost.Id;
-               Lost.FirstName = lost.FirstName;
-               Lost.MiddleName = lost.MiddleName;
-               Lost.LastName = lost.LastName;
-               Lost.EyeColor = lost.EyeColor;
-               Lost.HairColor = lost.HairColor;
-               Lost.Clothes = lost.Clothes;
-               Lost.BodyType = lost.BodyType;
-               Lost.Signs = lost.Signs;
-               Lost.Age = lost.Age;
-               Lost.Height = lost.Height;
-               Lost.ImagePath = lost.ImagePath;
-               Lost.Comment = lost.Comment;
-               Lost.Description = lost.Description;
-               Lost.DetectionDescription = lost.DetectionDescription;
-               Lost.DetectionTime = lost.DetectionTime;
-               Lost.Gender = lost.Gender;
-               Lost.Institution = lost.Institution;
-               EditProcess = true;
+                try {
+                    Lost = lost;
+                    editProcess = true;
+                }
+                catch (Exception) { }
             }
-        } 
+        }
 
         private void Navigate(string uri)
         {
             if (uri != null)
-                RegionManager.RequestNavigate("ContentRegion", uri);
+                this.regionManager.RequestNavigate("ContentRegion", uri);
         }
 
-        private DelegateCommand saveCommand;
-        public DelegateCommand SaveCommand
+        private async void ExecuteSaveCommand()
         {
-            get
-            {
-                return saveCommand ?? (saveCommand = new DelegateCommand(
-                    () =>
-                    {
-                        if (EditProcess) {
-                            var res = LostService.EditLost(Institution, Lost);
-                            if (res)
-                            {
-                                EventAggregator.GetEvent<EditLostEvent>().Publish(Lost);
-                                Navigate("ViewLosts");
-                                Lost = new Lost();
-                                Lost.DetectionTime = DateTime.Now;
-                            }
-                        }
-                        else {
-                            var res = LostService.AddLost(Institution, Lost);
-                            if (res != null)
-                            {
-                                EventAggregator.GetEvent<NewLostEvent>().Publish(res);
-                                Navigate("ViewLosts");
-                                Lost = new Lost();
-                                Lost.DetectionTime = DateTime.Now;
-                            }
-                        }
-                    }
-                ));
+            if (editProcess) {
+                //var res = LostService.EditLost(Institution, Lost);
+                var result = this.lostService.EditLost(Lost);
+                var res = await result;
+
+                if (res) {
+                    this.eventAggregator.GetEvent<EditLostEvent>().Publish(Lost);
+                    Navigate("ViewLosts");
+                    Lost = new Lost();
+                    Lost.DetectionTime = DateTime.Now;
+                }
             }
+            else {
+               // var res = LostService.AddLostAsync(Institution, Lost);
+                var result = this.lostService.AddLostAsync(Institution, Lost);
+                var res = await result;
+                if (res != null) {
+                    this.eventAggregator.GetEvent<NewLostEvent>().Publish(res);
+                    Navigate("ViewLosts");
+                    Lost = new Lost();
+                    Lost.DetectionTime = DateTime.Now;
+                }
+            }
+        }
+
+        private bool CanExecuteSaveCommand()
+        {
+            return true;
+            //!String.IsNullOrWhiteSpace(Lost.FirstName);
         }
 
         private DelegateCommand cancelCommand;
@@ -194,8 +165,7 @@ namespace FindMePrism.ViewModels
             get
             {
                 return cancelCommand ?? (cancelCommand = new DelegateCommand(
-                    () =>
-                    {
+                    () => {
                         Navigate("ViewLosts");
                         Lost = new Lost();
                         Lost.DetectionTime = DateTime.Now;
@@ -203,5 +173,23 @@ namespace FindMePrism.ViewModels
                 ));
             }
         }
+
+        private DelegateCommand openCommand;
+        public DelegateCommand OpenCommand
+        {
+            get
+            {
+                return openCommand ?? (openCommand = new DelegateCommand(
+                    () => {
+                        OpenFileDialog dialog = new OpenFileDialog();
+                        dialog.FileName = String.Empty;
+                        dialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+
+                        if (dialog.ShowDialog() == true)
+                           Lost.ImagePath = System.IO.Path.GetFullPath(dialog.FileName);
+                    }
+                ));
+            }
+        }       
     }
 }

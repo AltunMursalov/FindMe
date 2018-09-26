@@ -1,5 +1,4 @@
-﻿using FindMePrism.Repositories;
-using FindMePrism.Services;
+﻿using FindMePrism.Services;
 using FindMePrism.Views;
 using Microsoft.Practices.Unity;
 using Prism.Events;
@@ -31,10 +30,13 @@ namespace FindMePrism
             Container.RegisterTypeForNavigation<ViewLogin>("ViewLogin");
             Container.RegisterTypeForNavigation<ViewLosts>("ViewLosts");
             Container.RegisterTypeForNavigation<ViewForm>("ViewForm");
+            Container.RegisterTypeForNavigation<ViewAdmin>("ViewAdmin");
+            Container.RegisterTypeForNavigation<ViewInstitution>("ViewInstitution");
+            Container.RegisterTypeForNavigation<ViewInstitutionLosts>("ViewInstitutionLosts");
+
             Container.RegisterType<IAuthenticationService, AuthenticationService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ILostService, LostService>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<IAuthenticationRepository, AuthenticationRepository>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<ILostRepository, LostRepository>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<IInstitutionService, InstitutionService>(new ContainerControlledLifetimeManager());
         }
     }   
 }

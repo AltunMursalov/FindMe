@@ -40,6 +40,15 @@
     <Reference Include="MaterialDesignThemes.Wpf, Version=2.4.1.1101, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignThemes.2.4.1.1101\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MicrosoftExpressionInteractions.3.0.40218.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Maps.MapControl.WPF, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Maps.MapControl.WPF.1.0.0.3\lib\net40-Client\Microsoft.Maps.MapControl.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.Interactivity, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Interactivity.5.0.0\lib\NET45\Microsoft.Practices.Prism.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
@@ -51,6 +60,9 @@
     </Reference>
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=4.0.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.4.0.1\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
@@ -103,31 +115,54 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Events\AddressEvent.cs" />
+    <Compile Include="Events\ClearPinsEvent.cs" />
+    <Compile Include="Events\EditInstEvent.cs" />
     <Compile Include="Events\EditLostEvent.cs" />
     <Compile Include="Events\InstEvent.cs" />
+    <Compile Include="Events\InstInfoEvent.cs" />
+    <Compile Include="Events\InstsEvent.cs" />
     <Compile Include="Events\LostsEvent.cs" />
+    <Compile Include="Events\NewInstEvent.cs" />
     <Compile Include="Events\NewLostEvent.cs" />
+    <Compile Include="Events\ShowAlertEvent.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Institution.cs" />
     <Compile Include="Models\InstitutionType.cs" />
     <Compile Include="Models\Lost.cs" />
-    <Compile Include="Repositories\AuthenticationRepository.cs" />
-    <Compile Include="Repositories\IAuthenticationRepository.cs" />
-    <Compile Include="Repositories\ILostRepository.cs" />
-    <Compile Include="Repositories\LostRepository.cs" />
+    <Compile Include="Notifications\ShowChildWindowsAction.cs" />
+    <Compile Include="Notifications\ShowPopupAction.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\IAuthenticationService.cs" />
+    <Compile Include="Services\IInstitutionService.cs" />
     <Compile Include="Services\ILostService.cs" />
+    <Compile Include="Services\InstitutionService.cs" />
     <Compile Include="Services\LostService.cs" />
+    <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="ViewModels\ViewAdminViewModel.cs" />
     <Compile Include="ViewModels\ViewFormViewModel.cs" />
+    <Compile Include="ViewModels\ViewInstitutionLostsViewModel.cs" />
+    <Compile Include="ViewModels\ViewInstitutionViewModel.cs" />
     <Compile Include="ViewModels\ViewLoginViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewLostsViewModel.cs" />
+    <Compile Include="Views\BindableMap.xaml.cs">
+      <DependentUpon>BindableMap.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ViewAdmin.xaml.cs">
+      <DependentUpon>ViewAdmin.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ViewForm.xaml.cs">
       <DependentUpon>ViewForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewInstitution.xaml.cs">
+      <DependentUpon>ViewInstitution.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewInstitutionLosts.xaml.cs">
+      <DependentUpon>ViewInstitutionLosts.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ViewLogin.xaml.cs">
       <DependentUpon>ViewLogin.xaml</DependentUpon>
@@ -139,11 +174,27 @@
     <Compile Include="Views\ViewLosts.xaml.cs">
       <DependentUpon>ViewLosts.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\BindableMap.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ViewAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ViewForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ViewInstitution.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ViewInstitutionLosts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -188,6 +239,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\patient-safety.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -5,17 +5,15 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 
 namespace FindMePrism.ViewModels
 {
-    class ViewLostsViewModel : BindableBase
+    public class ViewLostsViewModel : BindableBase
     {
         private ObservableCollection<Lost> losts;
         public ObservableCollection<Lost> Losts { get => losts; set => SetProperty(ref losts, value); }
@@ -23,9 +21,9 @@ namespace FindMePrism.ViewModels
         private Institution institution;
         public Institution Institution { get => institution; set => SetProperty(ref institution, value); }
 
-        public IEventAggregator EventAggregator { get; }
-        public IRegionManager RegionManager { get; }
-        private readonly ILostService LostService;
+        public IEventAggregator eventAggregator { get; }
+        public IRegionManager regionManager { get; }
+        private readonly ILostService lostService;
 
         private Visibility buttonOpenVisibility;
         public Visibility ButtonOpenVisibility { get => buttonOpenVisibility; set => SetProperty(ref buttonOpenVisibility, value);}
@@ -35,15 +33,18 @@ namespace FindMePrism.ViewModels
 
         public ViewLostsViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, ILostService lostService)
         {
-            Losts = new ObservableCollection<Lost>();
-            EventAggregator = eventAggregator;
-            EventAggregator.GetEvent<LostsEvent>().Subscribe(GetLosts);
-            EventAggregator.GetEvent<InstEvent>().Subscribe(GetInstitution);
-            EventAggregator.GetEvent<NewLostEvent>().Subscribe(AddNewLost);
-            EventAggregator.GetEvent<EditLostEvent>().Subscribe(EditLost);
-            RegionManager = regionManager;
-            LostService = lostService;
+            this.eventAggregator = eventAggregator;
+            this.regionManager = regionManager;
+            this.lostService = lostService;
             ButtonCloseVisibility = Visibility.Collapsed;
+            this.eventAggregator.GetEvent<LostsEvent>().Subscribe(GetLosts);
+            this.eventAggregator.GetEvent<InstEvent>().Subscribe(GetInstitution);
+            this.eventAggregator.GetEvent<NewLostEvent>().Subscribe(AddNewLost);
+            this.eventAggregator.GetEvent<EditLostEvent>().Subscribe(EditLost);
+            Losts = new ObservableCollection<Lost>();
+            Institution = new Institution();
+            Institution.City = new City();
+            Institution.InstitutionType = new InstitutionType();
         }
 
         private void EditLost(Lost l)
@@ -55,48 +56,40 @@ namespace FindMePrism.ViewModels
 
         private void AddNewLost(Lost l)
         {
-            Losts.Add(l);
+            if (l != null)
+                Losts.Add(l);
         }
 
         private void Navigate(string uri)
         {
             if (uri != null)
-                RegionManager.RequestNavigate("ContentRegion", uri);
+                this.regionManager.RequestNavigate("ContentRegion", uri);
         }
 
         private void GetLosts(IEnumerable<Lost> ls)
         {
-            foreach (var l in ls)
-            {
-                Losts.Add(l);
-            }
+            if (ls != null) {
+                foreach (var l in ls) {
+                    Losts.Add(l);
+                }
+            }          
         }
 
         private void GetInstitution(Institution inst)
         {
             if (inst != null)
-            {
-                Institution = new Institution();
-                Institution.Id = inst.Id;
-                Institution.Name = inst.Name;
-                Institution.InstitutionCity = inst.InstitutionCity;
-                Institution.Number = inst.Number;
-                Institution.OpeningHours = inst.OpeningHours;
-                Institution.Website = inst.Website;
-                Institution.Address = inst.Address;
-            }
+                Institution = inst;
         }
 
 
-        private DelegateCommand <Lost> deleteLostCommand;
-        public DelegateCommand <Lost> DeleteLostCommand
+        private  DelegateCommand <Lost> deleteLostCommand;
+        public  DelegateCommand <Lost> DeleteLostCommand
         {
             get
             {
                 return deleteLostCommand ?? (deleteLostCommand = new DelegateCommand<Lost>(
-                    param =>
-                    {
-                       var res = LostService.RemoveLost(Institution, param);
+                    async param => {
+                      var res =  await this.lostService.RemoveLost(param);
                        if (res) {
                            Losts.Remove(param);
                        }
@@ -111,8 +104,7 @@ namespace FindMePrism.ViewModels
             get
             {
                 return addLostCommand ?? (addLostCommand = new DelegateCommand(
-                    () =>
-                    {
+                    () => {
                         Navigate("ViewForm");
                     }
                 ));
@@ -125,11 +117,9 @@ namespace FindMePrism.ViewModels
             get
             {
                 return editLostCommand ?? (editLostCommand = new DelegateCommand<Lost>(
-                    param =>
-                    {
-
+                    param =>  {
                         Navigate("ViewForm");
-                        EventAggregator.GetEvent<EditLostEvent>().Publish(param);
+                        this.eventAggregator.GetEvent<EditLostEvent>().Publish(param);
                     }
                 ));
             }
@@ -141,9 +131,9 @@ namespace FindMePrism.ViewModels
             get
             {
                 return logoutCommand ?? (logoutCommand = new DelegateCommand(
-                    () =>
-                    {
+                    () => {
                         Navigate("ViewLogin");
+                        Losts.Clear();
                     }
                 ));
             }
@@ -155,8 +145,7 @@ namespace FindMePrism.ViewModels
             get
             {
                 return openMenuCommand ?? (openMenuCommand = new DelegateCommand(
-                    () =>
-                    {
+                    () => {
                         ButtonCloseVisibility = Visibility.Visible;
                         ButtonOpenVisibility = Visibility.Collapsed;
                     }
@@ -170,14 +159,12 @@ namespace FindMePrism.ViewModels
             get
             {
                 return closeMenuCommand ?? (closeMenuCommand = new DelegateCommand(
-                    () =>
-                    {
+                    () => {
                         ButtonCloseVisibility = Visibility.Collapsed;
                         ButtonOpenVisibility = Visibility.Visible;
                     }
                 ));
             }
         }
-
     }
 }
