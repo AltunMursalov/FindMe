@@ -16,31 +16,28 @@ namespace FindMeMobileClient.ViewModels
         public OrganizationsPageViewModel(IDataService dataService)
         {
             this.dataService = dataService;
-            Institutions = new ObservableCollection<Institution>();
-            try
-            {
-                Update();
-            }
-            catch (Exception)
-            {
-            }
+            this.Institutions = new ObservableCollection<Institution>();
+            Update();
         }
 
         public ObservableCollection<Institution> Institutions { get; set; }
 
-        public void Update()
+        public async void Update()
         {
             Device.BeginInvokeOnMainThread(() =>
             {
-                Institutions.Clear();
+                this.Institutions.Clear();
             });
-            var institutions = dataService.GetInstitutions();
-            foreach (var item in institutions)
+            var institutions = await this.dataService.GetInstitutions();
+            if (institutions != null)
             {
-                Device.BeginInvokeOnMainThread(() =>
+                foreach (var item in institutions)
                 {
-                    Institutions.Add(item);
-                });
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        this.Institutions.Add(item);
+                    });
+                }
             }
         }
     }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(FindMeDbContext))]
-    [Migration("20180925184508_Initial")]
-    partial class Initial
+    [Migration("20180927075314_Initital")]
+    partial class Initital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,10 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cities");
+
+                    b.HasData(
+                        new { Id = 1, Name = "Baku" }
+                    );
                 });
 
             modelBuilder.Entity("ApplicationCore.Models.Institution", b =>
@@ -84,6 +88,10 @@ namespace Infrastructure.Migrations
                     b.HasIndex("InstitutionTypeId");
 
                     b.ToTable("Institutions");
+
+                    b.HasData(
+                        new { Id = 1, Address = "Underground", CityId = 1, InstitutionTypeId = 1, IsAdmin = true, Latitude = 40.409264, Login = "admin", Longitude = 49.867092, Name = "admin", OpeningHours = "24/7", Password = "SIzsvsMpIVd0wR9vTjY7A/1Wth1tcMTx0OK3A2V9BI00UjTv", Phone = "+994-55-148-82-28", Website = "www.admin.com" }
+                    );
                 });
 
             modelBuilder.Entity("ApplicationCore.Models.InstitutionType", b =>
@@ -99,6 +107,10 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("InstitutionTypes");
+
+                    b.HasData(
+                        new { Id = 1, Type = "Medical" }
+                    );
                 });
 
             modelBuilder.Entity("ApplicationCore.Models.Lost", b =>

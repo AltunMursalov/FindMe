@@ -7,6 +7,6 @@ namespace FindMeMobileClient.Services.Interfaces
     public interface IDataService
     {
         Task<IEnumerable<Lost>> GetLosts();
-        IEnumerable<Institution> GetInstitutions();
+        Task<IEnumerable<Institution>> GetInstitutions();
     }
 }

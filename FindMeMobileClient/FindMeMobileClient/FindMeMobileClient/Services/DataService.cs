@@ -15,27 +15,33 @@ namespace FindMeMobileClient.Services
         private readonly HttpClient client;
         public DataService()
         {
-            client = new HttpClient();
-            client.BaseAddress = new Uri(App.MobileServiceUrl);
+            this.client = new HttpClient
+            {
+                BaseAddress = new Uri(App.MobileServiceUrl),
+                Timeout = TimeSpan.FromSeconds(15)
+            };
         }
 
         public async Task<IEnumerable<Lost>> GetLosts()
         {
-            var response = await client.GetAsync($"{App.MobileServiceUrl}/api/losts/getlosts");
+            var response = await this.client.GetAsync("/api/losts/getlosts");
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<IEnumerable<Lost>>(data);
             }
-            else
-            {
-                throw new Exception("is not success status code");
-            }
+            return null;
         }
 
-        public IEnumerable<Institution> GetInstitutions()
+        public async Task<IEnumerable<Institution>> GetInstitutions()
         {
-            throw new Exception("get institutuon");
+            var response = await this.client.GetAsync("/api/institutions/getinstitutions");
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<Institution>>(data);
+            }
+            return null;
         }
     }
 }

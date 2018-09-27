@@ -21,6 +21,11 @@ namespace ApplicationCore.ServiceImplementations
             this.institutionRepository = institutionRepository;
         }
 
+        public async Task<IEnumerable<Institution>> GetInstitutionsForAdmin()
+        {
+            return await this.institutionRepository.GetInstitutions();
+        }
+
         public async Task<IEnumerable<InstitutionDTO>> GetInstitutions()
         {
             var result = await this.institutionRepository.GetInstitutions();

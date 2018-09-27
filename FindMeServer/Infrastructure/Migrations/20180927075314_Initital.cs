@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -106,6 +106,21 @@ namespace Infrastructure.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Cities",
+                columns: new[] { "Id", "Name" },
+                values: new object[] { 1, "Baku" });
+
+            migrationBuilder.InsertData(
+                table: "InstitutionTypes",
+                columns: new[] { "Id", "Type" },
+                values: new object[] { 1, "Medical" });
+
+            migrationBuilder.InsertData(
+                table: "Institutions",
+                columns: new[] { "Id", "Address", "CityId", "InstitutionTypeId", "IsAdmin", "Latitude", "Login", "Longitude", "Name", "OpeningHours", "Password", "Phone", "Website" },
+                values: new object[] { 1, "Underground", 1, 1, true, 40.409264, "admin", 49.867092, "admin", "24/7", "SIzsvsMpIVd0wR9vTjY7A/1Wth1tcMTx0OK3A2V9BI00UjTv", "+994-55-148-82-28", "www.admin.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Institutions_CityId",
