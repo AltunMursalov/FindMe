@@ -199,8 +199,8 @@
                     <TextBlock Text="{Binding Path=Description, StringFormat='Description: {0}'}" Foreground="White"/>
                     <TextBlock Text="{Binding Path=DetectionTime, StringFormat='Detection Time: {0}'}" Foreground="White"/>
                     <TextBlock Text="{Binding Path=DetectionDescription, StringFormat='Detection Description: {0}'}" Foreground="White"/>
-                    <TextBlock Text="{Binding Path=Comment, StringFormat='Comment: {0}'}" Foreground="White"/>
-                </StackPanel>
+                        <TextBlock Text="{Binding Path=Comment, StringFormat='Comment: {0}'}" Foreground="White"/>
+                    </StackPanel>
                 </Grid>
             </Expander>
         </DataTemplate>
@@ -259,6 +259,7 @@
                     </Grid>
                 </Expander.Header>
                 <StackPanel>
+                    <TextBlock Text="{Binding Path=InstitutionType.Type, StringFormat='Type: {0}'}" Foreground="White"/>
                     <TextBlock Text="{Binding Path=City.Name, StringFormat='City: {0}'}" Foreground="White"/>
                     <TextBlock Text="{Binding Path=Address, StringFormat='Address: {0}'}" Foreground="White"/>
                     <TextBlock Text="{Binding Path=Phone, StringFormat='Phone: {0}'}" Foreground="White"/>

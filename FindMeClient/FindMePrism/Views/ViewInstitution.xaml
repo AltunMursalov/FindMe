@@ -26,7 +26,8 @@
             <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <WrapPanel>
                     <TextBlock Text="Type:" Style="{StaticResource LabelControlLostStyle}"/>
-                    <ComboBox  Margin="70,5,5,5"  ItemsSource="{Binding InstitutionTypes}" Width="200" SelectedIndex="1" SelectedItem="{Binding Institution.InstitutionType, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}">
+                    <ComboBox  Margin="70,5,5,5" ItemsSource="{Binding InstitutionTypes}" Width="200" SelectedIndex="{Binding Institution.InstitutionType.Id}" 
+                               SelectedItem="{Binding Institution.InstitutionType, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <Label Content="{Binding Type}"/>
@@ -51,7 +52,7 @@
                 <WrapPanel>
                     <TextBlock Text="Address:" Style="{StaticResource LabelControlLostStyle}"/>
                     <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="50,5,5,5" Text="{Binding Institution.Address, UpdateSourceTrigger=PropertyChanged}"/>
-                    </WrapPanel>
+                </WrapPanel>
 
                 <WrapPanel>
                     <TextBlock Text="Opening hours:" Style="{StaticResource LabelControlLostStyle}"/>
@@ -72,8 +73,8 @@
                 </WrapPanel>
             </StackPanel>
             <local:BindableMap Grid.Column="1" Grid.Row="1" Margin="10" Pins="{Binding Pushpins}"/>
-            <Button Grid.Row="2" Grid.Column="0" Content="Ok" Style="{StaticResource OkButtonStyle}" Command="{Binding OkCommand}" Margin="10" />
-            <Button Grid.Row="2" Grid.Column="1" Content="Cancel" Style="{StaticResource OkButtonStyle}" Command="{Binding CancelCommand}" Margin="10" />
+            <Button Grid.Row="2" Grid.Column="0" Content="OK" Style="{StaticResource OkButtonStyle}" Command="{Binding OkCommand}" Margin="10" />
+            <Button Grid.Row="2" Grid.Column="1" Content="CANCEL" Style="{StaticResource OkButtonStyle}" Command="{Binding CancelCommand}" Margin="10" />
         </Grid>
     </Border>
 </UserControl>

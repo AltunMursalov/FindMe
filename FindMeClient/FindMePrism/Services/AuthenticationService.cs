@@ -20,24 +20,19 @@ namespace FindMePrism.Services
             };
         }
 
-     
+
         public async Task<Institution> Validate(Institution institution)
         {
-            using (HttpClient httpClient = new HttpClient())
+            var data = JsonConvert.SerializeObject(institution);
+            var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
+            var response = await this.client.PostAsync("/api/institutions/login", content);
+            if (response.IsSuccessStatusCode)
             {
-                var data = JsonConvert.SerializeObject(institution);
-                var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
-                var response = await this.client.PostAsync("/api/institutions/login", content);
-                if (response.IsSuccessStatusCode)
-                {
-                    var answer = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<Institution>(answer);
-                }
-                else
-                    return null;
-
+                var answer = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Institution>(answer);
             }
+            else
+                return null;
         }
-        
     }
 }

@@ -106,6 +106,7 @@ namespace FindMePrism.ViewModels
                 return addLostCommand ?? (addLostCommand = new DelegateCommand(
                     () => {
                         Navigate("ViewForm");
+                        this.eventAggregator.GetEvent<InstEvent>().Publish(Institution);
                     }
                 ));
             }

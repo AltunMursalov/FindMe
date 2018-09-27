@@ -55,25 +55,31 @@ namespace FindMePrism.ViewModels
         {
             InstitutionTypes = new List<InstitutionType>();
             var it = this.institutionService.GetInstitutionTypes();
-            foreach (var item in it) {
+            foreach (var item in it)
+            {
                 InstitutionTypes.Add(item);
             }
         }
         private void GetAddress(List<string> address)
         {
-            if (address != null) {
+            if (address != null)
+            {
                 Institution.City.Name = address[0];
                 Institution.Address = address[1];
                 Institution.Latitude = Convert.ToDouble(address[2]);
                 Institution.Longitude = Convert.ToDouble(address[3]);
             }
             this.eventAggregator.GetEvent<AddressEvent>().Subscribe(GetAddress);
-        }  
+        }
 
         private void GetInstitution(Institution inst)
         {
-            if (inst != null) {
-                Institution = inst;
+            if (inst != null)
+            {
+                Institution = inst.Clone() as Institution;
+                Institution.InstitutionType = inst.InstitutionType.Clone() as InstitutionType;
+                Institution.City = inst.City.Clone() as City;
+                this.Institution.InstitutionType.Id -= 1;
                 editProcess = true;
             }
         }
@@ -87,10 +93,14 @@ namespace FindMePrism.ViewModels
 
         private async void ExecuteOkCommandAsync()
         {
-            try {
-                if (editProcess) {
+            try
+            {
+                if (editProcess)
+                {
+                    this.Institution.InstitutionType.Id += 1;
                     var res = await this.institutionService.EditInstitution(Institution);
-                    if (res) {
+                    if (res)
+                    {
                         this.eventAggregator.GetEvent<EditInstEvent>().Publish(Institution);
                         Navigate("ViewAdmin");
                         Institution = new Institution();
@@ -101,16 +111,20 @@ namespace FindMePrism.ViewModels
                         this.eventAggregator.GetEvent<ShowAlertEvent>().Publish(new Notification { Content = "Error", Title = "Error" });
 
                 }
-                else {
+                else
+                {
                     var res = await this.institutionService.AddInstitution(Institution);
-                    if (res != null) {
+                    if (res != null)
+                    {
                         this.eventAggregator.GetEvent<NewInstEvent>().Publish(res);
                         Navigate("ViewAdmin");
                         Institution = new Institution();
                         Institution.City = new City();
                         this.eventAggregator.GetEvent<ClearPinsEvent>().Publish(true);
                     }
-                }              
+                    else
+                        this.eventAggregator.GetEvent<ShowAlertEvent>().Publish(new Notification { Content = "Error", Title = "Error" });
+                }
             }
             catch (Exception) { }
         }
@@ -120,15 +134,17 @@ namespace FindMePrism.ViewModels
             return true;
             //return !String.IsNullOrWhiteSpace(Institution?.Name) & !String.IsNullOrWhiteSpace(Institution?.Address) & !String.IsNullOrWhiteSpace(Institution?.Phone) &
             //       !String.IsNullOrWhiteSpace(Institution?.City.Name) & !String.IsNullOrWhiteSpace(Institution?.OpeningHours) & !String.IsNullOrWhiteSpace(Institution.InstitutionType.Type);
-            
+
         }
 
         private DelegateCommand cancelCommand;
         public DelegateCommand CancelCommand
         {
-            get {
+            get
+            {
                 return cancelCommand ?? (cancelCommand = new DelegateCommand(
-                    () => {
+                    () =>
+                    {
                         Navigate("ViewAdmin");
                         Institution = new Institution();
                         Institution.City = new City();

@@ -87,7 +87,7 @@
                         <ListViewItem Height="50">
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Kind="MapMarker" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.Address}" VerticalAlignment="Center"  Margin="20 10"/>
+                                <TextBlock Text="{Binding Path=Institution.Address}" TextWrapping="Wrap" VerticalAlignment="Center"  Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Height="50">

@@ -49,10 +49,11 @@ namespace FindMePrism.Services
         public async Task<IEnumerable<Institution>> GetInstitutions()
         {
 
-            var response = await this.client.GetAsync("/api/institutions/getinstitutions");
-            if (response.IsSuccessStatusCode) {
+            var response = await this.client.GetAsync("/api/institutions/getinstitutionsadmin");
+            if (response.IsSuccessStatusCode)
+            {
                 var data = await response.Content.ReadAsStringAsync();
-                 return JsonConvert.DeserializeObject<IEnumerable<Institution>>(data);
+                return JsonConvert.DeserializeObject<IEnumerable<Institution>>(data);
             }
             else
                 return null;
@@ -61,20 +62,17 @@ namespace FindMePrism.Services
 
         public async Task<bool> RemoveInstitution(Institution institution)
         {
-            using (HttpClient httpClient = new HttpClient())
-            {
-                var response = await httpClient.DeleteAsync($"/api/losts/deleteinstitution/{institution.Id}");
-                if (response.IsSuccessStatusCode)
-                    return true;
-                else
-                    return false;
-            }
+            var response = await client.DeleteAsync($"/api/losts/deleteinstitution/{institution.Id}");
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return false;
         }
 
         public IEnumerable<InstitutionType> GetInstitutionTypes()
         {
             List<InstitutionType> Types = new List<InstitutionType>() {
-                new InstitutionType{ Id = 2, Type = "Medical"},
+                new InstitutionType{ Id = 1, Type = "Medical"}
             };
             return Types;
         }

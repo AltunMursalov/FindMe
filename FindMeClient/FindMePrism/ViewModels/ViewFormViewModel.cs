@@ -16,7 +16,10 @@ namespace FindMePrism.ViewModels
     public class ViewFormViewModel : BindableBase
     {
         private Lost lost;
-        public Lost Lost { get => lost; set => SetProperty(ref lost, value); }     
+        public Lost Lost { get => lost; set => SetProperty(ref lost, value); }
+
+        private Institution institution;
+        public Institution Institution { get => institution; set => SetProperty(ref institution, value); }
 
         private List<string> hairColors;
         public List<string> HairColors { get => hairColors; set => SetProperty(ref hairColors, value); }
@@ -29,10 +32,6 @@ namespace FindMePrism.ViewModels
 
         private List<string> bodyTypes;
         public List<string> BodyTypes { get => bodyTypes; set => SetProperty(ref bodyTypes, value); }
-
-        private Institution institution;
-        public Institution Institution { get => institution; set => SetProperty(ref institution, value); }
-
 
         public IEventAggregator eventAggregator { get; }
         public IRegionManager regionManager { get; }
@@ -94,29 +93,34 @@ namespace FindMePrism.ViewModels
             this.eventAggregator.GetEvent<InstEvent>().Subscribe(GetInstitution);
             this.regionManager = regionManager;
             this.lostService = lostService;
+            Lost = new Lost();
+            Lost.Institution = new Institution();
+            Lost.Institution.City = new City();
+            Lost.Institution.InstitutionType = new InstitutionType();
             editProcess = false;
             FillFields();
-            SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand).ObservesProperty(() => Lost);
+            SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand);
         }
 
         private void GetInstitution(Institution inst)
         {
-            if (inst != null)
-            {
+            if (inst != null) {
                 Institution = new Institution();
                 Institution = inst;
+               // Lost.Institution.City = new City();
+               // Lost.Institution.InstitutionType = new InstitutionType();
+               // Lost.Institution = inst.Clone() as Institution;
             }
         }
 
         private void GetLost(Lost lost)
         {
-            if (lost != null)
-            {
-                try {
-                    Lost = lost;
-                    editProcess = true;
-                }
-                catch (Exception) { }
+            if (lost != null) {
+                Lost = lost.Clone() as Lost;
+                Lost.Institution = lost.Institution.Clone() as Institution;
+                Lost.Institution.City = lost.Institution.City.Clone() as City;
+                Lost.Institution.InstitutionType = lost.Institution.InstitutionType.Clone() as InstitutionType;
+                editProcess = true;
             }
         }
 
@@ -129,10 +133,7 @@ namespace FindMePrism.ViewModels
         private async void ExecuteSaveCommand()
         {
             if (editProcess) {
-                //var res = LostService.EditLost(Institution, Lost);
-                var result = this.lostService.EditLost(Lost);
-                var res = await result;
-
+                var res = await this.lostService.EditLost(Lost);
                 if (res) {
                     this.eventAggregator.GetEvent<EditLostEvent>().Publish(Lost);
                     Navigate("ViewLosts");
@@ -141,9 +142,8 @@ namespace FindMePrism.ViewModels
                 }
             }
             else {
-               // var res = LostService.AddLostAsync(Institution, Lost);
-                var result = this.lostService.AddLostAsync(Institution, Lost);
-                var res = await result;
+                lost.Institution = Institution;
+                var res = await this.lostService.AddLost(Lost);
                 if (res != null) {
                     this.eventAggregator.GetEvent<NewLostEvent>().Publish(res);
                     Navigate("ViewLosts");

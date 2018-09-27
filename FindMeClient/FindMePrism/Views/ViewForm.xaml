@@ -50,6 +50,7 @@
                 <TextBlock Grid.Row="2"  Grid.Column="2" Style="{StaticResource LabelControlLostStyle}" Text="Gender"/>
                 <ComboBox  Margin ="5" Grid.Row="2" Grid.Column="3" Width="150" HorizontalAlignment="Left"
                        ItemsSource="{Binding Genders}" SelectedValue="{Binding Path=Lost.Gender}"/>
+                
 
                 <TextBlock Grid.Row="1"  Grid.Column="2" Style="{StaticResource LabelControlLostStyle}" Text="Age"/>
                 <TextBlock Grid.Row="1"  Grid.Column="3" Style="{StaticResource LabelControlLostStyle}" HorizontalAlignment="Left" Text="-" Margin="55,0,0,0"/>
