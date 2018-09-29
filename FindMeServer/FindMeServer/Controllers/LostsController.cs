@@ -52,7 +52,7 @@ namespace FindMeServer.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
         }
 
-        [HttpDelete("/api/[controller]deletelost/{id}")]
+        [HttpDelete("/api/[controller]/deletelost/{id}")]
         public async Task<ActionResult> DeleteLost(int id)
         {
             var result = await this.dataService.DeleteLost(id);

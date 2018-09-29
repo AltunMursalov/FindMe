@@ -142,7 +142,8 @@ namespace FindMePrism.ViewModels
                 }
             }
             else {
-                lost.Institution = Institution;
+                Lost.Institution = Institution;
+                Lost.InstitutionId = Institution.Id;
                 var res = await this.lostService.AddLost(Lost);
                 if (res != null) {
                     this.eventAggregator.GetEvent<NewLostEvent>().Publish(res);

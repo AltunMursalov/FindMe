@@ -14,18 +14,14 @@ namespace FindMePrism.Services
 
         public InstitutionService()
         {
-            this.client = new HttpClient
-            {
-                BaseAddress = new Uri(App.ServerUrl),
-                Timeout = TimeSpan.FromSeconds(30)
-            };
+            this.client = new HttpClient();
         }
 
         public async Task<Institution> AddInstitution(Institution institution)
         {
             var data = JsonConvert.SerializeObject(institution);
             var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
-            var response = await this.client.PostAsync("/api/institutions/registerinstitution", content);
+            var response = await this.client.PostAsync("http://localhost:51662/api/institutions/registerinstitution", content);
             if (response.IsSuccessStatusCode)
             {
                 var answer = await response.Content.ReadAsStringAsync();
@@ -39,7 +35,7 @@ namespace FindMePrism.Services
         {
             var data = JsonConvert.SerializeObject(institution);
             var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
-            var response = await this.client.PutAsync("/api/institutions/editinstitution", content);
+            var response = await this.client.PutAsync("http://localhost:51662/api/institutions/editinstitution", content);
             if (response.IsSuccessStatusCode)
                 return true;
             else
@@ -49,7 +45,7 @@ namespace FindMePrism.Services
         public async Task<IEnumerable<Institution>> GetInstitutions()
         {
 
-            var response = await this.client.GetAsync("/api/institutions/getinstitutionsadmin");
+            var response = await this.client.GetAsync("http://localhost:51662/api/institutions/getinstitutionsadmin");
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();

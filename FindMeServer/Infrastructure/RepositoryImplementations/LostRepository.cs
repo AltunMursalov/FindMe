@@ -11,10 +11,12 @@ namespace Infrastructure.RepositoryImplementations
     public class LostRepository : ILostRepository
     {
         private readonly FindMeDbContext context;
+        private readonly IInstitutionRepository institutionRepository;
 
-        public LostRepository(FindMeDbContext context)
+        public LostRepository(FindMeDbContext context, IInstitutionRepository institutionRepository)
         {
             this.context = context;
+            this.institutionRepository = institutionRepository;
         }
 
         public async Task<Lost> CreateLost(Lost newLost)
@@ -22,6 +24,8 @@ namespace Infrastructure.RepositoryImplementations
             var isAlreadyExist = await this.context.Losts.FirstOrDefaultAsync(l => l.FirstName == newLost.FirstName &&
                                                                             l.MiddleName == newLost.MiddleName &&
                                                                             l.LastName == newLost.LastName);
+            var instFromServer = await this.context.Institutions.FirstOrDefaultAsync(i => i.Id == newLost.InstitutionId);
+            newLost.Institution.Password = instFromServer.Password;
             if (isAlreadyExist != null)
             {
                 return null;
@@ -45,6 +49,9 @@ namespace Infrastructure.RepositoryImplementations
 
         public async Task<int> UpdateLost(Lost lost)
         {
+            var institutionFromServer = this.context.Institutions.Where(i => i.Id == lost.InstitutionId).
+                AsNoTracking();
+            lost.Institution.Password = institutionFromServer.First().Password;
             this.context.Losts.Update(lost);
             return await this.context.SaveChangesAsync();
         }

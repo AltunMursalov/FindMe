@@ -38,17 +38,6 @@ namespace FindMeServer.Controllers
             return Json(await this.authenticationService.Login(institution));
         }
 
-        [HttpGet("/api/[controller]/getinstitutionsadmin")]
-        public async Task<IActionResult> GetInstitutionsForAdmin()
-        {
-            var result = await this.dataService.GetInstitutionsForAdmin();
-            if (result != null)
-            {
-                return Json(result);
-            }
-            return StatusCode((int)HttpStatusCode.NoContent);
-        }
-
         [HttpPut("/api/[controller]/editinstitution")]
         public async Task<ActionResult> EditInstitution([FromBody]Institution institution)
         {
@@ -59,7 +48,7 @@ namespace FindMeServer.Controllers
                 return StatusCode((int)HttpStatusCode.InternalServerError);
         }
 
-        [HttpDelete("/api/[controller]deleteinstitution/{id}")]
+        [HttpDelete("/api/[controller]/deleteinstitution/{id}")]
         public async Task<ActionResult> DeleteInstitution(int id)
         {
             var result = await this.dataService.DeleteInstitution(id);
