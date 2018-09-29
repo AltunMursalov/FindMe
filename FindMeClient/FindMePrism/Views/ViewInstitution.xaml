@@ -63,11 +63,11 @@
                     <TextBlock Text="Website:" Style="{StaticResource LabelControlLostStyle}"/>
                     <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="50,5,5,5" Text="{Binding Path=Institution.Website, UpdateSourceTrigger=PropertyChanged}"/>
                 </WrapPanel>
-                <WrapPanel>
+                <WrapPanel x:Name="LoginField">
                     <TextBlock Text="Login:" Style="{StaticResource LabelControlLostStyle}"/>
                     <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="65,5,5,5" Text="{Binding Path=Institution.Login, UpdateSourceTrigger=PropertyChanged}"/>
                 </WrapPanel>
-                <WrapPanel>
+                <WrapPanel x:Name="PasswordField">
                     <TextBlock Text="Password:" Style="{StaticResource LabelControlLostStyle}"/>
                     <PasswordBox helpers:PasswordHelper.Password ="{Binding Institution.Password, Mode=TwoWay}" Name="UserPassword" Margin="45,5,5,5" Style="{StaticResource InputControlLostStyle}"/>
                 </WrapPanel>

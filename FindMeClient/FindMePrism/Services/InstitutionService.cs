@@ -14,14 +14,18 @@ namespace FindMePrism.Services
 
         public InstitutionService()
         {
-            this.client = new HttpClient();
+            this.client = new HttpClient
+            {
+                BaseAddress = new Uri(App.ServerUrl),
+                Timeout = TimeSpan.FromSeconds(30)
+            };
         }
 
         public async Task<Institution> AddInstitution(Institution institution)
         {
             var data = JsonConvert.SerializeObject(institution);
             var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
-            var response = await this.client.PostAsync("http://localhost:51662/api/institutions/registerinstitution", content);
+            var response = await this.client.PostAsync("/api/institutions/registerinstitution", content);
             if (response.IsSuccessStatusCode)
             {
                 var answer = await response.Content.ReadAsStringAsync();
@@ -35,7 +39,7 @@ namespace FindMePrism.Services
         {
             var data = JsonConvert.SerializeObject(institution);
             var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
-            var response = await this.client.PutAsync("http://localhost:51662/api/institutions/editinstitution", content);
+            var response = await this.client.PutAsync("/api/institutions/editinstitution", content);
             if (response.IsSuccessStatusCode)
                 return true;
             else
@@ -44,8 +48,7 @@ namespace FindMePrism.Services
 
         public async Task<IEnumerable<Institution>> GetInstitutions()
         {
-
-            var response = await this.client.GetAsync("http://localhost:51662/api/institutions/getinstitutionsadmin");
+            var response = await this.client.GetAsync("/api/institutions/getinstitutions");
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
@@ -58,19 +61,29 @@ namespace FindMePrism.Services
 
         public async Task<bool> RemoveInstitution(Institution institution)
         {
-            var response = await client.DeleteAsync($"/api/losts/deleteinstitution/{institution.Id}");
+            var response = await client.DeleteAsync($"/api/institutions/deleteinstitution/{institution.Id}");
             if (response.IsSuccessStatusCode)
                 return true;
             else
                 return false;
         }
 
-        public IEnumerable<InstitutionType> GetInstitutionTypes()
+        public async Task<List<InstitutionType>> GetInstitutionTypes()
         {
-            List<InstitutionType> Types = new List<InstitutionType>() {
+            var response = await this.client.GetAsync("/api/institutiontypes/getinstitutiontypes");
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<InstitutionType>>(data);
+            }
+            else
+                return null;
+
+
+            /*List<InstitutionType> Types = new List<InstitutionType>() {
                 new InstitutionType{ Id = 1, Type = "Medical"}
             };
-            return Types;
+            return Types;*/
         }
     }
 }

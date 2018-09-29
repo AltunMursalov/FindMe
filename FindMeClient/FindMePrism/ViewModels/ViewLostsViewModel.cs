@@ -37,8 +37,8 @@ namespace FindMePrism.ViewModels
             this.regionManager = regionManager;
             this.lostService = lostService;
             ButtonCloseVisibility = Visibility.Collapsed;
-            this.eventAggregator.GetEvent<LostsEvent>().Subscribe(GetLosts);
             this.eventAggregator.GetEvent<InstEvent>().Subscribe(GetInstitution);
+            this.eventAggregator.GetEvent<LostsEvent>().Subscribe(GetLosts);
             this.eventAggregator.GetEvent<NewLostEvent>().Subscribe(AddNewLost);
             this.eventAggregator.GetEvent<EditLostEvent>().Subscribe(EditLost);
             Losts = new ObservableCollection<Lost>();

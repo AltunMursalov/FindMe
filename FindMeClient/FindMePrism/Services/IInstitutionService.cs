@@ -10,6 +10,6 @@ namespace FindMePrism.Services
         Task<Institution> AddInstitution(Institution institution);
         Task<bool> RemoveInstitution(Institution institution);
         Task<bool> EditInstitution(Institution institution);
-        IEnumerable<InstitutionType> GetInstitutionTypes();
+        Task<List<InstitutionType>> GetInstitutionTypes();
     }
 }

@@ -101,7 +101,7 @@ namespace FindMePrism.ViewModels
                     param =>
                     {
                         Navigate("ViewInstitution");
-                        this.eventAggregator.GetEvent<InstEvent>().Publish(param);
+                        this.eventAggregator.GetEvent<InstEvent>().Publish(param);                    
                     }
                 ));
             }

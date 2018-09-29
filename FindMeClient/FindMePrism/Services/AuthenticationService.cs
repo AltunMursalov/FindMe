@@ -13,7 +13,11 @@ namespace FindMePrism.Services
 
         public AuthenticationService()
         {
-            this.client = new HttpClient();
+            this.client = new HttpClient
+            {
+                BaseAddress = new Uri(App.ServerUrl),
+                Timeout = TimeSpan.FromSeconds(30)
+            };
         }
 
 
@@ -21,8 +25,7 @@ namespace FindMePrism.Services
         {
             var data = JsonConvert.SerializeObject(institution);
             var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
-
-            var response = await this.client.PostAsync("http://localhost:51662/api/institutions/login", content);
+            var response = await this.client.PostAsync("/api/institutions/login", content);
             if (response.IsSuccessStatusCode)
             {
                 var answer = await response.Content.ReadAsStringAsync();
