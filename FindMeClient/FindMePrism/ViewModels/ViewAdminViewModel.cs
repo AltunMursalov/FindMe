@@ -92,6 +92,7 @@ namespace FindMePrism.ViewModels
             }
         }
 
+
         private DelegateCommand<Institution> editInstitutionCommand;
         public DelegateCommand<Institution> EditInstitutionCommand
         {
@@ -121,6 +122,24 @@ namespace FindMePrism.ViewModels
                 ));
             }
         }
+
+
+        private DelegateCommand<Institution> changePasswordCommand;
+        public DelegateCommand<Institution> ChangePasswordCommand
+        {
+            get
+            {
+                return changePasswordCommand ?? (changePasswordCommand = new DelegateCommand<Institution>(
+                    param =>
+                    {
+                        Navigate("ViewChangePassword");
+                        this.eventAggregator.GetEvent<ChangePasswordEvent>().Publish(param);
+                    }
+                ));
+            }
+        }
+
+        
 
         private DelegateCommand logoutCommand;
         public DelegateCommand LogoutCommand

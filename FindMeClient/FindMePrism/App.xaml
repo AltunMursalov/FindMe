@@ -240,27 +240,36 @@
                 <Expander.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="530"/>
+                            <ColumnDefinition Width="490"/>
                             <ColumnDefinition Width="40"/>
                             <ColumnDefinition Width="40"/>
                             <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="40"/>
+
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="White"/>
 
+
                         <Button  Grid.Column="1" FontSize="10"  Margin="5"
+                                    Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+                                    AncestorType={x:Type UserControl}}, 
+                                    Path= DataContext.ChangePasswordCommand}"
+                                    CommandParameter="{Binding}">🔑</Button>
+                        
+                        <Button  Grid.Column="2" FontSize="10"  Margin="5"
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                     AncestorType={x:Type UserControl}}, 
                                     Path= DataContext.DeleteInstitutionCommand}"
                                     CommandParameter="{Binding}">✖️</Button>
 
-                        <Button  Grid.Column="2" FontSize="10"  Margin="5"
+                        <Button  Grid.Column="3" FontSize="10"  Margin="5"
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                     AncestorType={x:Type UserControl}}, 
                                     Path= DataContext.EditInstitutionCommand}"
                                     CommandParameter="{Binding}">🖊️</Button>
 
-                        <Button  Grid.Column="3" FontSize="10"  Margin="5"
+                        <Button  Grid.Column="4" FontSize="10"  Margin="5"
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                     AncestorType={x:Type UserControl}}, 
                                     Path= DataContext.InfoInstitutionCommand}"

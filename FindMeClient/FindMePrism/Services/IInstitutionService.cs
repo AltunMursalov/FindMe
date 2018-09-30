@@ -10,6 +10,7 @@ namespace FindMePrism.Services
         Task<Institution> AddInstitution(Institution institution);
         Task<bool> RemoveInstitution(Institution institution);
         Task<bool> EditInstitution(Institution institution);
+        Task<bool> ChangePassword(Institution institution);
         Task<List<InstitutionType>> GetInstitutionTypes();
     }
 }

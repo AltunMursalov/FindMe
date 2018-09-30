@@ -39,6 +39,7 @@ namespace FindMePrism.Views
             if (invisible) {
                 LoginField.Visibility = Visibility.Collapsed;
                 PasswordField.Visibility = Visibility.Collapsed;
+                Label.Text = "Institution Edit Form";
             }
         }
     }

@@ -33,6 +33,8 @@ namespace FindMePrism
             Container.RegisterTypeForNavigation<ViewAdmin>("ViewAdmin");
             Container.RegisterTypeForNavigation<ViewInstitution>("ViewInstitution");
             Container.RegisterTypeForNavigation<ViewInstitutionLosts>("ViewInstitutionLosts");
+            Container.RegisterTypeForNavigation<ViewChangePassword>("ViewChangePassword");
+
 
             Container.RegisterType<IAuthenticationService, AuthenticationService>(new ContainerControlledLifetimeManager());
             Container.RegisterType<ILostService, LostService>(new ContainerControlledLifetimeManager());

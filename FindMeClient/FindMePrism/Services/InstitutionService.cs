@@ -85,5 +85,16 @@ namespace FindMePrism.Services
             };
             return Types;*/
         }
+
+        public async Task<bool> ChangePassword(Institution institution)
+        {
+            var data = JsonConvert.SerializeObject(institution);
+            var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
+            var response = await this.client.PutAsync("/api/institutions/changepassword", content);
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return false;
+        }
     }
 }
