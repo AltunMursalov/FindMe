@@ -16,16 +16,17 @@ namespace FindMePrism.Services
             this.client = new HttpClient
             {
                 BaseAddress = new Uri(App.ServerUrl),
-                Timeout = TimeSpan.FromSeconds(30)
+                Timeout = TimeSpan.FromMinutes(30)
             };
         }
 
 
         public async Task<Lost> AddLost(Lost lost)
         {
+            //lost.Institution = null;
             var data = JsonConvert.SerializeObject(lost);
-            var content = new StringContent(data, UnicodeEncoding.UTF8, "json/application");
-            var response = await this.client.PostAsync("api/losts/newlost", content);
+            var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
+            var response = await this.client.PostAsync("/api/losts/newlost", content);
             if (response.IsSuccessStatusCode) {
                 var answer = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<Lost>(answer);
@@ -61,9 +62,7 @@ namespace FindMePrism.Services
         public async Task<IEnumerable<Lost>> GetLosts(Institution institution)
         {
 
-            var data = JsonConvert.SerializeObject(institution);
-            var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
-            var response = await client.PostAsync("/api/losts/getlostsbyinstitution", content);
+            var response = await client.GetAsync($"/api/losts/getlostsbyinstitution/{institution.Id}");
             if (response.IsSuccessStatusCode) {
                 var answer = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Lost>>(answer);

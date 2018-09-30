@@ -13,17 +13,15 @@ namespace ApplicationCore.ServiceImplementations
         private readonly ILostRepository lostRepository;
         private readonly IInstitutionRepository institutionRepository;
         private readonly IMapper mapper;
+        private readonly IInstitutionsTypeRepository institutionsTypeRepository;
 
-        public DataService(ILostRepository lostRepository, IInstitutionRepository institutionRepository, IMapper mapper)
+        public DataService(ILostRepository lostRepository, IInstitutionRepository institutionRepository, IInstitutionsTypeRepository institutionsTypeRepository,
+            IMapper mapper)
         {
             this.mapper = mapper;
             this.lostRepository = lostRepository;
             this.institutionRepository = institutionRepository;
-        }
-
-        public async Task<IEnumerable<Institution>> GetInstitutionsForAdmin()
-        {
-            return await this.institutionRepository.GetInstitutions();
+            this.institutionsTypeRepository = institutionsTypeRepository;
         }
 
         public async Task<IEnumerable<InstitutionDTO>> GetInstitutions()
@@ -67,10 +65,7 @@ namespace ApplicationCore.ServiceImplementations
             {
                 return this.mapper.Map<Lost, LostDTO>(result);
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         public async Task<bool> DeleteInstitution(int id)
@@ -89,6 +84,11 @@ namespace ApplicationCore.ServiceImplementations
                 return true;
             else
                 return false;
+        }
+
+        public async Task<IEnumerable<InstitutionType>> GetInstitutionTypes()
+        {
+            return await this.institutionsTypeRepository.GetInstitutionTypes();
         }
     }
 }

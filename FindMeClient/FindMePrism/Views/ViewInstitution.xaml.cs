@@ -1,4 +1,6 @@
-﻿using Microsoft.Maps.MapControl.WPF;
+﻿using FindMePrism.Events;
+using Microsoft.Maps.MapControl.WPF;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,10 +24,23 @@ namespace FindMePrism.Views
     /// Interaction logic for ViewInstitution.xaml
     /// </summary>
     public partial class ViewInstitution : UserControl
-    {      
-        public ViewInstitution()
+    {
+        public IEventAggregator EventAggregator { get; }
+
+        public ViewInstitution(IEventAggregator eventAggregator)
         {
-            InitializeComponent();        
+            InitializeComponent();
+            EventAggregator = eventAggregator;
+            EventAggregator.GetEvent<EditProcessEvent>().Subscribe(InvisibleFields);
+        }
+
+        private void InvisibleFields(bool invisible)
+        {
+            if (invisible) {
+                LoginField.Visibility = Visibility.Collapsed;
+                PasswordField.Visibility = Visibility.Collapsed;
+                Label.Text = "Institution Edit Form";
+            }
         }
     }
 }

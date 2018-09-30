@@ -74,6 +74,7 @@
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -116,9 +117,11 @@
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Events\AddressEvent.cs" />
+    <Compile Include="Events\ChangePasswordEvent.cs" />
     <Compile Include="Events\ClearPinsEvent.cs" />
     <Compile Include="Events\EditInstEvent.cs" />
     <Compile Include="Events\EditLostEvent.cs" />
+    <Compile Include="Events\EditProcessEvent.cs" />
     <Compile Include="Events\InstEvent.cs" />
     <Compile Include="Events\InstInfoEvent.cs" />
     <Compile Include="Events\InstsEvent.cs" />
@@ -126,6 +129,7 @@
     <Compile Include="Events\NewInstEvent.cs" />
     <Compile Include="Events\NewLostEvent.cs" />
     <Compile Include="Events\ShowAlertEvent.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Models\City.cs" />
     <Compile Include="Models\Institution.cs" />
     <Compile Include="Models\InstitutionType.cs" />
@@ -140,6 +144,7 @@
     <Compile Include="Services\LostService.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="ViewModels\ViewAdminViewModel.cs" />
+    <Compile Include="ViewModels\ViewChangePasswordViewModel.cs" />
     <Compile Include="ViewModels\ViewFormViewModel.cs" />
     <Compile Include="ViewModels\ViewInstitutionLostsViewModel.cs" />
     <Compile Include="ViewModels\ViewInstitutionViewModel.cs" />
@@ -154,6 +159,9 @@
     </Compile>
     <Compile Include="Views\ViewAdmin.xaml.cs">
       <DependentUpon>ViewAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ViewChangePassword.xaml.cs">
+      <DependentUpon>ViewChangePassword.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ViewForm.xaml.cs">
       <DependentUpon>ViewForm.xaml</DependentUpon>
@@ -183,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ViewAdmin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ViewChangePassword.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

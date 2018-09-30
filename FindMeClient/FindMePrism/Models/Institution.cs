@@ -1,9 +1,13 @@
-﻿using Prism.Mvvm;
+﻿using Newtonsoft.Json;
+using Prism.Mvvm;
 using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using FindMePrism.Helpers;
 
 namespace FindMePrism.Models
 {
-    public class Institution : BindableBase, ICloneable
+    public class Institution : BindableBase, ICloneable, IDataErrorInfo
     {
         private int id;
         private string name;
@@ -20,11 +24,13 @@ namespace FindMePrism.Models
         private double latitude;
         private double longitude;
         private int cityId;
+        private string confirmPassword;
 
         public int Id { get => id; set { id = value; base.RaisePropertyChanged(); } }
         public int CityId { get => cityId; set { cityId = value; base.RaisePropertyChanged(); } }
         public int InstitutionTypeId { get => institutionTypeId; set { institutionTypeId = value; base.RaisePropertyChanged(); } }
         public string Password { get => password; set { password = value; base.RaisePropertyChanged(); } }
+        [Required(ErrorMessage = "Input name!")]
         public string Name { get => name; set { name = value; base.RaisePropertyChanged(); } }
         public string Address { get => address; set { address = value; base.RaisePropertyChanged(); } }
         public string Phone { get => phone; set { phone = value; base.RaisePropertyChanged(); } }
@@ -37,9 +43,15 @@ namespace FindMePrism.Models
         public double Latitude { get => latitude; set { latitude = value; base.RaisePropertyChanged(); } }
         public double Longitude { get => longitude; set { longitude = value; base.RaisePropertyChanged(); } }
 
+        [JsonIgnore]
+        public string ConfirmPassword { get => confirmPassword; set { confirmPassword = value; base.RaisePropertyChanged(); } }
+
         public object Clone()
         {
             return this.MemberwiseClone();
         }
+
+        public string Error { get => String.Empty; }
+        public string this[string columnName] => this.Validate(columnName);
     }
 }

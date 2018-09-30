@@ -65,7 +65,7 @@ namespace FindMePrism.ViewModels
                         this.eventAggregator.GetEvent<InstsEvent>().Publish(insts);
                 }
                 else {
-                    var losts = await this.lostService.GetLosts(Institution);
+                    var losts = await this.lostService.GetLosts(user);
                     Navigate("ViewLosts");
                     if (losts != null)
                         this.eventAggregator.GetEvent<LostsEvent>().Publish(losts);

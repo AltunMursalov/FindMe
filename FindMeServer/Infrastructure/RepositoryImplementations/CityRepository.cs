@@ -3,7 +3,6 @@ using ApplicationCore.RepositoryInterfaces;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Infrastructure.RepositoryImplementations

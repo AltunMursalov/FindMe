@@ -25,7 +25,7 @@ namespace Infrastructure.RepositoryImplementations
                 newInstitution.City = city;
             }
             var type = await this.context.InstitutionTypes.FirstOrDefaultAsync(i => i.Type == newInstitution.InstitutionType.Type);
-            if(type != null)
+            if (type != null)
             {
                 newInstitution.InstitutionType = type;
             }
@@ -77,6 +77,9 @@ namespace Infrastructure.RepositoryImplementations
 
         public async Task<int> UpdateInstitution(Institution institution)
         {
+            var institutionFromServer = this.context.Institutions.Where(i => i.Id == institution.Id).
+                AsNoTracking();
+            institution.Password = institutionFromServer.First().Password;
             this.context.Institutions.Update(institution);
             return await this.context.SaveChangesAsync();
         }

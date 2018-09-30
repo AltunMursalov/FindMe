@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ApplicationCore.RepositoryInterfaces
@@ -7,5 +8,6 @@ namespace ApplicationCore.RepositoryInterfaces
     {
         Task<InstitutionType> GetInstitutionById(int id);
         Task<InstitutionType> GetInstitutionByName(string name);
+        Task<IEnumerable<InstitutionType>> GetInstitutionTypes();
     }
 }

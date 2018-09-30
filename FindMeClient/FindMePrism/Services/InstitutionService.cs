@@ -48,8 +48,7 @@ namespace FindMePrism.Services
 
         public async Task<IEnumerable<Institution>> GetInstitutions()
         {
-
-            var response = await this.client.GetAsync("/api/institutions/getinstitutionsadmin");
+            var response = await this.client.GetAsync("/api/institutions/getinstitutions");
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
@@ -62,19 +61,40 @@ namespace FindMePrism.Services
 
         public async Task<bool> RemoveInstitution(Institution institution)
         {
-            var response = await client.DeleteAsync($"/api/losts/deleteinstitution/{institution.Id}");
+            var response = await client.DeleteAsync($"/api/institutions/deleteinstitution/{institution.Id}");
             if (response.IsSuccessStatusCode)
                 return true;
             else
                 return false;
         }
 
-        public IEnumerable<InstitutionType> GetInstitutionTypes()
+        public async Task<List<InstitutionType>> GetInstitutionTypes()
         {
-            List<InstitutionType> Types = new List<InstitutionType>() {
+            var response = await this.client.GetAsync("/api/institutiontypes/getinstitutiontypes");
+            if (response.IsSuccessStatusCode)
+            {
+                var data = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<InstitutionType>>(data);
+            }
+            else
+                return null;
+
+
+            /*List<InstitutionType> Types = new List<InstitutionType>() {
                 new InstitutionType{ Id = 1, Type = "Medical"}
             };
-            return Types;
+            return Types;*/
+        }
+
+        public async Task<bool> ChangePassword(Institution institution)
+        {
+            var data = JsonConvert.SerializeObject(institution);
+            var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
+            var response = await this.client.PutAsync("/api/institutions/changepassword", content);
+            if (response.IsSuccessStatusCode)
+                return true;
+            else
+                return false;
         }
     }
 }

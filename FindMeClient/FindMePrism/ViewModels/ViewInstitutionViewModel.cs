@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
+using System.ComponentModel;
 
 namespace FindMePrism.ViewModels
 {
@@ -41,24 +42,32 @@ namespace FindMePrism.ViewModels
             editProcess = false;
             this.eventAggregator.GetEvent<InstEvent>().Subscribe(GetInstitution);
             this.eventAggregator.GetEvent<AddressEvent>().Subscribe(GetAddress);
-            OkCommand = new DelegateCommand(ExecuteOkCommandAsync, CanExecuteOkCommand).ObservesProperty(() => Institution);
+            OkCommand = new DelegateCommand(ExecuteOkCommandAsync, CanExecuteOkCommand);
             Institution = new Institution();
             Institution.City = new City();
             Institution.InstitutionType = new InstitutionType();
             Pushpins = new ObservableCollection<Pushpin>();
             InstitutionTypes = new List<InstitutionType>();
+            Institution.PropertyChanged += Institution_PropertyChanged;
             FillInstitutionTypes();
         }
 
+        private void Institution_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.OkCommand.RaiseCanExecuteChanged();
+        }
 
-        public void FillInstitutionTypes()
+        public async void FillInstitutionTypes()
         {
             InstitutionTypes = new List<InstitutionType>();
-            var it = this.institutionService.GetInstitutionTypes();
-            foreach (var item in it)
-            {
-                InstitutionTypes.Add(item);
+            List<InstitutionType> its = new List<InstitutionType>();
+            its =  await this.institutionService.GetInstitutionTypes();
+            if (its!=null) {
+                foreach (var item in its) {
+                    InstitutionTypes.Add(item);
+                }
             }
+
         }
         private void GetAddress(List<string> address)
         {
@@ -81,6 +90,7 @@ namespace FindMePrism.ViewModels
                 Institution.City = inst.City.Clone() as City;
                 this.Institution.InstitutionType.Id -= 1;
                 editProcess = true;
+                this.eventAggregator.GetEvent<EditProcessEvent>().Publish(true);
             }
         }
 

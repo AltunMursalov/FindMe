@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ApplicationCore.Models;
 using ApplicationCore.RepositoryInterfaces;
 using Infrastructure.Database;
@@ -22,6 +23,11 @@ namespace Infrastructure.RepositoryImplementations
         public async Task<InstitutionType> GetInstitutionByName(string name)
         {
             return await this.context.InstitutionTypes.FirstOrDefaultAsync(i => i.Type == name);
+        }
+
+        public async Task<IEnumerable<InstitutionType>> GetInstitutionTypes()
+        {
+            return await this.context.InstitutionTypes.ToListAsync();
         }
     }
 }
