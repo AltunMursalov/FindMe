@@ -1,5 +1,6 @@
 ﻿using ApplicationCore.Models;
 using ApplicationCore.ServiceInterfaces;
+using FindMeServer.NotificationConfig;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Net;

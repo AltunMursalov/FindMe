@@ -9,5 +9,6 @@ namespace ApplicationCore.ServiceInterfaces
     {
         Task<InstitutionDTO> RegisterInstitution(Institution institution);
         Task<InstitutionDTO> Login(Institution institution);
+        Task<DataResult> ResetPassword(Institution institution);
     }
 }

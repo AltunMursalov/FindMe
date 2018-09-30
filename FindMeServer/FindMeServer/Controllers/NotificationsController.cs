@@ -41,7 +41,9 @@ namespace FindMeServer.Controllers
                     break;
                 case "gcm":
                     // Android
-                    var jsonNotif = JsonConvert.SerializeObject(new { notification = new { body = notif.Body, title = notif.Title, tags = notif.Tags} });
+                    var jsonNotif = JsonConvert.SerializeObject(new { notification = 
+                        new { body = notif.Body, title = notif.Title, tags = notif.Tags} }
+                    );
                     outcome = await Notifications.Instance.Hub.SendGcmNativeNotificationAsync(jsonNotif);
                     break;
             }

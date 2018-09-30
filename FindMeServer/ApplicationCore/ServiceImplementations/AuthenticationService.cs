@@ -1,4 +1,5 @@
 ﻿using ApplicationCore.DataTransferObjects;
+using ApplicationCore.Helpers;
 using ApplicationCore.Models;
 using ApplicationCore.RepositoryInterfaces;
 using ApplicationCore.ServiceInterfaces;
@@ -57,6 +58,24 @@ namespace ApplicationCore.ServiceImplementations
             {
                 return null;
             }
+        }
+
+        public async Task<DataResult> ResetPassword(Institution institution)
+        {
+
+            var instFromServer = await this.institutionRepository.GetInstitutionById(institution.Id);
+            if (Cryptor.DecryptPassword(instFromServer.Password, institution.Password))
+            {
+                instFromServer.Password = Cryptor.EncryptPassword(institution.NewPassword);
+                var result = await this.institutionRepository.UpdateInstitution(instFromServer);
+                if (result > 0)
+                {
+                    var inst = this.mapper.Map<Institution, InstitutionDTO>(instFromServer);
+                    return new DataResult(inst, Message.Successful);
+                }
+                return new DataResult(null, Message.ServerError);
+            }
+            return new DataResult(null, Message.IncorrectPassword);
         }
     }
 }

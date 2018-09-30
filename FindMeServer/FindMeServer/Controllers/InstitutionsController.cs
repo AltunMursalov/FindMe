@@ -1,8 +1,10 @@
-﻿using ApplicationCore.Models;
+﻿using ApplicationCore.Helpers;
+using ApplicationCore.Models;
 using ApplicationCore.ServiceInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace FindMeServer.Controllers
@@ -17,6 +19,25 @@ namespace FindMeServer.Controllers
         {
             this.dataService = dataService;
             this.authenticationService = authenticationService;
+        }
+
+        [HttpPut("/api/[controller]/resetpassword")]
+        public async Task<IActionResult> ResetPassword([FromBody]Institution institution)
+        {
+            if (this.TryValidateModel(institution))
+            {
+                var result = await this.authenticationService.ResetPassword(institution);
+                if (result.Message == Message.Successful)
+                    return Json(result.Data);
+                else if (result.Message == Message.IncorrectPassword)
+                    return StatusCode((int)HttpStatusCode.Unauthorized);
+                else
+                    return StatusCode((int)HttpStatusCode.InternalServerError);
+            }
+            else
+            {
+                return BadRequest(institution);
+            }
         }
 
         [HttpPost("/api/[controller]/registerinstitution")]

@@ -15,6 +15,8 @@ namespace ApplicationCore.Models
         public int InstitutionTypeId { get; set; }
         [Required, MinLength(6), MaxLength(300)]
         public string Password { get; set; }
+        [NotMapped]
+        public string NewPassword { get; set; }
         [Required]
         public double Longitude { get; set; }
         [Required]
