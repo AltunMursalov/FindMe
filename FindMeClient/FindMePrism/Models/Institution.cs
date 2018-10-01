@@ -24,6 +24,7 @@ namespace FindMePrism.Models
         private double latitude;
         private double longitude;
         private int cityId;
+        private string newPassword;
         private string confirmPassword;
 
         public int Id { get => id; set { id = value; base.RaisePropertyChanged(); } }
@@ -42,7 +43,7 @@ namespace FindMePrism.Models
         public City City { get => institutionCity; set { institutionCity = value; base.RaisePropertyChanged(); } }
         public double Latitude { get => latitude; set { latitude = value; base.RaisePropertyChanged(); } }
         public double Longitude { get => longitude; set { longitude = value; base.RaisePropertyChanged(); } }
-
+        public string NewPassword { get => newPassword; set { newPassword = value; base.RaisePropertyChanged(); } }
         [JsonIgnore]
         public string ConfirmPassword { get => confirmPassword; set { confirmPassword = value; base.RaisePropertyChanged(); } }
 

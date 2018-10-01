@@ -12,20 +12,12 @@ namespace FindMePrism.ViewModels
     {
         private Institution institution;
         public Institution Institution { get => institution; set => SetProperty(ref institution, value); }
-
-        private string oldPassword;
-        public string OldPassword { get => oldPassword; set => SetProperty(ref oldPassword, value); }
-
-
-        private string newPassword;
-        public string NewPassword { get => newPassword; set => SetProperty(ref newPassword, value); }
-
-        private string confirmPassword;
-        public string ConfirmPassword { get => confirmPassword; set => SetProperty(ref confirmPassword, value); }
-
+     
         private readonly IEventAggregator eventAggregator;
         private readonly IRegionManager regionManager;
         private readonly IInstitutionService institutionService;
+        public DelegateCommand SaveCommand { get; }
+
 
         public ViewChangePasswordViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IInstitutionService institutionService)
         {
@@ -33,6 +25,7 @@ namespace FindMePrism.ViewModels
             this.regionManager = regionManager;
             this.institutionService = institutionService;
             this.eventAggregator.GetEvent<ChangePasswordEvent>().Subscribe(GetInstitution);
+            SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand);
         }
 
         private void Navigate(string uri)
@@ -63,24 +56,24 @@ namespace FindMePrism.ViewModels
             }
         }
 
-        private DelegateCommand saveCommand;
-        public DelegateCommand SaveCommand
+
+
+        private async void ExecuteSaveCommand()
         {
-            get
+            var res = await institutionService.ChangePassword(Institution);
+            if (res)
             {
-                return saveCommand ?? (saveCommand = new DelegateCommand(
-                    async () => {
-                        Institution.Password = OldPassword;
-                       //newPassword ? 
-                        var res = await institutionService.ChangePassword(Institution);
-                        if (res)
-                        {
-                            Navigate("ViewAdmin");
-                            Institution = new Institution();
-                        }
-                    }
-                ));
+                Navigate("ViewAdmin");
+                Institution = new Institution();
             }
+        }
+        
+
+        private bool CanExecuteSaveCommand()
+        {
+            if (Institution?.NewPassword == Institution?.ConfirmPassword)
+                return true;
+            return false;
         }
     }
 }
