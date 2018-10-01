@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Net;
 using System.Collections.Generic;
-using FindMeServer.NotificationConfig;
-using Newtonsoft.Json.Linq;
+using ApplicationCore.ServiceInterfaces;
 
 namespace FindMeServer.Controllers
 {
@@ -14,87 +13,48 @@ namespace FindMeServer.Controllers
     [Route("api/Register")]
     public class RegisterController : Controller
     {
-        private NotificationHubClient hub;
+        private readonly ISubscribeService subscribeService;
 
-        public RegisterController()
+        public RegisterController(ISubscribeService subscribeService)
         {
-            hub = Notifications.Instance.Hub;
-        }
-
-        public class DeviceRegistration
-        {
-            public string Platform { get; set; }
-            public string Handle { get; set; }
-            public string[] Tags { get; set; }
+            this.subscribeService = subscribeService;
         }
 
         // POST api/register
         // This creates a registration id
         [Route("{regId}")]
-        public async Task<GcmRegistrationDescription> Post([FromBody]string[] tags, string regId)
+        public async Task<IActionResult> Post([FromBody]string[] tags, string regId)
         {
-            GcmRegistrationDescription result = null;
-            var isRegIdExist = await this.hub.RegistrationExistsAsync(regId);
-            if (isRegIdExist)
+            if (tags != null && regId != null)
             {
-                await this.hub.DeleteRegistrationAsync(regId);
+                var result = await this.subscribeService.Subsribe(tags, regId);
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+                return StatusCode((int)HttpStatusCode.InternalServerError);
             }
-
-            if (tags != null)
-                result = await this.hub.CreateGcmNativeRegistrationAsync(regId, tags);
             else
-                result = await this.hub.CreateGcmNativeRegistrationAsync(regId);
-            return result;
+            {
+                return BadRequest();
+            }
         }
 
-        // PUT api/register/5
-        // This creates or updates a registration (with provided channelURI) at the specified id
-        public async Task<HttpResponseMessage> Put(string id, DeviceRegistration deviceUpdate)
+        [HttpPost("api/register/remove/{regId}")]
+        public async Task<IActionResult> Delete([FromBody]string[] tags, string regId)
         {
-            RegistrationDescription registration = null;
-            switch (deviceUpdate.Platform)
+            if (tags != null && regId != null)
             {
-                case "mpns":
-                    registration = new MpnsRegistrationDescription(deviceUpdate.Handle);
-                    break;
-                case "wns":
-                    registration = new WindowsRegistrationDescription(deviceUpdate.Handle);
-                    break;
-                case "apns":
-                    registration = new AppleRegistrationDescription(deviceUpdate.Handle);
-                    break;
-                case "gcm":
-                    registration = new GcmRegistrationDescription(deviceUpdate.Handle);
-                    break;
-                default:
-                    break;
-                    //throw new HttpResponseException(HttpStatusCode.BadRequest);
+                var result = await this.subscribeService.Unsubscribe(tags, regId);
+                if (result)
+                    return StatusCode((int)HttpStatusCode.OK);
+                else
+                    return StatusCode((int)HttpStatusCode.ServiceUnavailable);
             }
-
-            registration.RegistrationId = id;
-            var username = HttpContext.User.Identity.Name;
-
-            // add check if user is allowed to add these tags
-            registration.Tags = new HashSet<string>(deviceUpdate.Tags);
-            registration.Tags.Add("username:" + username);
-
-            try
+            else
             {
-                await hub.CreateOrUpdateRegistrationAsync(registration);
+                return BadRequest();
             }
-            catch (MessagingException e)
-            {
-                ReturnGoneIfHubResponseIsGone(e);
-            }
-
-            return new HttpResponseMessage(HttpStatusCode.OK);
-        }
-
-        // DELETE api/register/5
-        public async Task<HttpResponseMessage> Delete(string id)
-        {
-            await hub.DeleteRegistrationAsync(id);
-            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         private static void ReturnGoneIfHubResponseIsGone(MessagingException e)

@@ -36,6 +36,7 @@ namespace FindMeServer
             services.AddTransient<IInstitutionsTypeRepository, InstitutionsTypeRepository>();
             #endregion
             #region Services
+            services.AddTransient<ISubscribeService, SubscribeService>();
             services.AddTransient<IDataService, DataService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             #endregion
