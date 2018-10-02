@@ -4,28 +4,36 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using Prism.Services;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
-namespace FindMeMobileClient.ViewModels {
-    public class HomePageViewModel : BindableBase, INavigationAware {
+namespace FindMeMobileClient.ViewModels
+{
+    public class HomePageViewModel : BindableBase, INavigationAware
+    {
         private readonly IPageDialogService pageDialogService;
         private readonly INavigationService navigationService;
         private readonly IDataService dataService;
-        public HomePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService) {
+        public HomePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService)
+        {
             this.pageDialogService = pageDialogService;
             this.dataService = dataService;
             this.navigationService = navigationService;
-            SearchCommand = new DelegateCommand(Search);
-            FilterCommand = new DelegateCommand(Filter);
-            MoreCommand = new DelegateCommand(More);
-            Losts = new ObservableCollection<Lost>();
+            this.IsBusy = false;
+            this.SearchCommand = new DelegateCommand(Search);
+            this.FilterCommand = new DelegateCommand(Filter);
+            this.MoreCommand = new DelegateCommand(More);
+            this.RefreshLostsCommand = new DelegateCommand(Update);
+            this.Losts = new ObservableCollection<Lost>();
         }
 
         public ObservableCollection<Lost> Losts { get; set; }
+
+        #region IsBusy
+        private bool isBusy;
+        public bool IsBusy { get => this.isBusy; set { SetProperty(ref this.isBusy, value); } }
+        #endregion
 
         #region Search
         public DelegateCommand SearchCommand { get; set; }
@@ -36,16 +44,17 @@ namespace FindMeMobileClient.ViewModels {
                 SetProperty(ref this.searchText, value);
             }
         }
-        public void Search() {
-            Update(SearchText);
-            //pageDialogService.DisplayAlertAsync("Search Command", "Search command was execute", "OK");
+        public void Search()
+        {
+            Update(this.SearchText);
         }
         #endregion
 
         #region Filter
         public DelegateCommand FilterCommand { get; set; }
 
-        public void Filter() {
+        public void Filter()
+        {
             navigationService.NavigateAsync("FilterPage");
         }
         #endregion
@@ -53,7 +62,7 @@ namespace FindMeMobileClient.ViewModels {
         #region More
         public DelegateCommand MoreCommand { get; set; }
 
-
+        public DelegateCommand RefreshLostsCommand { get; set; }
 
         private Lost selectedItem;
         public Lost SelectedItem {
@@ -63,27 +72,36 @@ namespace FindMeMobileClient.ViewModels {
             }
         }
 
-        public async void More() {
+        public async void More()
+        {
             NavigationParameters navigationParameters = new NavigationParameters();
             navigationParameters.Add("SelectedLost", SelectedItem);
             await navigationService.NavigateAsync("MorePage", navigationParameters);
         }
         #endregion
 
-        public void Update() {
-            Losts.Clear();
-            var losts = this.dataService.GetLosts();
-            if (App.Filter == null) {
+        public async void Update()
+        {
+            this.IsBusy = true;
+            this.Losts.Clear();
+            var losts = await this.dataService.GetLosts();
+            if (App.Filter == null)
+            {
                 {
-                    if (losts != null) {
-                        foreach (var item in losts) {
-                            Device.BeginInvokeOnMainThread(() => {
-                                Losts.Add(item);
+                    if (losts != null)
+                    {
+                        foreach (var item in losts)
+                        {
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                this.Losts.Add(item);
                             });
                         }
                     }
                 }
-            } else {
+            }
+            else
+            {
                 var lostsFiltered = losts.Where(p => string.IsNullOrWhiteSpace(p.FirstName) ? true : string.IsNullOrWhiteSpace(App.Filter.FirstName) ? true : (p.FirstName == App.Filter.FirstName) &&
                         string.IsNullOrWhiteSpace(p.MiddleName) ? true : string.IsNullOrWhiteSpace(App.Filter.MiddleName) ? true : (p.MiddleName == App.Filter.MiddleName) &&
                         string.IsNullOrWhiteSpace(p.LastName) ? true : string.IsNullOrWhiteSpace(App.Filter.LastName) ? true : (p.LastName == App.Filter.LastName) &&
@@ -95,25 +113,34 @@ namespace FindMeMobileClient.ViewModels {
                         string.IsNullOrEmpty(App.Filter.EyeColor) ? true : p.EyeColor == App.Filter.EyeColor &&
                         string.IsNullOrEmpty(App.Filter.BodyType) ? true : p.BodyType == App.Filter.BodyType &&
                         string.IsNullOrEmpty(App.Filter.Gender) ? true : p.Gender == App.Filter.Gender);
-                foreach (var item in lostsFiltered) {
-                    Device.BeginInvokeOnMainThread(() => {
-                        Losts.Add(item);
+                foreach (var item in lostsFiltered)
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        this.Losts.Add(item);
                     });
                 }
             }
+            this.IsBusy = false;
         }
 
-        public void Update(string param) {
-            Losts.Clear();
-            var losts = this.dataService.GetLosts();
-            if (losts != null) {
+        public async void Update(string param)
+        {
+            this.IsBusy = true;
+            this.Losts.Clear();
+            var losts = await this.dataService.GetLosts();
+            if (losts != null)
+            {
                 var lostsFiltered = losts.Where((p) => p.FullName.ToLower().Contains(param.ToLower()));
-                foreach (var item in lostsFiltered) {
-                    Device.BeginInvokeOnMainThread(() => {
-                        Losts.Add(item);
+                foreach (var item in lostsFiltered)
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        this.Losts.Add(item);
                     });
                 }
             }
+            this.IsBusy = false;
         }
 
         public void OnNavigatedFrom(NavigationParameters parameters) { }

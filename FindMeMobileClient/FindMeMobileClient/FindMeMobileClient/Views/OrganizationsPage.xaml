@@ -5,31 +5,42 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FindMeMobileClient.Views.OrganizationsPage">
     <ContentPage.Content>
-        <ListView ItemsSource="{Binding Institutions}" HasUnevenRows="True" ItemTapped="ListView_ItemTapped">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Frame Margin="7">
-                            <StackLayout>
-                                <Label Text="{Binding Name, Mode=OneWay}" FontSize="Large"/>
-                                <Label Text="{Binding InstitutionCity.Name, Mode=OneWay}"/>
-                                <Grid IsVisible="{Binding IsVisible, Mode=OneWay, UpdateSourceEventName=PropertyChanged}">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Label Grid.Row="0" Text="{Binding Address, Mode=OneWay}"/>
-                                    <Label Grid.Row="1" Text="{Binding Number, Mode=OneWay}"/>
-                                    <Label Grid.Row="2" Text="{Binding OpeningHours, Mode=OneWay}"/>
-                                    <Label Grid.Row="3" Text="{Binding Website, Mode=OneWay}"/>
-                                </Grid>
-                            </StackLayout>
-                        </Frame>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <RelativeLayout>
+            <ListView ItemsSource="{Binding Institutions}" HasUnevenRows="True" ItemTapped="ListView_ItemTapped"
+                      IsPullToRefreshEnabled="True" RefreshCommand="{Binding RefreshInstitutionsCommand}" IsRefreshing="{Binding IsBusy}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Margin="7">
+                                <StackLayout>
+                                    <Label Text="{Binding Name, Mode=OneWay}" FontSize="Large"/>
+                                    <Label Text="{Binding InstitutionCity.Name, Mode=OneWay}"/>
+                                    <Grid IsVisible="{Binding IsVisible, Mode=OneWay, UpdateSourceEventName=PropertyChanged}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0" Text="{Binding Address, Mode=OneWay}"/>
+                                        <Label Grid.Row="1" Text="{Binding Number, Mode=OneWay}"/>
+                                        <Label Grid.Row="2" Text="{Binding OpeningHours, Mode=OneWay}"/>
+                                        <Label Grid.Row="3" Text="{Binding Website, Mode=OneWay}"/>
+                                    </Grid>
+                                </StackLayout>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!--<ActivityIndicator IsVisible="{Binding IsBusy, UpdateSourceEventName=PropertyChanged}"
+                               IsRunning="{Binding IsBusy, UpdateSourceEventName=PropertyChanged}"
+                               Color="#428e92"
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"
+                               RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.33}"
+                               RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=0.33}"
+                               />-->
+        </RelativeLayout>
     </ContentPage.Content>
 </ContentPage>
