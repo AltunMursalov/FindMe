@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="FindMeMobileClient.Views.MorePage" Title="More information">
     <ContentPage.Content>
@@ -24,6 +24,7 @@
                 <Label Text="{Binding Institution.Name, Mode=OneWay, UpdateSourceEventName=PropertyChanged, StringFormat='Institution: {0}'}" Margin="5" FontSize="Large"/>
                 <Label Text="{Binding Institution.Address, Mode=OneWay, UpdateSourceEventName=PropertyChanged, StringFormat='Address: {0}'}" Margin="5" FontSize="Large"/>
                 <Label Text="{Binding Institution.Number, Mode=OneWay, UpdateSourceEventName=PropertyChanged, StringFormat='Phone: {0}'}" Margin="5" FontSize="Large"/>
+                <Button Text="Show on map" Command="{Binding ShowOnMap}"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

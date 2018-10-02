@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using Prism.Commands;
 
 namespace FindMeMobileClient.ViewModels {
     public class MorePageViewModel : BindableBase, INavigationAware {
@@ -18,7 +19,18 @@ namespace FindMeMobileClient.ViewModels {
             this.navigationService = navigationService;
             this.pageDialogService = pageDialogService;
             this.dataService = dataService;
+            this.ShowOnMap = new DelegateCommand(ShowOnMapMethod);
         }
+
+
+        public DelegateCommand ShowOnMap { get; set; }
+
+        public async void ShowOnMapMethod() {
+            var prms = new NavigationParameters();
+            prms.Add("MorePageQuery", Lost);
+            await navigationService.NavigateAsync("MapPage", prms);
+        }
+
 
         private Lost lost;
 

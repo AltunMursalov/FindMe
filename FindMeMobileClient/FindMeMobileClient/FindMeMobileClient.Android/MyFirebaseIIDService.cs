@@ -17,7 +17,7 @@ namespace FindMeMobileClient.Droid
         {
             var refreshedToken = FirebaseInstanceId.Instance.Token;
             Console.WriteLine($"Token received: {refreshedToken}");
-            SendRegistrationToServerAsync(refreshedToken);
+            //SendRegistrationToServerAsync(refreshedToken);
         }
 
         async Task SendRegistrationToServerAsync(string token)

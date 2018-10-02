@@ -12,6 +12,20 @@ namespace FindMeMobileClient.Models {
         private string _openingHours;
         private string _website;
         private int _cityId;
+        private double longitude;
+        private double latitude;
+
+        public double Latitude {
+            get { return latitude; }
+            set { latitude = value; base.OnPropertyChanged(); }
+        }
+
+
+        public double Longitude {
+            get { return longitude; }
+            set { longitude = value; base.OnPropertyChanged(); }
+        }
+
 
         private bool isVisible;
 

@@ -5,6 +5,7 @@ using FindMeMobileClient.Views;
 using Prism;
 using Prism.Autofac;
 using Prism.Ioc;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -30,6 +31,7 @@ namespace FindMeMobileClient
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<IDataService, DataService>();
+            containerRegistry.Register<ISubscribeService, SubscribeService>();
             containerRegistry.RegisterForNavigation<HomePage>();
             containerRegistry.RegisterForNavigation<SettingsPage>();
             containerRegistry.RegisterForNavigation<MainPage>();
@@ -37,6 +39,9 @@ namespace FindMeMobileClient
             containerRegistry.RegisterForNavigation<OrganizationsPage>();
             containerRegistry.RegisterForNavigation<FilterPage>();
             containerRegistry.RegisterForNavigation<MorePage>();
+            containerRegistry.RegisterForNavigation<SubscribesPage>();
+            containerRegistry.RegisterForNavigation<OfflinePage>();
+            containerRegistry.RegisterForNavigation<MapPage>();
         }
 
         protected override void OnInitialized()

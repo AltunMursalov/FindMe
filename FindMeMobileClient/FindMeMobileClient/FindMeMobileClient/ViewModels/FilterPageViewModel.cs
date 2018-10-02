@@ -38,8 +38,7 @@ namespace FindMeMobileClient.ViewModels {
             if (ageBegin < 0 || ageBegin > 150) { pageDialogService.DisplayAlertAsync("filter message", "Enter filter info correct please", "OK"); return; }
             int ageEnd = int.Parse(string.IsNullOrWhiteSpace(this.AgeEnd) ? "0" : this.AgeEnd);
             if (ageEnd < ageBegin || ageEnd > 150) { pageDialogService.DisplayAlertAsync("filter message", "Enter filter info correct please", "OK"); return; }
-            App.Filter = new Filter
-            {
+            App.Filter = new Filter {
                 FirstName = string.IsNullOrWhiteSpace(this.FirstName) ? null : this.FirstName,
                 MiddleName = string.IsNullOrWhiteSpace(this.MiddleName) ? null : this.MiddleName,
                 LastName = string.IsNullOrWhiteSpace(this.LastName) ? null : this.LastName,
@@ -49,7 +48,8 @@ namespace FindMeMobileClient.ViewModels {
                 EyeColor = this.SelectedEyeColor,
                 HairColor = this.SelectedHairColor,
                 Gender = this.SelectedGender,
-                Height = int.Parse(string.IsNullOrWhiteSpace(this.Height) ? "0" : this.Height)
+                Height = int.Parse(string.IsNullOrWhiteSpace(this.Height) ? "0" : this.Height),
+                FilterDate = DateTime.Now
             };
             var param = new NavigationParameters();
             param.Add("filter", true);

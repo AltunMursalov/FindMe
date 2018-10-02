@@ -8,34 +8,26 @@ using System.Collections.ObjectModel;
 using System.Text;
 using Xamarin.Forms;
 
-namespace FindMeMobileClient.ViewModels
-{
-    public class OrganizationsPageViewModel : BindableBase
-    {
+namespace FindMeMobileClient.ViewModels {
+    public class OrganizationsPageViewModel : BindableBase {
         private readonly IDataService dataService;
-        public OrganizationsPageViewModel(IDataService dataService)
-        {
+        public OrganizationsPageViewModel(IDataService dataService) {
             this.dataService = dataService;
-            this.Institutions = new ObservableCollection<Institution>();
+            Institutions = new ObservableCollection<Institution>();
             Update();
         }
 
         public ObservableCollection<Institution> Institutions { get; set; }
 
-        public async void Update()
-        {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                this.Institutions.Clear();
+        public void Update() {
+            Device.BeginInvokeOnMainThread(() => {
+                Institutions.Clear();
             });
-            var institutions = await this.dataService.GetInstitutions();
-            if (institutions != null)
-            {
-                foreach (var item in institutions)
-                {
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        this.Institutions.Add(item);
+            var institutions = this.dataService.GetInstitutions();
+            if (institutions != null) {
+                foreach (var item in institutions) {
+                    Device.BeginInvokeOnMainThread(() => {
+                        Institutions.Add(item);
                     });
                 }
             }

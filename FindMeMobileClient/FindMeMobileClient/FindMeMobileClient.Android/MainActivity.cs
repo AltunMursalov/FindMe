@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace FindMeMobileClient.Droid
 {
-    [Activity(Label = "FindMeMobileClient", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Find Me", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         public const string TAG = "MainActivity";
@@ -23,6 +23,7 @@ namespace FindMeMobileClient.Droid
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            Xamarin.FormsMaps.Init(this, bundle);
             LoadApplication(new App());
             Window.SetSoftInputMode(SoftInput.AdjustResize);
 

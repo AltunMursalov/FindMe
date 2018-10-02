@@ -15,6 +15,13 @@ namespace FindMeMobileClient.Models {
         private string eyeColor;
         private string bodyType;
         private string gender;
+        private DateTime filterDate;
+
+        public DateTime FilterDate {
+            get { return filterDate; }
+            set { filterDate = value; base.OnPropertyChanged(); }
+        }
+
 
         public string Gender {
             get { return gender; }
