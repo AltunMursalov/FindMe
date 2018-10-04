@@ -23,7 +23,6 @@ namespace FindMePrism.Services
 
         public async Task<Lost> AddLost(Lost lost)
         {
-            //lost.Institution = null;
             var data = JsonConvert.SerializeObject(lost);
             var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
             var response = await this.client.PostAsync("/api/losts/newlost", content);

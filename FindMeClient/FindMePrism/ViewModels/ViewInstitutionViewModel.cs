@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using System.ComponentModel;
+using System.Timers;
+using System.Threading.Tasks;
 
 namespace FindMePrism.ViewModels
 {
@@ -18,6 +20,7 @@ namespace FindMePrism.ViewModels
     {
         private Institution institution;
         public Institution Institution { get => institution; set => SetProperty(ref institution, value); }
+
         private List<InstitutionType> institutionTypes;
         public List<InstitutionType> InstitutionTypes { get => institutionTypes; set => SetProperty(ref institutionTypes, value); }
 
@@ -39,17 +42,29 @@ namespace FindMePrism.ViewModels
             this.eventAggregator = eventAggregator;
             this.regionManager = regionManager;
             this.institutionService = service;
+            InstitutionTypes = new List<InstitutionType>();
+            Institution = new Institution() {
+                City = new City(),
+                InstitutionType = new InstitutionType()
+            };
+
+            Institution.PropertyChanged += Institution_PropertyChanged;
+            Pushpins = new ObservableCollection<Pushpin>();
+            OkCommand = new DelegateCommand(ExecuteOkCommandAsync, CanExecuteOkCommand);
             editProcess = false;
+            this.eventAggregator.GetEvent<InstTypesEvent>().Subscribe(GetTypes);
             this.eventAggregator.GetEvent<InstEvent>().Subscribe(GetInstitution);
             this.eventAggregator.GetEvent<AddressEvent>().Subscribe(GetAddress);
-            OkCommand = new DelegateCommand(ExecuteOkCommandAsync, CanExecuteOkCommand);
-            Institution = new Institution();
-            Institution.City = new City();
-            Institution.InstitutionType = new InstitutionType();
-            Pushpins = new ObservableCollection<Pushpin>();
+        }
+
+        private void GetTypes(IEnumerable<InstitutionType> ts)
+        {
             InstitutionTypes = new List<InstitutionType>();
-            Institution.PropertyChanged += Institution_PropertyChanged;
-            FillInstitutionTypes();
+            if (ts != null) {
+                foreach (var item in ts) {
+                    InstitutionTypes.Add(item);
+                }
+            }
         }
 
         private void Institution_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -57,22 +72,10 @@ namespace FindMePrism.ViewModels
             this.OkCommand.RaiseCanExecuteChanged();
         }
 
-        public async void FillInstitutionTypes()
-        {
-            InstitutionTypes = new List<InstitutionType>();
-            List<InstitutionType> its = new List<InstitutionType>();
-            its =  await this.institutionService.GetInstitutionTypes();
-            if (its!=null) {
-                foreach (var item in its) {
-                    InstitutionTypes.Add(item);
-                }
-            }
-
-        }
         private void GetAddress(List<string> address)
         {
             if (address != null)
-            {
+            {               
                 Institution.City.Name = address[0];
                 Institution.Address = address[1];
                 Institution.Latitude = Convert.ToDouble(address[2]);
@@ -85,10 +88,7 @@ namespace FindMePrism.ViewModels
         {
             if (inst != null)
             {
-                Institution = inst.Clone() as Institution;
-                Institution.InstitutionType = inst.InstitutionType.Clone() as InstitutionType;
-                Institution.City = inst.City.Clone() as City;
-                this.Institution.InstitutionType.Id -= 1;
+                this.Institution = inst.Clone() as Institution;
                 editProcess = true;
                 this.eventAggregator.GetEvent<EditProcessEvent>().Publish(true);
             }
@@ -105,12 +105,9 @@ namespace FindMePrism.ViewModels
         {
             try
             {
-                if (editProcess)
-                {
-                    this.Institution.InstitutionType.Id += 1;
+                if (editProcess) {
                     var res = await this.institutionService.EditInstitution(Institution);
-                    if (res)
-                    {
+                    if (res) {
                         this.eventAggregator.GetEvent<EditInstEvent>().Publish(Institution);
                         Navigate("ViewAdmin");
                         Institution = new Institution();
@@ -121,11 +118,9 @@ namespace FindMePrism.ViewModels
                         this.eventAggregator.GetEvent<ShowAlertEvent>().Publish(new Notification { Content = "Error", Title = "Error" });
 
                 }
-                else
-                {
+                else {
                     var res = await this.institutionService.AddInstitution(Institution);
-                    if (res != null)
-                    {
+                    if (res != null) {
                         this.eventAggregator.GetEvent<NewInstEvent>().Publish(res);
                         Navigate("ViewAdmin");
                         Institution = new Institution();
@@ -156,8 +151,11 @@ namespace FindMePrism.ViewModels
                     () =>
                     {
                         Navigate("ViewAdmin");
-                        Institution = new Institution();
-                        Institution.City = new City();
+                        this.Institution = new Institution() {
+                            City = new City(),
+                            InstitutionType = new InstitutionType()
+                     };
+
                         this.eventAggregator.GetEvent<ClearPinsEvent>().Publish(true);
                     }
                 ));

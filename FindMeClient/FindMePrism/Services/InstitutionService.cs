@@ -70,7 +70,7 @@ namespace FindMePrism.Services
 
         public async Task<List<InstitutionType>> GetInstitutionTypes()
         {
-            var response = await this.client.GetAsync("/api/institutiontypes/getinstitutiontypes");
+            var response = this.client.GetAsync("/api/institutiontypes/getinstitutiontypes").Result;
             if (response.IsSuccessStatusCode)
             {
                 var data = await response.Content.ReadAsStringAsync();
@@ -78,12 +78,6 @@ namespace FindMePrism.Services
             }
             else
                 return null;
-
-
-            /*List<InstitutionType> Types = new List<InstitutionType>() {
-                new InstitutionType{ Id = 1, Type = "Medical"}
-            };
-            return Types;*/
         }
 
         public async Task<bool> ChangePassword(Institution institution)

@@ -20,5 +20,13 @@ namespace FindMePrism.Models
         {
             return this.MemberwiseClone();
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !(obj is InstitutionType))
+                return false;
+
+            return (((InstitutionType)obj).Id == this.Id);
+        }
     }
 }
