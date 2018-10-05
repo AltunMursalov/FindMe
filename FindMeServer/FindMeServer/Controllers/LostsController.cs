@@ -1,10 +1,10 @@
 ﻿using ApplicationCore.Models;
+using ApplicationCore.NotificationConfig;
 using ApplicationCore.ServiceInterfaces;
-using FindMeServer.NotificationConfig;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace FindMeServer.Controllers
@@ -14,11 +14,13 @@ namespace FindMeServer.Controllers
     {
         private readonly IAuthenticationService authenticationService;
         private readonly IDataService dataService;
+        private readonly ISubscribeService subscribeService;
 
-        public LostsController(IDataService dataService, IAuthenticationService authenticationService)
+        public LostsController(IDataService dataService, IAuthenticationService authenticationService, ISubscribeService subscribeService)
         {
             this.dataService = dataService;
             this.authenticationService = authenticationService;
+            this.subscribeService = subscribeService;
         }
 
         [HttpGet("/api/[controller]/getlosts")]
@@ -64,9 +66,23 @@ namespace FindMeServer.Controllers
         }
 
         [HttpPost("/api/[controller]/newlost")]
-        public async Task<JsonResult> CreateLost([FromBody]Lost lost)
+        public async Task<IActionResult> CreateLost([FromBody]Lost lost)
         {
-            return Json(await this.dataService.RegisterLost(lost));
+            var result = await this.dataService.RegisterLost(lost);
+            if (result != null)
+            {
+                await this.subscribeService.Notify(new Notification
+                {
+                    Body = "Added new lost!",
+                    Title = "New lost!",
+                    Tags = new List<string>
+                    {
+                        $"firstName: {lost.FirstName}", $"middleName: {lost.MiddleName}", $"lastName: {lost.LastName}"
+                    }
+                });
+                return Json(result);
+            }
+            return StatusCode((int)HttpStatusCode.InternalServerError);
         }
     }
 }

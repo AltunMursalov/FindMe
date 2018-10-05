@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using ApplicationCore.NotificationConfig;
 using ApplicationCore.ServiceInterfaces;
 using Microsoft.Azure.NotificationHubs;
+using Newtonsoft.Json;
 
 namespace ApplicationCore.ServiceImplementations
 {
@@ -14,6 +14,16 @@ namespace ApplicationCore.ServiceImplementations
         public SubscribeService()
         {
             this.hub = Notifications.Instance.Hub;
+        }
+
+        public async Task<NotificationOutcome> Notify(NotificationConfig.Notification notification)
+        {
+            var jsonNotif = JsonConvert.SerializeObject(new
+            {
+                notification =
+                new { body = notification.Body, title = notification.Title, tags = notification.Tags }
+            });
+            return await Notifications.Instance.Hub.SendGcmNativeNotificationAsync(jsonNotif);
         }
 
         public async Task<GcmRegistrationDescription> Subsribe(string[] tags, string regId)

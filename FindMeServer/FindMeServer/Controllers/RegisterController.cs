@@ -1,16 +1,15 @@
-﻿using Microsoft.Azure.NotificationHubs;
-using Microsoft.Azure.NotificationHubs.Messaging;
+﻿using Microsoft.Azure.NotificationHubs.Messaging;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
+
 using System.Net;
-using System.Collections.Generic;
 using ApplicationCore.ServiceInterfaces;
 
 namespace FindMeServer.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Register")]
+    [Route("api/register")]
     public class RegisterController : Controller
     {
         private readonly ISubscribeService subscribeService;
@@ -40,7 +39,7 @@ namespace FindMeServer.Controllers
             }
         }
 
-        [HttpPost("api/register/remove/{regId}")]
+        [HttpPost("api/[controller]/remove/{regId}")]
         public async Task<IActionResult> Delete([FromBody]string[] tags, string regId)
         {
             if (tags != null && regId != null)
