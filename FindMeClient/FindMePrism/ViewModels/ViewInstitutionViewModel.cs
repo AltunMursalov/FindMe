@@ -11,8 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using System.ComponentModel;
-using System.Timers;
-using System.Threading.Tasks;
+using System.Windows;
 
 namespace FindMePrism.ViewModels
 {
@@ -20,6 +19,12 @@ namespace FindMePrism.ViewModels
     {
         private Institution institution;
         public Institution Institution { get => institution; set => SetProperty(ref institution, value); }
+
+        private Visibility visibility;
+        public Visibility Visibility { get => visibility; set => SetProperty(ref visibility, value); }
+
+        private string label;
+        public string Label { get => label; set => SetProperty(ref label, value); }
 
         private List<InstitutionType> institutionTypes;
         public List<InstitutionType> InstitutionTypes { get => institutionTypes; set => SetProperty(ref institutionTypes, value); }
@@ -55,11 +60,13 @@ namespace FindMePrism.ViewModels
             this.eventAggregator.GetEvent<InstTypesEvent>().Subscribe(GetTypes);
             this.eventAggregator.GetEvent<InstEvent>().Subscribe(GetInstitution);
             this.eventAggregator.GetEvent<AddressEvent>().Subscribe(GetAddress);
+            Label = "Institution Registration Form";
+
         }
 
         private void GetTypes(IEnumerable<InstitutionType> ts)
         {
-            InstitutionTypes = new List<InstitutionType>();
+            InstitutionTypes.Clear();
             if (ts != null) {
                 foreach (var item in ts) {
                     InstitutionTypes.Add(item);
@@ -91,6 +98,8 @@ namespace FindMePrism.ViewModels
                 this.Institution = inst.Clone() as Institution;
                 editProcess = true;
                 this.eventAggregator.GetEvent<EditProcessEvent>().Publish(true);
+                Visibility = Visibility.Collapsed;
+                Label = "Institution Edit Form";
             }
         }
 
@@ -116,7 +125,6 @@ namespace FindMePrism.ViewModels
                     }
                     else
                         this.eventAggregator.GetEvent<ShowAlertEvent>().Publish(new Notification { Content = "Error", Title = "Error" });
-
                 }
                 else {
                     var res = await this.institutionService.AddInstitution(Institution);
@@ -130,6 +138,11 @@ namespace FindMePrism.ViewModels
                     else
                         this.eventAggregator.GetEvent<ShowAlertEvent>().Publish(new Notification { Content = "Error", Title = "Error" });
                 }
+                editProcess = false;
+                Visibility = Visibility.Visible;
+                Label = "Institution Registration Form";
+
+
             }
             catch (Exception) { }
         }
@@ -157,6 +170,10 @@ namespace FindMePrism.ViewModels
                      };
 
                         this.eventAggregator.GetEvent<ClearPinsEvent>().Publish(true);
+                        editProcess = false;
+                        Visibility = Visibility.Visible;
+                        Label = "Institution Registration Form";
+
                     }
                 ));
             }

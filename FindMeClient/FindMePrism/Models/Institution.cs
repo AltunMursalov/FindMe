@@ -29,7 +29,7 @@ namespace FindMePrism.Models
 
         public int Id { get => id; set { id = value; base.RaisePropertyChanged(); } }
 
-       // [Required(ErrorMessage = "This field is required")]
+        //[Required(ErrorMessage = "This field is required")]
         public string Name { get => name; set { name = value; base.RaisePropertyChanged(); } }
         public string Address { get => address; set { address = value; base.RaisePropertyChanged(); } }
         public string Phone { get => phone; set { phone = value; base.RaisePropertyChanged(); } }
