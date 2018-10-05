@@ -8,15 +8,12 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Xamarin.Forms;
 
-namespace FindMeMobileClient.ViewModels
-{
-    public class HomePageViewModel : BindableBase, INavigationAware
-    {
+namespace FindMeMobileClient.ViewModels {
+    public class HomePageViewModel : BindableBase, INavigationAware {
         private readonly IPageDialogService pageDialogService;
         private readonly INavigationService navigationService;
         private readonly IDataService dataService;
-        public HomePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService)
-        {
+        public HomePageViewModel(INavigationService navigationService, IPageDialogService pageDialogService, IDataService dataService) {
             this.pageDialogService = pageDialogService;
             this.dataService = dataService;
             this.navigationService = navigationService;
@@ -44,8 +41,7 @@ namespace FindMeMobileClient.ViewModels
                 SetProperty(ref this.searchText, value);
             }
         }
-        public void Search()
-        {
+        public void Search() {
             Update(this.SearchText);
         }
         #endregion
@@ -53,8 +49,7 @@ namespace FindMeMobileClient.ViewModels
         #region Filter
         public DelegateCommand FilterCommand { get; set; }
 
-        public void Filter()
-        {
+        public void Filter() {
             navigationService.NavigateAsync("FilterPage");
         }
         #endregion
@@ -72,73 +67,64 @@ namespace FindMeMobileClient.ViewModels
             }
         }
 
-        public async void More()
-        {
+        public async void More() {
             NavigationParameters navigationParameters = new NavigationParameters();
             navigationParameters.Add("SelectedLost", SelectedItem);
             await navigationService.NavigateAsync("MorePage", navigationParameters);
         }
         #endregion
 
-        public async void Update()
-        {
+        public async void Update() {
             this.IsBusy = true;
             this.Losts.Clear();
             var losts = await this.dataService.GetLosts();
-            if (App.Filter == null)
-            {
-                {
-                    if (losts != null)
+            if (losts != null) {
+
+                if (App.Filter == null) {
                     {
-                        foreach (var item in losts)
-                        {
-                            Device.BeginInvokeOnMainThread(() =>
-                            {
+                        foreach (var item in losts) {
+                            Device.BeginInvokeOnMainThread(() => {
                                 this.Losts.Add(item);
                             });
                         }
                     }
+                } else {
+                    var lostsFiltered = losts.Where(p => string.IsNullOrWhiteSpace(p.FirstName) ? true : string.IsNullOrWhiteSpace(App.Filter.FirstName) ? true : (p.FirstName == App.Filter.FirstName) &&
+                            string.IsNullOrWhiteSpace(p.MiddleName) ? true : string.IsNullOrWhiteSpace(App.Filter.MiddleName) ? true : (p.MiddleName == App.Filter.MiddleName) &&
+                            string.IsNullOrWhiteSpace(p.LastName) ? true : string.IsNullOrWhiteSpace(App.Filter.LastName) ? true : (p.LastName == App.Filter.LastName) &&
+                            string.IsNullOrWhiteSpace(p.Age) ? true : App.Filter.AgeBegin == 0 && App.Filter.AgeEnd == 0 ? true :
+                            App.Filter.AgeBegin < p.AgeBegin && p.AgeBegin < App.Filter.AgeEnd || App.Filter.AgeBegin < p.AgeEnd && p.AgeEnd < App.Filter.AgeEnd ||
+                            p.AgeBegin < App.Filter.AgeBegin && p.AgeEnd > App.Filter.AgeEnd &&
+                            App.Filter.Height == 0 ? true : App.Filter.Height == p.Height &&
+                            string.IsNullOrEmpty(App.Filter.HairColor) ? true : p.HairColor == App.Filter.HairColor &&
+                            string.IsNullOrEmpty(App.Filter.EyeColor) ? true : p.EyeColor == App.Filter.EyeColor &&
+                            string.IsNullOrEmpty(App.Filter.BodyType) ? true : p.BodyType == App.Filter.BodyType &&
+                            string.IsNullOrEmpty(App.Filter.Gender) ? true : p.Gender == App.Filter.Gender);
+                    foreach (var item in lostsFiltered) {
+                        Device.BeginInvokeOnMainThread(() => {
+                            this.Losts.Add(item);
+                        });
+                    }
                 }
-            }
-            else
-            {
-                var lostsFiltered = losts.Where(p => string.IsNullOrWhiteSpace(p.FirstName) ? true : string.IsNullOrWhiteSpace(App.Filter.FirstName) ? true : (p.FirstName == App.Filter.FirstName) &&
-                        string.IsNullOrWhiteSpace(p.MiddleName) ? true : string.IsNullOrWhiteSpace(App.Filter.MiddleName) ? true : (p.MiddleName == App.Filter.MiddleName) &&
-                        string.IsNullOrWhiteSpace(p.LastName) ? true : string.IsNullOrWhiteSpace(App.Filter.LastName) ? true : (p.LastName == App.Filter.LastName) &&
-                        string.IsNullOrWhiteSpace(p.Age) ? true : App.Filter.AgeBegin == 0 && App.Filter.AgeEnd == 0 ? true :
-                        App.Filter.AgeBegin < p.AgeBegin && p.AgeBegin < App.Filter.AgeEnd || App.Filter.AgeBegin < p.AgeEnd && p.AgeEnd < App.Filter.AgeEnd ||
-                        p.AgeBegin < App.Filter.AgeBegin && p.AgeEnd > App.Filter.AgeEnd &&
-                        App.Filter.Height == 0 ? true : App.Filter.Height == p.Height &&
-                        string.IsNullOrEmpty(App.Filter.HairColor) ? true : p.HairColor == App.Filter.HairColor &&
-                        string.IsNullOrEmpty(App.Filter.EyeColor) ? true : p.EyeColor == App.Filter.EyeColor &&
-                        string.IsNullOrEmpty(App.Filter.BodyType) ? true : p.BodyType == App.Filter.BodyType &&
-                        string.IsNullOrEmpty(App.Filter.Gender) ? true : p.Gender == App.Filter.Gender);
-                foreach (var item in lostsFiltered)
-                {
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        this.Losts.Add(item);
-                    });
-                }
+            } else {
+                await this.navigationService.NavigateAsync("app:///MainPage/NavigationPage/OfflinePage");
             }
             this.IsBusy = false;
         }
 
-        public async void Update(string param)
-        {
+        public async void Update(string param) {
             this.IsBusy = true;
             this.Losts.Clear();
             var losts = await this.dataService.GetLosts();
-            if (losts != null)
-            {
+            if (losts != null) {
                 var lostsFiltered = losts.Where((p) => p.FullName.ToLower().Contains(param.ToLower()));
-                foreach (var item in lostsFiltered)
-                {
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
+                foreach (var item in lostsFiltered) {
+                    Device.BeginInvokeOnMainThread(() => {
                         this.Losts.Add(item);
                     });
                 }
+            } else {
+                await this.navigationService.NavigateAsync("app:///MainPage/NavigationPage/OfflinePage");
             }
             this.IsBusy = false;
         }

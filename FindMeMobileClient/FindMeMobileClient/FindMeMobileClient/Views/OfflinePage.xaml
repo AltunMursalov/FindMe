@@ -3,12 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="FindMeMobileClient.Views.OfflinePage">
+             x:Class="FindMeMobileClient.Views.OfflinePage" Title="Rofline">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="Sorry, you have not internet connection and maybe human which you search already lies in the kanava"
+            <Label Text="No internet connection, connect"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+            <Button Text="Retry" VerticalOptions="Center" HorizontalOptions="Center" Command="{Binding RetryCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
