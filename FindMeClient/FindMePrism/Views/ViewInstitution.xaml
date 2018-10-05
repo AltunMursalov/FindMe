@@ -22,7 +22,7 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource TitleControlStyle}" Text="Institution Registration Form" x:Name="Label"/>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource TitleControlStyle}" Text="{Binding Label, UpdateSourceTrigger=PropertyChanged}"/>
             <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <WrapPanel>
                     <TextBlock Text="Type:" Style="{StaticResource LabelControlLostStyle}"/>
@@ -61,11 +61,11 @@
                     <TextBlock Text="Website:" Style="{StaticResource LabelControlLostStyle}"/>
                     <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="60,5,5,5" Text="{Binding Path=Institution.Website, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 </WrapPanel>
-                <WrapPanel x:Name="LoginField">
+                <WrapPanel Visibility="{Binding Visibility}">
                     <TextBlock Text="Login:" Style="{StaticResource LabelControlLostStyle}"/>
                     <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="75,5,5,5" Text="{Binding Path=Institution.Login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 </WrapPanel>
-                <WrapPanel x:Name="PasswordField">
+                <WrapPanel Visibility="{Binding Visibility}">
                     <TextBlock Text="Password:" Style="{StaticResource LabelControlLostStyle}"/>
                     <PasswordBox helpers:PasswordHelper.Password ="{Binding Institution.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Margin="55,5,5,5" Style="{StaticResource InputControlLostStyle}"/>
                     <TextBlock Text="Confirm Password:" Style="{StaticResource LabelControlLostStyle}" TextWrapping="Wrap"/>
