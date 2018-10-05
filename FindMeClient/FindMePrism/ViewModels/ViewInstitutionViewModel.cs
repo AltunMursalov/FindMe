@@ -11,8 +11,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using System.ComponentModel;
-using System.Timers;
-using System.Threading.Tasks;
 
 namespace FindMePrism.ViewModels
 {
@@ -59,7 +57,7 @@ namespace FindMePrism.ViewModels
 
         private void GetTypes(IEnumerable<InstitutionType> ts)
         {
-            InstitutionTypes = new List<InstitutionType>();
+            InstitutionTypes.Clear();
             if (ts != null) {
                 foreach (var item in ts) {
                     InstitutionTypes.Add(item);

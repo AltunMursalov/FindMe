@@ -87,6 +87,7 @@ namespace FindMePrism.ViewModels
                     async () =>
                     {
                         Navigate("ViewInstitution");
+                        this.eventAggregator.GetEvent<EditProcessEvent>().Publish(false);
                         var types = await this.institutionService.GetInstitutionTypes();
                         this.eventAggregator.GetEvent<InstTypesEvent>().Publish(types);
                     }

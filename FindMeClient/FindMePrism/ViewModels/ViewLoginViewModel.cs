@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using Prism.Regions;
 using System;
+using System.ComponentModel;
 
 namespace FindMePrism.ViewModels
 {
@@ -40,7 +41,7 @@ namespace FindMePrism.ViewModels
             this.institutionService = institutionService;
         }
 
-        private void Institution_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Institution_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             this.LoginCommand.RaiseCanExecuteChanged();
         }

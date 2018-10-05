@@ -41,6 +41,12 @@ namespace FindMePrism.Views
                 PasswordField.Visibility = Visibility.Collapsed;
                 Label.Text = "Institution Edit Form";
             }
+            else
+            {
+                LoginField.Visibility = Visibility.Visible;
+                PasswordField.Visibility = Visibility.Visible;
+                Label.Text = "Institution Registration Form";
+            }
         }
     }
 }

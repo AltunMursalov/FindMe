@@ -1,6 +1,9 @@
-﻿using FindMePrism.Events;
+﻿using System;
+using System.ComponentModel;
+using FindMePrism.Events;
 using FindMePrism.Models;
 using FindMePrism.Services;
+using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -24,8 +27,15 @@ namespace FindMePrism.ViewModels
             this.eventAggregator = eventAggregator;
             this.regionManager = regionManager;
             this.institutionService = institutionService;
+            this.Institution = new Institution();
+            SaveCommand = new DelegateCommand(ExecuteSaveCommand);
+            Institution.PropertyChanged += Institution_PropertyChanged;
             this.eventAggregator.GetEvent<ChangePasswordEvent>().Subscribe(GetInstitution);
-            SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand);
+        }
+
+        private void Institution_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            this.SaveCommand.RaiseCanExecuteChanged();
         }
 
         private void Navigate(string uri)
@@ -37,7 +47,6 @@ namespace FindMePrism.ViewModels
         private void GetInstitution(Institution institution)
         {
             if (institution != null) {
-                Institution = new Institution();
                 Institution = institution.Clone() as Institution;          
             }
         }
@@ -66,14 +75,21 @@ namespace FindMePrism.ViewModels
                 Navigate("ViewAdmin");
                 Institution = new Institution();
             }
+            else
+                this.eventAggregator.GetEvent<ShowAlertEvent>().Publish(new Notification { Content = "Error", Title = "Error" });
+
         }
-        
+
 
         private bool CanExecuteSaveCommand()
         {
-            if (Institution?.NewPassword == Institution?.ConfirmPassword)
-                return true;
-            return false;
+             if (String.IsNullOrWhiteSpace(Institution?.NewPassword) & String.IsNullOrWhiteSpace(Institution?.ConfirmPassword) & String.IsNullOrWhiteSpace(Institution?.Password))
+                 return false;
+             else if (Institution?.NewPassword == Institution?.ConfirmPassword)
+                 return true;
+             else
+                 return false;
+
         }
     }
 }
