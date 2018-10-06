@@ -3,19 +3,20 @@ using FindMeMobileClient.Services.Interfaces;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
+using System.Net.Http;
 using Xamarin.Forms;
 
-namespace FindMeMobileClient.ViewModels {
-    public class SubscribesPageViewModel : BindableBase, INavigationAware {
+namespace FindMeMobileClient.ViewModels
+{
+    public class SubscribesPageViewModel : BindableBase, INavigationAware
+    {
         private readonly ISubscribeService subscribeService;
         private readonly INavigationService navigationService;
 
         // Constructor
-        public SubscribesPageViewModel(ISubscribeService subscribeService, INavigationService navigationService) {
+        public SubscribesPageViewModel(ISubscribeService subscribeService, INavigationService navigationService)
+        {
             this.subscribeService = subscribeService;
             this.navigationService = navigationService;
             this.AddFilterCommand = new DelegateCommand(AddFilter);
@@ -40,49 +41,66 @@ namespace FindMeMobileClient.ViewModels {
 
         #region AddingFilter
         public DelegateCommand AddFilterCommand { get; set; }
-        private void AddFilter() {
+        private void AddFilter()
+        {
             navigationService.NavigateAsync("FilterPage");
         }
         #endregion
 
         #region DeleteFilter
         public DelegateCommand<object> DeleteFilterCommand { get; set; }
-        private void DeleteFilter(object param) {
-            if (param is Filter filter) {
+        private void DeleteFilter(object param)
+        {
+            if (param is Filter filter)
+            {
                 subscribeService.DeleteSubscribedFilter(filter.FilterDate);
                 Update();
             }
         }
         #endregion
 
-        public void Update() {
-            //Device.BeginInvokeOnMainThread(() => {
-            Filters.Clear();
-            //});
+        public void Update()
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                this.Filters.Clear();
+            });
             var filters = this.subscribeService.GetSubscribedFilters();
-            if (filters != null) {
-                foreach (var item in filters) {
-                    //Device.BeginInvokeOnMainThread(() => {
-                    Filters.Add(item);
-                    //});
+            if (filters != null)
+            {
+                foreach (var item in filters)
+                {
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        this.Filters.Add(item);
+                    });
                 }
             }
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters) {
+        public void OnNavigatedFrom(NavigationParameters parameters)
+        {
 
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters) {
-            if (parameters["filter"] is bool param) {
-                if (param == true) {
+        public void OnNavigatedTo(NavigationParameters parameters)
+        {
+            if (parameters["filter"] is bool param)
+            {
+                if (param == true)
+                {
+                    using (HttpClient client = new HttpClient())
+                    {
+                        client.PostAsync($"{App.MobileServiceUrl}/api/register/{App.Token}", null);
+                    }
                     subscribeService.AddSubscribedFilter();
                     Update();
                 }
             }
         }
 
-        public void OnNavigatingTo(NavigationParameters parameters) {
+        public void OnNavigatingTo(NavigationParameters parameters)
+        {
 
         }
 

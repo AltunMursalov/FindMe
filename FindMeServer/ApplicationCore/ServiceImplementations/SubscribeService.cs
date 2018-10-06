@@ -18,11 +18,23 @@ namespace ApplicationCore.ServiceImplementations
 
         public async Task<NotificationOutcome> Notify(NotificationConfig.Notification notification)
         {
-            var jsonNotif = JsonConvert.SerializeObject(new
+            string jsonNotif = null;
+            if (notification.Tags is null)
             {
-                notification =
-                new { body = notification.Body, title = notification.Title, tags = notification.Tags }
-            });
+                jsonNotif = JsonConvert.SerializeObject(new
+                {
+                    notification =
+                    new { body = notification.Body, title = notification.Title }
+                });
+            }
+            else
+            {
+                jsonNotif = JsonConvert.SerializeObject(new
+                {
+                    notification =
+                    new { body = notification.Body, title = notification.Title, tags = notification.Tags }
+                });
+            }
             return await Notifications.Instance.Hub.SendGcmNativeNotificationAsync(jsonNotif);
         }
 

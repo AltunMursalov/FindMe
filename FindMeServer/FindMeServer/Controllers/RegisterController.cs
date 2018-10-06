@@ -19,6 +19,20 @@ namespace FindMeServer.Controllers
             this.subscribeService = subscribeService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var result = await this.subscribeService.Notify(new ApplicationCore.NotificationConfig.Notification
+            {
+                Body = "Added new lost!",
+                Title = "New lost!"
+            });
+            if (result != null)
+                return Ok();
+            else
+                return BadRequest();
+        }
+
         // POST api/register
         // This creates a registration id
         [Route("{regId}")]
