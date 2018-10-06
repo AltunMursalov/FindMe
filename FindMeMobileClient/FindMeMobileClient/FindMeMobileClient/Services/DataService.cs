@@ -13,29 +13,35 @@ namespace FindMeMobileClient.Services {
         private readonly HttpClient client;
         public DataService() {
             this.client = new HttpClient {
-                Timeout = TimeSpan.FromSeconds(15),
+                Timeout = TimeSpan.FromSeconds(30),
                 BaseAddress = new Uri(App.MobileServiceUrl)
             };
         }
 
         public async Task<IEnumerable<Lost>> GetLosts() {
-            var response = await this.client.GetAsync("/api/losts/getlosts");
-            if (response.IsSuccessStatusCode)
-            {
-                var data = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<IEnumerable<Lost>>(data);
+            try {
+                var response = await this.client.GetAsync("/api/losts/getlosts");
+                if (response.IsSuccessStatusCode) {
+                    var data = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<IEnumerable<Lost>>(data);
+                }
+                return null;
+            } catch (Exception) {
+                return null;
             }
-            return null;
         }
 
         public async Task<IEnumerable<Institution>> GetInstitutions() {
-            var response = await this.client.GetAsync("/api/institutions/getinstitutions");
-            if (response.IsSuccessStatusCode)
-            {
-                var data = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<IEnumerable<Institution>>(data);
+            try {
+                var response = await this.client.GetAsync("/api/institutions/getinstitutions");
+                if (response.IsSuccessStatusCode) {
+                    var data = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<IEnumerable<Institution>>(data);
+                }
+                return null;
+            } catch (Exception) {
+                return null;
             }
-            return null;
         }
     }
 }

@@ -84,6 +84,11 @@ namespace Infrastructure.RepositoryImplementations
             return await this.context.SaveChangesAsync();
         }
 
+        public async Task<int> UpdatePassword(Institution institution) {
+            this.context.Institutions.Update(institution);
+            return await this.context.SaveChangesAsync();
+        }
+
         public async Task<int> RemoveInstitution(int id)
         {
             this.context.Institutions.Remove(await this.context.Institutions.FirstOrDefaultAsync(i => i.Id == id));

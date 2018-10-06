@@ -22,54 +22,54 @@
                 <RowDefinition Height="60"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource TitleControlStyle}" Text="Institution Registration Form" x:Name="Label"/>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource TitleControlStyle}" Text="{Binding Label, UpdateSourceTrigger=PropertyChanged}"/>
             <StackPanel Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <WrapPanel>
                     <TextBlock Text="Type:" Style="{StaticResource LabelControlLostStyle}"/>
-                    <ComboBox  Margin="80,5,5,5" ItemsSource="{Binding InstitutionTypes}" Width="200" SelectedIndex="{Binding Institution.InstitutionType.Id}" 
-                               SelectedItem="{Binding Institution.InstitutionType, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center">
+                    <ComboBox Margin="80,5,5,5" ItemsSource="{Binding InstitutionTypes}" Width="200" Height="35"
+                              SelectedItem="{Binding Institution.InstitutionType}"
+                              HorizontalContentAlignment="Center">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding Type}"/>
+                                <Label Content="{Binding Type}" Height="25" VerticalAlignment="Center"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </WrapPanel>
                 <WrapPanel>
                     <TextBlock Text="Name:" Style="{StaticResource LabelControlLostStyle}"/>
-                    <TextBox Name="NameTB" Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="72,5,5,5" Text="{Binding Path=Institution.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"></TextBox>
+                    <TextBox Name="NameTB" Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="72,5,5,5" Text="{Binding Path=Institution.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                     <TextBlock Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=NameTB}" Foreground="Red" Width="150" Margin="125,0,0,0"/>
                 </WrapPanel>
                 <WrapPanel>
                     <TextBlock Text="Phone:" Style="{StaticResource LabelControlLostStyle}"/>
-                    <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="71,5,5,5"  Text="{Binding Path=Institution.Phone, UpdateSourceTrigger=PropertyChanged}">
-                    </TextBox>
+                    <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="71,5,5,5"  Text="{Binding Path=Institution.Phone, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 </WrapPanel>
                 <WrapPanel>
                     <TextBlock Text="City:" Style="{StaticResource LabelControlLostStyle}"/>
-                    <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="85,5,5,5"  Text="{Binding Path=Institution.City.Name, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="85,5,5,5"  Text="{Binding Path=Institution.City.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 </WrapPanel>
                 <WrapPanel>
                     <TextBlock Text="Address:" Style="{StaticResource LabelControlLostStyle}"/>
-                    <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="60,5,5,5" Text="{Binding Institution.Address, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="60,5,5,5" Text="{Binding Institution.Address, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 </WrapPanel>
                 <WrapPanel>
                     <TextBlock Text="Opening hours:" Style="{StaticResource LabelControlLostStyle}"/>
-                    <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="20,5,5,5" Text="{Binding Path=Institution.OpeningHours, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="20,5,5,5" Text="{Binding Path=Institution.OpeningHours, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 </WrapPanel>
                 <WrapPanel>
                     <TextBlock Text="Website:" Style="{StaticResource LabelControlLostStyle}"/>
-                    <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="60,5,5,5" Text="{Binding Path=Institution.Website, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="60,5,5,5" Text="{Binding Path=Institution.Website, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 </WrapPanel>
-                <WrapPanel x:Name="LoginField">
+                <WrapPanel Visibility="{Binding Visibility}">
                     <TextBlock Text="Login:" Style="{StaticResource LabelControlLostStyle}"/>
-                    <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="75,5,5,5" Text="{Binding Path=Institution.Login, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="75,5,5,5" Text="{Binding Path=Institution.Login, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
                 </WrapPanel>
-                <WrapPanel x:Name="PasswordField">
+                <WrapPanel Visibility="{Binding Visibility}">
                     <TextBlock Text="Password:" Style="{StaticResource LabelControlLostStyle}"/>
-                    <PasswordBox helpers:PasswordHelper.Password ="{Binding Institution.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Margin="55,5,5,5" Style="{StaticResource InputControlLostStyle}"/>
+                    <PasswordBox helpers:PasswordHelper.Password ="{Binding Institution.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Margin="55,5,5,5" Style="{StaticResource InputControlLostStyle}"/>
                     <TextBlock Text="Confirm Password:" Style="{StaticResource LabelControlLostStyle}" TextWrapping="Wrap"/>
-                    <PasswordBox helpers:PasswordHelper.Password ="{Binding Institution.ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5" Style="{StaticResource InputControlLostStyle}"/>
+                    <PasswordBox helpers:PasswordHelper.Password ="{Binding Institution.ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" Margin="5" Style="{StaticResource InputControlLostStyle}"/>
                 </WrapPanel>
             </StackPanel>
             <local:BindableMap Grid.Column="1" Grid.Row="1" Margin="10" Pins="{Binding Pushpins}"/>

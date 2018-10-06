@@ -24,19 +24,11 @@ namespace FindMeServer.Controllers
         [Route("{regId}")]
         public async Task<IActionResult> Post([FromBody]string[] tags, string regId)
         {
-            if (tags != null && regId != null)
-            {
-                var result = await this.subscribeService.Subsribe(tags, regId);
-                if (result != null)
-                {
-                    return Ok(result);
-                }
-                return StatusCode((int)HttpStatusCode.InternalServerError);
-            }
+            var result = await this.subscribeService.Subsribe(tags, regId);
+            if (result != null)
+                return Ok();
             else
-            {
-                return BadRequest();
-            }
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable);
         }
 
         [HttpPost("api/[controller]/remove/{regId}")]
@@ -53,17 +45,6 @@ namespace FindMeServer.Controllers
             else
             {
                 return BadRequest();
-            }
-        }
-
-        private static void ReturnGoneIfHubResponseIsGone(MessagingException e)
-        {
-            var webex = e.InnerException as WebException;
-            if (webex.Status == WebExceptionStatus.ProtocolError)
-            {
-                var response = (HttpWebResponse)webex.Response;
-                if (response.StatusCode == HttpStatusCode.Gone)
-                    throw new HttpRequestException(HttpStatusCode.Gone.ToString());
             }
         }
     }

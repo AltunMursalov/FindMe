@@ -6,6 +6,7 @@ namespace ApplicationCore.RepositoryInterfaces
 {
     public interface IInstitutionRepository
     {
+        Task<int> UpdatePassword(Institution institution);
         Task<Institution> CreateInstitution(Institution newInstitution);
         Task<Institution> GetInstitutionByName(string name);
         Task<Institution> GetInstitutionByLogin(string login);

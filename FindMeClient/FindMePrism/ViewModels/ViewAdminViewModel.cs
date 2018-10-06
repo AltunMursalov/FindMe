@@ -84,9 +84,12 @@ namespace FindMePrism.ViewModels
             get
             {
                 return addInstitutionCommand ?? (addInstitutionCommand = new DelegateCommand(
-                    () =>
+                    async () =>
                     {
                         Navigate("ViewInstitution");
+                        //this.eventAggregator.GetEvent<EditProcessEvent>().Publish(false);
+                        var types = await this.institutionService.GetInstitutionTypes();
+                        this.eventAggregator.GetEvent<InstTypesEvent>().Publish(types);
                     }
                 ));
             }
@@ -99,10 +102,12 @@ namespace FindMePrism.ViewModels
             get
             {
                 return editInstitutionCommand ?? (editInstitutionCommand = new DelegateCommand<Institution>(
-                    param =>
+                    async param =>
                     {
                         Navigate("ViewInstitution");
-                        this.eventAggregator.GetEvent<InstEvent>().Publish(param);                    
+                        var types = await this.institutionService.GetInstitutionTypes();                       
+                        this.eventAggregator.GetEvent<InstTypesEvent>().Publish(types);
+                        this.eventAggregator.GetEvent<InstEvent>().Publish(param);
                     }
                 ));
             }

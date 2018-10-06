@@ -157,7 +157,6 @@ namespace FindMePrism.ViewModels
         private bool CanExecuteSaveCommand()
         {
             return true;
-            //!String.IsNullOrWhiteSpace(Lost.FirstName);
         }
 
         private DelegateCommand cancelCommand;

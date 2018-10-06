@@ -62,12 +62,11 @@ namespace ApplicationCore.ServiceImplementations
 
         public async Task<DataResult> ResetPassword(Institution institution)
         {
-
             var instFromServer = await this.institutionRepository.GetInstitutionById(institution.Id);
             if (Cryptor.DecryptPassword(instFromServer.Password, institution.Password))
             {
                 instFromServer.Password = Cryptor.EncryptPassword(institution.NewPassword);
-                var result = await this.institutionRepository.UpdateInstitution(instFromServer);
+                var result = await this.institutionRepository.UpdatePassword(instFromServer);
                 if (result > 0)
                 {
                     var inst = this.mapper.Map<Institution, InstitutionDTO>(instFromServer);

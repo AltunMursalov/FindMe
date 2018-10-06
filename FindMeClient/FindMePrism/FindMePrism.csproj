@@ -125,6 +125,7 @@
     <Compile Include="Events\InstEvent.cs" />
     <Compile Include="Events\InstInfoEvent.cs" />
     <Compile Include="Events\InstsEvent.cs" />
+    <Compile Include="Events\InstTypesEvent.cs" />
     <Compile Include="Events\LostsEvent.cs" />
     <Compile Include="Events\NewInstEvent.cs" />
     <Compile Include="Events\NewLostEvent.cs" />
@@ -245,11 +246,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\family.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\patient-safety.jpg">

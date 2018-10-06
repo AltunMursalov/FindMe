@@ -111,29 +111,23 @@ namespace FindMePrism.Views
                 foreach (var set in json.resourceSets) {
                     foreach (var resource in set.resources) {
                         city = resource.address.adminDistrict.Value;
-                        address = resource.address.addressLine; 
-                        
+                        address = resource.address.addressLine;                       
                     }
                 }
-
-                if (city!=null)
-                    fullinfo.Add(city);
-                if (address !=null)
-                    fullinfo.Add(address);
-                else
-                    fullinfo.Add(" ");
+                fullinfo.Add(city);
+                fullinfo.Add(address);
                 fullinfo.Add(location.Latitude.ToString());
                 fullinfo.Add(location.Longitude.ToString());
                 return fullinfo;
             }
-            catch (Exception ex)  { return null; }
+            catch (Exception)  { return null; }
         }
 
         private void Map_DoubleClicked(object sender, MouseButtonEventArgs e)
         {
             try
             {
-               var address = new List<string>();
+                var address = new List<string>();
                 Point point = Mouse.GetPosition(map);
                 Pushpin pin = new Pushpin();
                 pin.Location = map.ViewportPointToLocation(point);
@@ -141,10 +135,9 @@ namespace FindMePrism.Views
                 EventAggregator.GetEvent<AddressEvent>().Publish(address);
                 this.Pins.Clear();
                 ClearMapPoints();
-                this.Pins.Add(pin);    
-               
+                this.Pins.Add(pin);               
             }
-            catch (Exception ex) {  }
+            catch (Exception) {  }
         }
     }
 }
