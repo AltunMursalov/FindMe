@@ -39,7 +39,6 @@
                 <WrapPanel>
                     <TextBlock Text="Name:" Style="{StaticResource LabelControlLostStyle}"/>
                     <TextBox Name="NameTB" Style="{StaticResource InputControlLostStyle}" HorizontalAlignment="Left" Margin="72,5,5,5" Text="{Binding Path=Institution.Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ValidatesOnDataErrors=True, NotifyOnValidationError=True}"/>
-                    <TextBlock Text="{Binding (Validation.Errors)[0].ErrorContent, ElementName=NameTB}" Foreground="Red" Width="150" Margin="125,0,0,0"/>
                 </WrapPanel>
                 <WrapPanel>
                     <TextBlock Text="Phone:" Style="{StaticResource LabelControlLostStyle}"/>

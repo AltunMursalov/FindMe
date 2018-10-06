@@ -25,7 +25,7 @@ namespace FindMePrism.Services
         {
             var data = JsonConvert.SerializeObject(lost);
             var content = new StringContent(data, UnicodeEncoding.UTF8, "application/json");
-            var response = await this.client.PostAsync("/api/losts/newlost", content);
+            var response = this.client.PostAsync("/api/losts/newlost", content).Result;
             if (response.IsSuccessStatusCode) {
                 var answer = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<Lost>(answer);
@@ -73,7 +73,7 @@ namespace FindMePrism.Services
 
         public IEnumerable<string> GetEyeColors()
         {
-            List<string> Colors = new List<string>() { "Blue", "Gray", "Green" };
+            List<string> Colors = new List<string>() { "Blue", "Gray", "Green", "Brown" };
             return Colors;
         }
 
@@ -94,7 +94,5 @@ namespace FindMePrism.Services
             List<string> Types = new List<string>() { "Thin", "Fat", "Medium" };
             return Types;
         }
-
-
     }
 }

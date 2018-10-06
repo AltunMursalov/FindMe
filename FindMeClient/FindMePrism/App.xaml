@@ -168,7 +168,7 @@
                             <ColumnDefinition Width="40"/>
                         </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0" Text="{Binding FullName}" Foreground="White"/>
+                        <TextBlock Grid.Column="0" Text="{Binding FullName}" Foreground="White" VerticalAlignment="Center"/>
                         <Button  Grid.Column="1" FontSize="10"  Margin="5"
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, 
                                     AncestorType={x:Type UserControl}}, 
@@ -195,6 +195,7 @@
                         <TextBlock Text="{Binding Path=EyeColor, StringFormat='Eye Color: {0}'}" Foreground="White"/>
                         <TextBlock Text="{Binding Path=HairColor, StringFormat='Hair Color: {0}'}" Foreground="White"/>
                         <TextBlock Text="{Binding Path=Height, StringFormat='Height: {0}'}" Foreground="White"/>
+                        <TextBlock Text="{Binding Path=Signs, StringFormat='Signs: {0}'}" Foreground="White" />
                         <TextBlock Text="{Binding Path=Clothes, StringFormat='Clothes: {0}'}" Foreground="White"/>
                         <TextBlock Text="{Binding Path=Description, StringFormat='Description: {0}'}" Foreground="White"/>
                         <TextBlock Text="{Binding Path=DetectionTime, StringFormat='Detection Time: {0}'}" Foreground="White"/>
@@ -209,14 +210,9 @@
         <DataTemplate x:Key="LostItemTemplate2">
             <Expander Margin="5">
                 <Expander.Header>
-                    <TextBlock Grid.Column="0" Text="{Binding FullName}" Foreground="White"/>
+                    <TextBlock Grid.Column="0" Text="{Binding FullName}" Foreground="White" VerticalAlignment="Center"/>
                 </Expander.Header>
                 <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="{Binding Path=ImagePath}" Width="150" Height="150"/>
                     <StackPanel Grid.Column="1" Margin="15">
                         <TextBlock Text="{Binding Path=Gender, StringFormat='Gender: {0}'}" Foreground="White"/>
                         <TextBlock Text="{Binding Path=Age, StringFormat='Age: {0}'}" Foreground="White"/>
@@ -224,6 +220,7 @@
                         <TextBlock Text="{Binding Path=EyeColor, StringFormat='Eye Color: {0}'}" Foreground="White"/>
                         <TextBlock Text="{Binding Path=HairColor, StringFormat='Hair Color: {0}'}" Foreground="White"/>
                         <TextBlock Text="{Binding Path=Height, StringFormat='Height: {0}'}" Foreground="White"/>
+                        <TextBlock Text="{Binding Path=Signs, StringFormat='Signs: {0}'}" Foreground="White" />
                         <TextBlock Text="{Binding Path=Clothes, StringFormat='Clothes: {0}'}" Foreground="White"/>
                         <TextBlock Text="{Binding Path=Description, StringFormat='Description: {0}'}" Foreground="White"/>
                         <TextBlock Text="{Binding Path=DetectionTime, StringFormat='Detection Time: {0}'}" Foreground="White"/>
@@ -249,7 +246,6 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0" Text="{Binding Name}" Foreground="White"/>
-
 
                         <Button  Grid.Column="1" FontSize="10"  Margin="5"
                                     Command="{Binding RelativeSource={RelativeSource FindAncestor, 

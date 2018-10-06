@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Win32;
 using Microsoft.Practices.Prism.Interactivity.InteractionRequest;
-
+using System.Threading;
 
 namespace FindMePrism.ViewModels
 {
@@ -140,16 +140,22 @@ namespace FindMePrism.ViewModels
                     Lost = new Lost();
                     Lost.DetectionTime = DateTime.Now;
                 }
+                else {
+                    this.eventAggregator.GetEvent<ShowAlertEvent>().Publish(new Notification { Content = "Error!", Title = "Error" });
+                }
             }
             else {
                 Lost.Institution = Institution;
                 Lost.InstitutionId = Institution.Id;
-                var res = await this.lostService.AddLost(Lost);
+                var res = this.lostService.AddLost(Lost).Result;
                 if (res != null) {
                     this.eventAggregator.GetEvent<NewLostEvent>().Publish(res);
                     Navigate("ViewLosts");
                     Lost = new Lost();
                     Lost.DetectionTime = DateTime.Now;
+                }
+                else {
+                    this.eventAggregator.GetEvent<ShowAlertEvent>().Publish(new Notification { Content = "Error!", Title = "Error" });
                 }
             }
         }

@@ -10,7 +10,7 @@
         xmlns:localInter="clr-namespace:FindMePrism.Notifications"
         xmlns:inter="clr-namespace:Microsoft.Practices.Prism.Interactivity.InteractionRequest;assembly=Microsoft.Practices.Prism.Interactivity"
         mc:Ignorable="d"
-    Title="Find Me" Height="550" Width="720">
+    Title="Find Me" Height="550" Width="720" ResizeMode="NoResize">
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction Command="{Binding NavigateCommand}" CommandParameter="ViewLogin" />

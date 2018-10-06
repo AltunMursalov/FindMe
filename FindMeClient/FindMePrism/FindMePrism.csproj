@@ -121,7 +121,6 @@
     <Compile Include="Events\ClearPinsEvent.cs" />
     <Compile Include="Events\EditInstEvent.cs" />
     <Compile Include="Events\EditLostEvent.cs" />
-    <Compile Include="Events\EditProcessEvent.cs" />
     <Compile Include="Events\InstEvent.cs" />
     <Compile Include="Events\InstInfoEvent.cs" />
     <Compile Include="Events\InstsEvent.cs" />

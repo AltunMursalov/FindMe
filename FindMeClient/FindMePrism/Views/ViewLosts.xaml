@@ -69,37 +69,37 @@
                         <ListViewItem Height="50">
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Kind="Hospital" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.Name}" VerticalAlignment="Center" Margin="20 10"/>
+                                <TextBlock Text="{Binding Path=Institution.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Width="150" Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Height="50">
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Kind="City" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.City.Name}" VerticalAlignment="Center" Margin="20 10"/>
+                                <TextBlock Text="{Binding Path=Institution.City.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Width="150" Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Height="50">
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Kind="Phone" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.Phone}" VerticalAlignment="Center"  Margin="20 10"/>
+                                <TextBlock Text="{Binding Path=Institution.Phone}" VerticalAlignment="Center" TextWrapping="Wrap" Width="150" Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Height="50">
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Kind="MapMarker" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.Address}" TextWrapping="Wrap" VerticalAlignment="Center"  Margin="20 10"/>
+                                <TextBlock Text="{Binding Path=Institution.Address}" TextWrapping="Wrap" Width="150" VerticalAlignment="Center" Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Height="50">
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Kind="Timelapse" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.OpeningHours}" VerticalAlignment="Center"  Margin="20 10"/>
+                                <TextBlock Text="{Binding Path=Institution.OpeningHours}" VerticalAlignment="Center" TextWrapping="Wrap" Width="150" Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Height="50">
                             <StackPanel Orientation="Horizontal">
                                 <md:PackIcon Kind="Web" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.Website}" VerticalAlignment="Center" Margin="20 10"/>
+                                <TextBlock Text="{Binding Path=Institution.Website}" VerticalAlignment="Center" TextWrapping="Wrap" Width="150" Margin="20 10"/>
                             </StackPanel>
                         </ListViewItem>
                         <ListViewItem Height="50"> 

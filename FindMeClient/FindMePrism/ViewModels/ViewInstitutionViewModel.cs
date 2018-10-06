@@ -97,7 +97,6 @@ namespace FindMePrism.ViewModels
             {
                 this.Institution = inst.Clone() as Institution;
                 editProcess = true;
-                this.eventAggregator.GetEvent<EditProcessEvent>().Publish(true);
                 Visibility = Visibility.Collapsed;
                 Label = "Institution Edit Form";
             }
