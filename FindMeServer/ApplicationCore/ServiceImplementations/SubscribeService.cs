@@ -41,11 +41,11 @@ namespace ApplicationCore.ServiceImplementations
         public async Task<GcmRegistrationDescription> Subsribe(string[] tags, string regId)
         {
             GcmRegistrationDescription result = null;
-            var isRegIdExist = await this.hub.RegistrationExistsAsync(regId);
-            if (isRegIdExist)
-            {
-                await this.hub.DeleteRegistrationAsync(regId);
-            }
+            //var isRegIdExist = await this.hub.GetRegistrationAsync<GcmRegistrationDescription>(regId);
+            //if (isRegIdExist != null)
+            //{
+            //    await this.hub.DeleteRegistrationAsync(regId);
+            //}
 
             if (tags != null)
                 result = await this.hub.CreateGcmNativeRegistrationAsync(regId, tags);

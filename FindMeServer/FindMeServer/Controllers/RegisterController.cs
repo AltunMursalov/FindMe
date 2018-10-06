@@ -38,6 +38,8 @@ namespace FindMeServer.Controllers
         [Route("{regId}")]
         public async Task<IActionResult> Post([FromBody]string[] tags, string regId)
         {
+            if (regId == null && tags is null)
+                return BadRequest();
             var result = await this.subscribeService.Subsribe(tags, regId);
             if (result != null)
                 return Ok();

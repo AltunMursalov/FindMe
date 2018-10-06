@@ -74,7 +74,8 @@ namespace FindMeServer.Controllers
                 await this.subscribeService.Notify(new Notification
                 {
                     Body = "Added new lost!",
-                    Title = "New lost!"
+                    Title = "New lost!",
+                    Tags = new string[] { $"lastName:{lost.LastName}", $"middleName:{lost.MiddleName}", $"firstName:{lost.FirstName}"}
                 });
                 return Json(result);
             }

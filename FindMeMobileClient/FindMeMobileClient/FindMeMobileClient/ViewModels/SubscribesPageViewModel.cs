@@ -1,22 +1,21 @@
 ﻿using FindMeMobileClient.Models;
 using FindMeMobileClient.Services.Interfaces;
+using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Navigation;
 using System.Collections.ObjectModel;
 using System.Net.Http;
+using System.Text;
 using Xamarin.Forms;
 
-namespace FindMeMobileClient.ViewModels
-{
-    public class SubscribesPageViewModel : BindableBase, INavigationAware
-    {
+namespace FindMeMobileClient.ViewModels {
+    public class SubscribesPageViewModel : BindableBase, INavigationAware {
         private readonly ISubscribeService subscribeService;
         private readonly INavigationService navigationService;
 
         // Constructor
-        public SubscribesPageViewModel(ISubscribeService subscribeService, INavigationService navigationService)
-        {
+        public SubscribesPageViewModel(ISubscribeService subscribeService, INavigationService navigationService) {
             this.subscribeService = subscribeService;
             this.navigationService = navigationService;
             this.AddFilterCommand = new DelegateCommand(AddFilter);
@@ -41,57 +40,47 @@ namespace FindMeMobileClient.ViewModels
 
         #region AddingFilter
         public DelegateCommand AddFilterCommand { get; set; }
-        private void AddFilter()
-        {
+        private void AddFilter() {
             navigationService.NavigateAsync("FilterPage");
         }
         #endregion
 
         #region DeleteFilter
         public DelegateCommand<object> DeleteFilterCommand { get; set; }
-        private void DeleteFilter(object param)
-        {
-            if (param is Filter filter)
-            {
+        private void DeleteFilter(object param) {
+            if (param is Filter filter) {
                 subscribeService.DeleteSubscribedFilter(filter.FilterDate);
                 Update();
             }
         }
         #endregion
 
-        public void Update()
-        {
-            Device.BeginInvokeOnMainThread(() =>
-            {
+        public void Update() {
+            Device.BeginInvokeOnMainThread(() => {
                 this.Filters.Clear();
             });
             var filters = this.subscribeService.GetSubscribedFilters();
-            if (filters != null)
-            {
-                foreach (var item in filters)
-                {
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
+            if (filters != null) {
+                foreach (var item in filters) {
+                    Device.BeginInvokeOnMainThread(() => {
                         this.Filters.Add(item);
                     });
                 }
             }
         }
 
-        public void OnNavigatedFrom(NavigationParameters parameters)
-        {
+        public void OnNavigatedFrom(NavigationParameters parameters) {
 
         }
 
-        public void OnNavigatedTo(NavigationParameters parameters)
-        {
-            if (parameters["filter"] is bool param)
-            {
-                if (param == true)
-                {
-                    using (HttpClient client = new HttpClient())
-                    {
-                        client.PostAsync($"{App.MobileServiceUrl}/api/register/{App.Token}", null);
+        public void OnNavigatedTo(NavigationParameters parameters) {
+            if (parameters["filter"] is bool param) {
+                if (param == true) {
+                    using (HttpClient client = new HttpClient()) {
+
+                        var content = new StringContent(JsonConvert.SerializeObject(new string[] { "firstName:Dawn", "middleName:Dawnesko", "lastName:Dawnich" }), 
+                            UnicodeEncoding.UTF8, "application/json");
+                        var resp = client.PostAsync($"{App.MobileServiceUrl}/api/register/{App.Token}", content).Result;
                     }
                     subscribeService.AddSubscribedFilter();
                     Update();
@@ -99,8 +88,7 @@ namespace FindMeMobileClient.ViewModels
             }
         }
 
-        public void OnNavigatingTo(NavigationParameters parameters)
-        {
+        public void OnNavigatingTo(NavigationParameters parameters) {
 
         }
 
