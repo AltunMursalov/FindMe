@@ -14,12 +14,16 @@ namespace FindMePrism.ViewModels
     public class ViewChangePasswordViewModel : BindableBase
     {
         private Institution institution;
-        public Institution Institution { get => institution; set => SetProperty(ref institution, value); }
-     
+        public Institution Institution
+        {
+            get { return institution; }
+            set { SetProperty(ref institution, value); }
+        }
+
+        public DelegateCommand SaveCommand { get; set; }
         private readonly IEventAggregator eventAggregator;
         private readonly IRegionManager regionManager;
         private readonly IInstitutionService institutionService;
-        public DelegateCommand SaveCommand { get; }
 
 
         public ViewChangePasswordViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IInstitutionService institutionService)
@@ -28,8 +32,7 @@ namespace FindMePrism.ViewModels
             this.regionManager = regionManager;
             this.institutionService = institutionService;
             this.Institution = new Institution();
-            SaveCommand = new DelegateCommand(ExecuteSaveCommand);
-            Institution.PropertyChanged += Institution_PropertyChanged;
+            SaveCommand = new DelegateCommand(SaveCommandExecute, SaveCommandCanExecute);
             this.eventAggregator.GetEvent<ChangePasswordEvent>().Subscribe(GetInstitution);
         }
 
@@ -47,7 +50,8 @@ namespace FindMePrism.ViewModels
         private void GetInstitution(Institution institution)
         {
             if (institution != null) {
-                Institution = institution.Clone() as Institution;          
+                this.Institution = institution.Clone() as Institution;
+                this.Institution.PropertyChanged += Institution_PropertyChanged;
             }
         }
 
@@ -66,8 +70,7 @@ namespace FindMePrism.ViewModels
         }
 
 
-
-        private async void ExecuteSaveCommand()
+        private async void SaveCommandExecute()
         {
             var res = await institutionService.ChangePassword(Institution);
             if (res)
@@ -81,15 +84,14 @@ namespace FindMePrism.ViewModels
         }
 
 
-        private bool CanExecuteSaveCommand()
+        private bool SaveCommandCanExecute()
         {
-             if (String.IsNullOrWhiteSpace(Institution?.NewPassword) & String.IsNullOrWhiteSpace(Institution?.ConfirmPassword) & String.IsNullOrWhiteSpace(Institution?.Password))
+             if (String.IsNullOrWhiteSpace(Institution?.NewPassword) || String.IsNullOrWhiteSpace(Institution?.ConfirmPassword) || String.IsNullOrWhiteSpace(Institution?.Password))
                  return false;
              else if (Institution?.NewPassword == Institution?.ConfirmPassword)
                  return true;
              else
                  return false;
-
         }
     }
 }

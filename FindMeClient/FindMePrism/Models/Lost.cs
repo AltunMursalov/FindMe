@@ -52,7 +52,7 @@ namespace FindMePrism.Models
         public bool IsFound { get => isFound; set { isFound = value; base.RaisePropertyChanged(); } }
 
         [JsonIgnore]
-        public string FullName => string.Join(" ", FirstName, LastName, MiddleName);
+        public string FullName => string.Join(" ", LastName, FirstName, MiddleName);
         public string Age => string.Join(" - ", AgeBegin, AgeEnd);
         [JsonIgnore]
         public string Found

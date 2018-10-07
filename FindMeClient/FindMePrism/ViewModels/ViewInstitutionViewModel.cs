@@ -57,11 +57,11 @@ namespace FindMePrism.ViewModels
             Pushpins = new ObservableCollection<Pushpin>();
             OkCommand = new DelegateCommand(ExecuteOkCommandAsync, CanExecuteOkCommand);
             editProcess = false;
+            Label = "Institution Registration Form";
+            Visibility = Visibility.Visible;
             this.eventAggregator.GetEvent<InstTypesEvent>().Subscribe(GetTypes);
             this.eventAggregator.GetEvent<InstEvent>().Subscribe(GetInstitution);
             this.eventAggregator.GetEvent<AddressEvent>().Subscribe(GetAddress);
-            Label = "Institution Registration Form";
-
         }
 
         private void GetTypes(IEnumerable<InstitutionType> ts)
@@ -81,8 +81,7 @@ namespace FindMePrism.ViewModels
 
         private void GetAddress(List<string> address)
         {
-            if (address != null)
-            {               
+            if (address != null) {               
                 Institution.City.Name = address[0];
                 Institution.Address = address[1];
                 Institution.Latitude = Convert.ToDouble(address[2]);
@@ -93,8 +92,7 @@ namespace FindMePrism.ViewModels
 
         private void GetInstitution(Institution inst)
         {
-            if (inst != null)
-            {
+            if (inst != null) {
                 this.Institution = inst.Clone() as Institution;
                 editProcess = true;
                 Visibility = Visibility.Collapsed;
@@ -140,8 +138,6 @@ namespace FindMePrism.ViewModels
                 editProcess = false;
                 Visibility = Visibility.Visible;
                 Label = "Institution Registration Form";
-
-
             }
             catch (Exception) { }
         }
@@ -160,19 +156,18 @@ namespace FindMePrism.ViewModels
             get
             {
                 return cancelCommand ?? (cancelCommand = new DelegateCommand(
-                    () =>
-                    {
+                    () => {
                         Navigate("ViewAdmin");
-                        this.Institution = new Institution() {
+                        this.Institution = new Institution()
+                        {
                             City = new City(),
                             InstitutionType = new InstitutionType()
-                     };
+                        };
 
                         this.eventAggregator.GetEvent<ClearPinsEvent>().Publish(true);
                         editProcess = false;
                         Visibility = Visibility.Visible;
                         Label = "Institution Registration Form";
-
                     }
                 ));
             }

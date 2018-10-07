@@ -24,8 +24,7 @@ namespace FindMePrism.Views
         public ViewLogin()
         {
             InitializeComponent();
-            //this.Background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/FindMePrism;component/Resources/family.jpg")));
-           this.Background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/FindMePrism;component/Resources/patient-safety.jpg")));       
+            this.Background = new ImageBrush(new BitmapImage(new Uri(@"pack://application:,,,/FindMePrism;component/Resources/patient-safety.jpg")));
         }
     }
 }

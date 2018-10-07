@@ -20,7 +20,6 @@ namespace FindMePrism.ViewModels
             set { SetProperty(ref institution, value); }
         }
 
-        public InteractionRequest<Notification> ShowNotificationInteractionRequest { get; private set; }
         public DelegateCommand LoginCommand { get; set; }
         public IEventAggregator eventAggregator { get; }
         private readonly IRegionManager regionManager;
@@ -31,7 +30,6 @@ namespace FindMePrism.ViewModels
         public ViewLoginViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IAuthenticationService authService, ILostService lostService, IInstitutionService institutionService)
         {
             this.Institution = new Institution();
-            //this.ShowNotificationInteractionRequest = new InteractionRequest<Notification>();
             LoginCommand = new DelegateCommand(LoginCommandExecute, LoginCommandCanExecute);
             Institution.PropertyChanged += Institution_PropertyChanged;
             this.eventAggregator = eventAggregator;

@@ -78,8 +78,6 @@ namespace FindMePrism.ViewModels
 
         public void FillFields()
         {
-            Lost = new Lost();
-            Lost.DetectionTime = DateTime.Now;
             FillEyeColors();
             FillGenders();
             FillHairColors();
@@ -93,10 +91,11 @@ namespace FindMePrism.ViewModels
             this.eventAggregator.GetEvent<InstEvent>().Subscribe(GetInstitution);
             this.regionManager = regionManager;
             this.lostService = lostService;
-            Lost = new Lost();
-            Lost.Institution = new Institution();
-            Lost.Institution.City = new City();
-            Lost.Institution.InstitutionType = new InstitutionType();
+            this.Lost = new Lost();
+            this.Lost.Institution = new Institution();
+            this.Lost.Institution.City = new City();
+            this.Lost.Institution.InstitutionType = new InstitutionType();
+            this.Lost.DetectionTime = DateTime.Now;
             editProcess = false;
             FillFields();
             SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand);

@@ -53,62 +53,74 @@
             <Grid x:Name="GridMenu" Width="50" HorizontalAlignment="Left">
                 <StackPanel>
                     <Grid Height="50" Background="White">
-                        <Button x:Name="ButtonOpenMenu" Height="45" Width="45" HorizontalAlignment="Right" VerticalAlignment="Top"  
+                        <Button x:Name="ButtonOpenMenu" Height="50" Width="50" HorizontalAlignment="Right" VerticalAlignment="Top"  
                                 Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E" 
                                 Command="{Binding OpenMenuCommand}" Visibility="{Binding ButtonOpenVisibility}">
                             <md:PackIcon Kind="Menu" Width="25" Height="25"/>
                         </Button>
-                        <Button x:Name="ButtonCloseMenu" Height="45" Width="45" HorizontalAlignment="Right" VerticalAlignment="Top" 
+                        <Button x:Name="ButtonCloseMenu" Height="50" Width="50" HorizontalAlignment="Right" VerticalAlignment="Top" 
                                 Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF31577E"
                                 Command="{Binding CloseMenuCommand}" Visibility="{Binding ButtonCloseVisibility}">
                             <md:PackIcon Kind="ArrowLeft" Width="25" Height="25"/>
                         </Button>
                     </Grid>
                     
-                    <ListView Height="460" Background="#283965" x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
-                        <ListViewItem Height="50">
+                    <ListView Height="461" Background="#283965" x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
+                        <ListViewItem Height="auto" Margin="0 5">
                             <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="Hospital" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Width="150" Margin="20 10"/>
+                                <md:PackIcon Kind="Hospital" Height="25" Width="25" Margin="5" VerticalAlignment="Center"/>
+                                <Grid Width="150">
+                                    <TextBlock Text="{Binding Path=Institution.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="10 0"/>
+                                </Grid>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem Height="50">
+                        <ListViewItem Height="auto" Margin="0 5">
                             <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="City" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.City.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Width="150" Margin="20 10"/>
+                                <md:PackIcon Kind="City" Height="25" Width="25" Margin="5" VerticalAlignment="Center"/>
+                                <Grid Width="150">
+                                    <TextBlock Text="{Binding Path=Institution.City.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="10 0"/>
+                                </Grid>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem Height="50">
+                        <ListViewItem Height="auto" Margin="0 5">
                             <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="Phone" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.Phone}" VerticalAlignment="Center" TextWrapping="Wrap" Width="150" Margin="20 10"/>
+                                <md:PackIcon Kind="Phone" Height="25" Width="25" Margin="5" VerticalAlignment="Center"/>
+                                <Grid Width="150">
+                                    <TextBlock Text="{Binding Path=Institution.Phone}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="10 0"/>
+                                </Grid>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem Height="50">
+                        <ListViewItem Height="auto" Margin="0 5">
                             <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="MapMarker" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.Address}" TextWrapping="Wrap" Width="150" VerticalAlignment="Center" Margin="20 10"/>
+                                <md:PackIcon Kind="MapMarker" Height="25" Width="25" Margin="5" VerticalAlignment="Center"/>
+                                <Grid Width="150">
+                                    <TextBlock Text="{Binding Path=Institution.Address}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="10 0"/>
+                                </Grid>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem Height="50">
+                        <ListViewItem Height="auto" Margin="0 5">
                             <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="Timelapse" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.OpeningHours}" VerticalAlignment="Center" TextWrapping="Wrap" Width="150" Margin="20 10"/>
+                                <md:PackIcon Kind="Timelapse" Height="25" Width="25" Margin="5" VerticalAlignment="Center"/>
+                                <Grid Width="150">
+                                    <TextBlock Text="{Binding Path=Institution.OpeningHours}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="10 0"/>
+                                </Grid>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem Height="50">
+                        <ListViewItem Height="auto" Margin="0 5">
                             <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="Web" Height="25" Width="25" Margin="5"/>
-                                <TextBlock Text="{Binding Path=Institution.Website}" VerticalAlignment="Center" TextWrapping="Wrap" Width="150" Margin="20 10"/>
+                                <md:PackIcon Kind="Web" Height="25" Width="25" Margin="5" VerticalAlignment="Center"/>
+                                <Grid Width="150">
+                                    <TextBlock Text="{Binding Path=Institution.Website}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="10 0"/>
+                                </Grid>
                             </StackPanel>
                         </ListViewItem>
-                        <ListViewItem Height="50"> 
-                                <Button Command="{Binding LogoutCommand}">
+                        <ListViewItem Height="auto" Margin="0 5"> 
+                                <Button Command="{Binding LogoutCommand}" Margin="3,0">
                                     <Button.Template>
                                         <ControlTemplate TargetType="Button">
                                         <StackPanel Orientation="Horizontal" Background="Transparent">
-                                            <md:PackIcon Foreground="#FF5C99D6" Kind="Logout" Height="25" Width="25" Margin="5"/>
-                                            <TextBlock Foreground="#FF5C99D6" Text="Logout" VerticalAlignment="Center" Margin="20 10"/>
+                                            <md:PackIcon Foreground="#FF5C99D6" Kind="Logout" Height="25" Width="25" Margin="5" VerticalAlignment="Center"/>
+                                            <TextBlock Foreground="#FF5C99D6" Text="Logout" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10 0"/>
                                         </StackPanel>
                                     </ControlTemplate>
                                     </Button.Template>

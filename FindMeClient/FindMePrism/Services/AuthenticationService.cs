@@ -16,7 +16,7 @@ namespace FindMePrism.Services
             this.client = new HttpClient
             {
                 BaseAddress = new Uri(App.ServerUrl),
-                Timeout = TimeSpan.FromSeconds(30)
+                Timeout = TimeSpan.FromMinutes(30)
             };
         }
 
