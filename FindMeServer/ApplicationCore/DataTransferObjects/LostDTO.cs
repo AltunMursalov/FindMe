@@ -1,5 +1,4 @@
-﻿using ApplicationCore.Models;
-using System;
+﻿using System;
 
 namespace ApplicationCore.DataTransferObjects
 {

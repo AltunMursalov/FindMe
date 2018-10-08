@@ -30,9 +30,9 @@ namespace ApplicationCore.ServiceImplementations
             return this.mapper.Map<IEnumerable<Institution>, IEnumerable<InstitutionDTO>>(result);
         }
 
-        public async Task<IEnumerable<Lost>> GetLosts()
+        public async Task<IEnumerable<LostDTO>> GetLosts()
         {
-            return await this.lostRepository.GetLosts();
+            return this.mapper.Map<IEnumerable<Lost>, IEnumerable<LostDTO>>(await this.lostRepository.GetLosts());
         }
 
         public async Task<IEnumerable<Lost>> GetLostsByInstitution(int id)

@@ -8,7 +8,7 @@ namespace ApplicationCore.ServiceInterfaces
     public interface IDataService
     {
         Task<IEnumerable<InstitutionType>> GetInstitutionTypes();
-        Task<IEnumerable<Lost>> GetLosts();
+        Task<IEnumerable<LostDTO>> GetLosts();
         Task<IEnumerable<InstitutionDTO>> GetInstitutions();
         Task<LostDTO> RegisterLost(Lost lost);
         Task<bool> DeleteLost(int id);

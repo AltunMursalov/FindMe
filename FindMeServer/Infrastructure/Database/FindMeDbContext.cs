@@ -22,7 +22,8 @@ namespace Infrastructure.Database
                 new City{ Id = 1, Name = "Baku"}
             });
             modelBuilder.Entity<InstitutionType>().HasData(new InstitutionType[] {
-                new InstitutionType { Id = 1, Type = "Medical"}
+                new InstitutionType { Id = 1, Type = "Medical"},
+                new InstitutionType { Id = 2, Type = "Police"}
             });
             modelBuilder.Entity<Institution>().HasData(new Institution[] {
                 new Institution{

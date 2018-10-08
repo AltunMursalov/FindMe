@@ -1,8 +1,5 @@
-﻿using Microsoft.Azure.NotificationHubs.Messaging;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
-
 using System.Net;
 using ApplicationCore.ServiceInterfaces;
 

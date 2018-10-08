@@ -21,21 +21,11 @@ namespace Infrastructure.RepositoryImplementations
 
         public async Task<Lost> CreateLost(Lost newLost)
         {
-            var isAlreadyExist = await this.context.Losts.FirstOrDefaultAsync(l => l.FirstName == newLost.FirstName &&
-                                                                            l.MiddleName == newLost.MiddleName &&
-                                                                            l.LastName == newLost.LastName);
             var instFromServer = await this.context.Institutions.FirstOrDefaultAsync(i => i.Id == newLost.InstitutionId);
             newLost.Institution.Password = instFromServer.Password;
-            if (isAlreadyExist != null)
-            {
-                return null;
-            }
-            else
-            {
-                var result = await this.context.Losts.AddAsync(newLost);
-                await this.context.SaveChangesAsync();
-                return await this.GetLostById(result.Entity.Id);
-            }
+            var result = await this.context.Losts.AddAsync(newLost);
+            await this.context.SaveChangesAsync();
+            return result.Entity;
         }
 
         public async Task<Lost> GetLostById(int id)
