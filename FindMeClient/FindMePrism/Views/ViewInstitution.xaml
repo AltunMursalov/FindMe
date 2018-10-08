@@ -31,11 +31,10 @@
                 <WrapPanel>
                     <TextBlock Text="Type:" Style="{StaticResource LabelControlLostStyle}"/>
                     <ComboBox Margin="80,5,5,5" ItemsSource="{Binding InstitutionTypes}" Width="200" Height="35"
-                              SelectedItem="{Binding Institution.InstitutionType}"
-                              HorizontalContentAlignment="Center">
+                              SelectedItem="{Binding Institution.InstitutionType}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" >
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
-                                <Label Content="{Binding Type}" Height="25" VerticalAlignment="Center"/>
+                                <Label Content="{Binding Type}" VerticalAlignment="Center"/>
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>

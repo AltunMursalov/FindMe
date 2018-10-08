@@ -37,6 +37,7 @@ namespace FindMePrism.ViewModels
         public IRegionManager regionManager { get; }
         public ILostService lostService { get; }
         public DelegateCommand SaveCommand { get; set; }
+        public DelegateCommand FillFieldsCommand { get;}
         public bool editProcess { get; set; } 
 
         public void FillEyeColors()
@@ -99,6 +100,8 @@ namespace FindMePrism.ViewModels
             editProcess = false;
             FillFields();
             SaveCommand = new DelegateCommand(ExecuteSaveCommand, CanExecuteSaveCommand);
+            FillFieldsCommand = new DelegateCommand(ExecuteFillFieldsCommand);
+
         }
 
         private void GetInstitution(Institution inst)
@@ -195,6 +198,30 @@ namespace FindMePrism.ViewModels
                     }
                 ));
             }
-        }       
+        }
+
+        private void ExecuteFillFieldsCommand()
+        {
+            this.Lost = new Lost()
+            {
+                FirstName = "Murad",
+                MiddleName = "Rustam",
+                LastName = "Mamedov",
+                Gender = "Male",
+                EyeColor = "Blue",
+                HairColor = "Brown",
+                Clothes = "Clothes",
+                BodyType = "Medium",
+                AgeBegin = 20,
+                AgeEnd = 20,
+                Height = 180,
+                ImagePath = @"C:\Users\Ibra_yf85\FMR\FindMeClient\FindMePrism\user-default.png",
+                Description = "description",
+                DetectionDescription = "detection description",
+                DetectionTime = DateTime.Now,
+                Signs = "signs",
+                Comment = "comment",
+            };
+        }        
     }
 }

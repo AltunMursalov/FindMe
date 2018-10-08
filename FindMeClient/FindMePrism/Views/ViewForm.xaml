@@ -11,6 +11,7 @@
              d:DesignHeight="650" d:DesignWidth="690">
     <UserControl.InputBindings>
         <KeyBinding Key="Enter" Command="{Binding SaveCommand}"/>
+        <KeyBinding Key="Tab" Command="{Binding FillFieldsCommand}"/>
     </UserControl.InputBindings>
     <Border Background="#283965">
         <ScrollViewer VerticalScrollBarVisibility="Auto">

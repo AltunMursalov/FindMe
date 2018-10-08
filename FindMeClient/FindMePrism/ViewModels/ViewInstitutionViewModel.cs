@@ -26,8 +26,8 @@ namespace FindMePrism.ViewModels
         private string label;
         public string Label { get => label; set => SetProperty(ref label, value); }
 
-        private List<InstitutionType> institutionTypes;
-        public List<InstitutionType> InstitutionTypes { get => institutionTypes; set => SetProperty(ref institutionTypes, value); }
+        private ObservableCollection<InstitutionType> institutionTypes;
+        public ObservableCollection<InstitutionType> InstitutionTypes { get => institutionTypes; set => SetProperty(ref institutionTypes, value); }
 
         public IEventAggregator eventAggregator { get; }
         public IRegionManager regionManager { get; }
@@ -47,7 +47,7 @@ namespace FindMePrism.ViewModels
             this.eventAggregator = eventAggregator;
             this.regionManager = regionManager;
             this.institutionService = service;
-            InstitutionTypes = new List<InstitutionType>();
+            InstitutionTypes = new ObservableCollection<InstitutionType>();
             Institution = new Institution() {
                 City = new City(),
                 InstitutionType = new InstitutionType()
@@ -65,7 +65,7 @@ namespace FindMePrism.ViewModels
         }
 
         private void GetTypes(IEnumerable<InstitutionType> ts)
-        {
+        {       
             InstitutionTypes.Clear();
             if (ts != null) {
                 foreach (var item in ts) {
@@ -119,6 +119,9 @@ namespace FindMePrism.ViewModels
                         Institution = new Institution();
                         Institution.City = new City();
                         this.eventAggregator.GetEvent<ClearPinsEvent>().Publish(true);
+                        editProcess = false;
+                        Visibility = Visibility.Visible;
+                        Label = "Institution Registration Form";
                     }
                     else
                         this.eventAggregator.GetEvent<ShowAlertEvent>().Publish(new Notification { Content = "Error", Title = "Error" });
@@ -131,13 +134,13 @@ namespace FindMePrism.ViewModels
                         Institution = new Institution();
                         Institution.City = new City();
                         this.eventAggregator.GetEvent<ClearPinsEvent>().Publish(true);
+                        editProcess = false;
+                        Visibility = Visibility.Visible;
+                        Label = "Institution Registration Form";
                     }
                     else
                         this.eventAggregator.GetEvent<ShowAlertEvent>().Publish(new Notification { Content = "Error", Title = "Error" });
-                }
-                editProcess = false;
-                Visibility = Visibility.Visible;
-                Label = "Institution Registration Form";
+                }              
             }
             catch (Exception) { }
         }

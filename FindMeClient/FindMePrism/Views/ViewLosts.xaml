@@ -68,7 +68,7 @@
                     <ListView Height="461" Background="#283965" x:Name="ListViewMenu" Foreground="#FF5C99D6" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Stretch">
                         <ListViewItem Height="auto" Margin="0 5">
                             <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="Hospital" Height="25" Width="25" Margin="5" VerticalAlignment="Center"/>
+                                <md:PackIcon Kind="City" Height="25" Width="25" Margin="5" VerticalAlignment="Center"/>
                                 <Grid Width="150">
                                     <TextBlock Text="{Binding Path=Institution.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="10 0"/>
                                 </Grid>
@@ -76,7 +76,7 @@
                         </ListViewItem>
                         <ListViewItem Height="auto" Margin="0 5">
                             <StackPanel Orientation="Horizontal">
-                                <md:PackIcon Kind="City" Height="25" Width="25" Margin="5" VerticalAlignment="Center"/>
+                                <md:PackIcon Kind="Map" Height="25" Width="25" Margin="5" VerticalAlignment="Center"/>
                                 <Grid Width="150">
                                     <TextBlock Text="{Binding Path=Institution.City.Name}" VerticalAlignment="Center" TextWrapping="Wrap" Margin="10 0"/>
                                 </Grid>

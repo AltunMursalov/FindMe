@@ -20,6 +20,7 @@ namespace FindMePrism.ViewModels
         public IRegionManager regionManager { get; }
         public IInstitutionService institutionService { get; }
 
+
         public ViewAdminViewModel(IEventAggregator eventAggregator, IRegionManager regionManager, IInstitutionService institutionService)
         {
             Institutions = new ObservableCollection<Institution>();
@@ -88,6 +89,8 @@ namespace FindMePrism.ViewModels
                     {
                         Navigate("ViewInstitution");
                         var types = await this.institutionService.GetInstitutionTypes();
+                        //var t = new InstitutionType() { Id = 2, Type = "Police" };
+                       // types.Add(t);
                         this.eventAggregator.GetEvent<InstTypesEvent>().Publish(types);
                     }
                 ));
@@ -104,7 +107,7 @@ namespace FindMePrism.ViewModels
                     async param =>
                     {
                         Navigate("ViewInstitution");
-                        var types = await this.institutionService.GetInstitutionTypes();                       
+                        var types = await this.institutionService.GetInstitutionTypes();
                         this.eventAggregator.GetEvent<InstTypesEvent>().Publish(types);
                         this.eventAggregator.GetEvent<InstEvent>().Publish(param);
                     }
